@@ -5,8 +5,11 @@ import { fetchServiceById } from "../features/services/serviceThunk";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../features/auth/authSlice";
 import CompanyList from "../components/CompanyList";
+import CreateCompany from "../components/CreateCompany";
+import AssignEmployees from "../components/AssignEmployees";
+import CreateEmployees from "../components/CreateEmployees";
 
-const serviceDetail = () => {
+const ServiceDetail = () => {
   const service = useSelector((state) => state.service.current);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -29,8 +32,11 @@ const serviceDetail = () => {
       <p>Owner ID: {service.ownerId}</p>
       <button onClick={handleLogout}>Logout</button>
       <CompanyList />
+      <CreateCompany />
+      <AssignEmployees />
+      <CreateEmployees />
     </div>
   );
 };
 
-export default serviceDetail;
+export default ServiceDetail;

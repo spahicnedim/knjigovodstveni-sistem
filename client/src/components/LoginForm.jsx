@@ -10,7 +10,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const user = useSelector((state) => state.auth.user);
   const services = useSelector((state) => state.service.services);
-  const companies = useSelector((state) => state.company.companies);
   const userCompanies = useSelector((state) => state.auth.companies);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,30 +46,45 @@ const LoginForm = () => {
     }
   }, [user, services, userCompanies, navigate]);
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    dispatch(logout());
-  };
-  // navigate("/");
+  // const handleLogout = (e) => {
+  //   e.preventDefault();
+  //   dispatch(logout());
+  // };
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input
-          type='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder='Email'
-        />
-        <input
-          type='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder='Password'
-        />
-        <button type='submit'>Login</button>
-        <button onClick={handleLogout}>Logout</button>
-      </form>
-    </>
+    <div className='min-h-screen flex items-center justify-center bg-gray-100'>
+      <div className='bg-white p-8 rounded shadow-md w-full max-w-sm'>
+        <h2 className='text-2xl font-bold mb-6 text-center'>Login</h2>
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div>
+            <input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder='Email'
+              className='w-full px-4 py-2 border border-gray-300 rounded'
+            />
+          </div>
+          <div>
+            <input
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='Password'
+              className='w-full px-4 py-2 border border-gray-300 rounded'
+            />
+          </div>
+          <button
+            type='submit'
+            className='w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-200'
+          >
+            Login
+          </button>
+          {/* <button onClick={handleLogout} className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition duration-200">
+            Logout
+          </button> */}
+        </form>
+      </div>
+    </div>
   );
 };
 
