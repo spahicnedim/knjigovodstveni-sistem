@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CompanyDetail from "../components/CompanyForm";
+import CompanyDetail from "../components/CompanyDetail";
 
 const Companies = () => {
   return (

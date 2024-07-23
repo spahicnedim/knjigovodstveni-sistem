@@ -15,6 +15,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      state.companies = [];
     },
   },
   extraReducers: (builder) => {
@@ -32,11 +33,9 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.isAuthenticated = true;
         state.error = null;
-        console.log("Login fulfilled:", state.user);
       })
       .addCase(login.rejected, (state, action) => {
         state.error = action.payload;
-        console.log("Login rejected:", state.error);
       })
       .addCase(fetchUserCompanies.fulfilled, (state, action) => {
         state.companies = action.payload;

@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser, fetchUsers } from "./userThunk";
+import {
+  createUser,
+  fetchUsers,
+  assignUserToCompany,
+  removeUserFromCompany,
+} from "./userThunk";
 
 const userSlice = createSlice({
   name: "users",
@@ -23,7 +28,30 @@ const userSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.error = action.payload;
+      })
+      .addCase(assignUserToCompany.fulfilled, (state, action) => {
+        const { userId, companyId } = action.payload;
+        const user = state.users.find((user) => user.id === userId);
+        if (user) {
+          user.companies.push(companyId);
+        }
+        state.error = null;
+      })
+      .addCase(assignUserToCompany.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(removeUserFromCompany.fulfilled, (state, action) => {
+        const { userId, companyId } = action.payload;
+        const user = state.users.find((user) => user.id === userId);
+        if (user) {
+          user.companies = user.companies.filter((id) => id !== companyId);
+        }
+        state.error = null;
+      })
+      .addCase(removeUserFromCompany.rejected, (state, action) => {
+        state.error = action.payload;
       });
+
     // .addCase(fetchUserCompanies.fulfilled, (state, action) => {
     //   state.companies = action.payload;
     //   state.error = null;

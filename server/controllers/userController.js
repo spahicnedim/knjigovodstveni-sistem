@@ -78,7 +78,44 @@ const assignUserToCompany = async (req, res) => {
         },
       },
     });
-    res.status(200).json({ userId, companyId });
+    res
+      .status(200)
+      .json({ userId: parseInt(userId), companyId: parseInt(companyId) });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const removeUserFromCompany = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { companyId } = req.body;
+
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(userId) },
+    });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const company = await prisma.company.findUnique({
+      where: { id: parseInt(companyId) },
+    });
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    await prisma.user.update({
+      where: { id: parseInt(userId) },
+      data: {
+        companies: {
+          disconnect: { id: parseInt(companyId) },
+        },
+      },
+    });
+    res
+      .status(200)
+      .json({ userId: parseInt(userId), companyId: parseInt(companyId) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -107,4 +144,5 @@ module.exports = {
   getUserByService,
   assignUserToCompany,
   getUserCompanies,
+  removeUserFromCompany,
 };

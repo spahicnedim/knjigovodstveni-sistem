@@ -15,9 +15,9 @@ export const createUser = createAsyncThunk(
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
-  async (_, thunkAPI) => {
+  async (serviceId, { thunkAPI }) => {
     try {
-      const response = await api.get("/users");
+      const response = await api.get(`/users/${serviceId}/users`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -39,3 +39,31 @@ export const fetchUsers = createAsyncThunk(
 //     }
 //   }
 // );
+
+export const assignUserToCompany = createAsyncThunk(
+  "users/assignUserToCompany",
+  async ({ userId, companyId }, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/users/${userId}/assign`, {
+        companyId,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const removeUserFromCompany = createAsyncThunk(
+  "users/removeUserFromCompany",
+  async ({ userId, companyId }, { rejectWithValue }) => {
+    try {
+      const response = await api.delete(`/users/${userId}/remove`, {
+        data: { companyId },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

@@ -7,14 +7,24 @@ import serviceReducer from "./services/serviceSlice";
 import userReducer from "./users/userSlice";
 
 const persistConfig = {
-  key: "root",
+  key: "auth", // Specify a different key for each reducer
+  version: 1,
   storage,
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
-const persistedServiceReducer = persistReducer(persistConfig, serviceReducer);
-const persistedCompanyReducer = persistReducer(persistConfig, companyReducer);
-const persistedUserReducer = persistReducer(persistConfig, userReducer);
+const persistedServiceReducer = persistReducer(
+  { ...persistConfig, key: "service" },
+  serviceReducer
+);
+const persistedCompanyReducer = persistReducer(
+  { ...persistConfig, key: "company" },
+  companyReducer
+);
+const persistedUserReducer = persistReducer(
+  { ...persistConfig, key: "users" },
+  userReducer
+);
 
 const store = configureStore({
   reducer: {
