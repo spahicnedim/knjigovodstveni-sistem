@@ -17,7 +17,7 @@ const ServiceDetail = () => {
     if (!service || service.id !== serviceId) {
       dispatch(fetchServiceById(serviceId));
     }
-  }, [serviceId, service, dispatch]);
+  }, []);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -34,7 +34,11 @@ const ServiceDetail = () => {
         <button onClick={handleLogout}>Logout</button>
         <Routes>
           <Route path='home' element={<CompanyList />} />
-          <Route path='dashboard/*' element={<Dashboard />} />
+          <Route
+            path='dashboard/*'
+            element={<Dashboard />}
+            allowedRoles={[1, 3]}
+          />
         </Routes>
       </div>
     </div>

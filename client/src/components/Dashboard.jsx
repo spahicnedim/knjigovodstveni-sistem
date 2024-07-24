@@ -8,9 +8,21 @@ const Dashboard = () => {
   return (
     <div>
       <Routes>
-        <Route path='dodaj-firmu' element={<CreateCompany />} />
-        <Route path='prava-zaposlenih' element={<AssignEmployees />} />
-        <Route path='dodaj-zaposlenog' element={<CreateEmployees />} />
+        <Route
+          path='dodaj-firmu'
+          element={<CreateCompany />}
+          allowedRoles={[1, 3]}
+        />
+        <Route
+          path='prava-zaposlenih'
+          element={<AssignEmployees />}
+          allowedRoles={[1, 3]}
+        />
+        <Route
+          path='dodaj-zaposlenog'
+          element={<CreateEmployees />}
+          allowedRoles={[1, 3]}
+        />
       </Routes>
     </div>
   );

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, register, fetchUserCompanies } from "./authThunks";
+import { login, register, fetchUserCompanies, fetchRoles } from "./authThunks";
 
 const authSlice = createSlice({
   name: "auth",
@@ -8,6 +8,7 @@ const authSlice = createSlice({
     token: null,
     isAuthenticated: false,
     companies: [],
+    roles: [],
     error: null,
   },
   reducers: {
@@ -16,6 +17,7 @@ const authSlice = createSlice({
       state.token = null;
       state.isAuthenticated = false;
       state.companies = [];
+      state.roles = [];
     },
   },
   extraReducers: (builder) => {
@@ -42,6 +44,13 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchUserCompanies.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(fetchRoles.fulfilled, (state, action) => {
+        state.roles = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchRoles.rejected, (state, action) => {
         state.error = action.payload;
       });
   },
