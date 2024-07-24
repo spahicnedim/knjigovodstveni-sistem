@@ -35,7 +35,7 @@ const LoginForm = () => {
         (service) => service.id === user?.serviceId
       );
       if (matchService) {
-        navigate(`/service/${user.serviceId}`);
+        navigate(`/service/${user.serviceId}/home`);
       }
     }
 
