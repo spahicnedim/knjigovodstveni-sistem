@@ -1,0 +1,9 @@
+.submenu-background {
+  background-color: #023e8a !important; /* Ensures the background color is applied */
+}
+
+.submenu-background .pro-inner-list-item,
+.submenu-background .pro-menu-item,
+.submenu-background .pro-sub-menu-item {
+  background-color: #023e8a !important; /* Applies background color to nested items */
+}

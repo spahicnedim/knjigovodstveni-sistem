@@ -56,51 +56,40 @@ const CompanyList = () => {
   }
 
   return (
-    <div>
-      <h1>Welcome, {user?.username}</h1>
-      <h2>Your Companies</h2>
-
-      {isAdmin ? (
-        companies.length > 0 ? (
-          <ul>
-            {companies.map((company) => (
-              <li key={company.id}>
-                <a
-                  onClick={() => handleCompanyClick(company.id)}
-                  style={{
-                    cursor: "pointer",
-                    color: "blue",
-                    textDecoration: "underline",
-                  }}
-                >
-                  {company.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+    <div className='container mx-auto p-4'>
+      <h1 className='text-2xl font-bold mb-4'>Dobrodosao, {user?.username}</h1>
+      <h2 className='text-xl font-semibold mb-4'>Firme</h2>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center '>
+        {isAdmin ? (
+          companies.length > 0 ? (
+            companies.map((company) => (
+              <div
+                key={company.id}
+                className='bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow cursor-pointer'
+                onClick={() => handleCompanyClick(company.id)}
+              >
+                <h3 className='text-lg font-semibold mb-2'>{company.name}</h3>
+                <p className='text-gray-600'>Service ID: {company.serviceId}</p>
+              </div>
+            ))
+          ) : (
+            <p>No companies assigned.</p>
+          )
+        ) : userCompanies.length > 0 ? (
+          userCompanies.map((company) => (
+            <div
+              key={company.id}
+              className='bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow cursor-pointer '
+              onClick={() => handleCompanyClick(company.id)}
+            >
+              <h3 className='text-lg font-semibold mb-2'>{company.name}</h3>
+              <p className='text-gray-600'>Service ID: {company.serviceId}</p>
+            </div>
+          ))
         ) : (
           <p>No companies assigned.</p>
-        )
-      ) : companies.length > 0 ? (
-        <ul>
-          {userCompanies.map((company) => (
-            <li key={company.id}>
-              <a
-                onClick={() => handleCompanyClick(company.id)}
-                style={{
-                  cursor: "pointer",
-                  color: "blue",
-                  textDecoration: "underline",
-                }}
-              >
-                {company.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No companies assigned.</p>
-      )}
+        )}
+      </div>
     </div>
   );
 };

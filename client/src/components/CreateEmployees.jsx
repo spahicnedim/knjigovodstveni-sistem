@@ -54,33 +54,43 @@ const CreateEmployees = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleCreateUser}>
+    <div className='max-w-md  p-4'>
+      <h2 className='text-2xl font-bold mb-4'>Napravi Zaposlenika</h2>
+      <form onSubmit={handleCreateUser} className='space-y-4'>
         <input
           type='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder='Email'
+          className='w-full p-2 border border-gray-300 rounded-md'
         />
         <input
           type='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder='Password'
+          className='w-full p-2 border border-gray-300 rounded-md'
         />
         <input
-          type='username'
+          type='text'
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder='Username'
+          className='w-full p-2 border border-gray-300 rounded-md'
         />
         <input
-          type='roleName'
+          type='text'
           value={roleName}
           onChange={(e) => setRoleName(e.target.value)}
           placeholder='Naziv role'
+          className='w-full p-2 border border-gray-300 rounded-md'
         />
-        <button type='submit'>Create user</button>
+        <button
+          type='submit'
+          className='w-full py-2 bg-default-blue text-white font-semibold rounded-md hover:bg-blue-600 transition'
+        >
+          Create User
+        </button>
       </form>
     </div>
   );
