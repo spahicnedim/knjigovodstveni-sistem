@@ -38,7 +38,6 @@ const LoginForm = () => {
         navigate(`/service/${user.serviceId}/home`);
       }
     }
-
     if (userCompanies?.length > 0) {
       const company = userCompanies.find((company) => company.id);
       console.log(company.id);

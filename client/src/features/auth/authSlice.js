@@ -52,6 +52,14 @@ const authSlice = createSlice({
       })
       .addCase(fetchRoles.rejected, (state, action) => {
         state.error = action.payload;
+      })
+      .addCase("RESET", (state) => {
+        state.user = null;
+        state.token = null;
+        state.isAuthenticated = false;
+        state.companies = [];
+        state.roles = [];
+        state.error = null;
       });
   },
 });
