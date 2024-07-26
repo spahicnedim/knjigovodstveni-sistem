@@ -9,6 +9,7 @@ import {
 import { fetchServiceById } from "../features/services/serviceThunk";
 import { fetchUserCompanies } from "../features/auth/authThunks";
 import { fetchUsers } from "../features/users/userThunk";
+import useAuthorization from "./useAuthorization";
 
 const CompanyList = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const CompanyList = () => {
   const userCompanies = useSelector((state) => state.auth.companies);
   const companies = useSelector((state) => state.company.companies);
   const navigate = useNavigate();
+  const isAdmin = useAuthorization([1]);
 
   useEffect(() => {
     if (user && user.userId) {
@@ -57,7 +59,29 @@ const CompanyList = () => {
     <div>
       <h1>Welcome, {user?.username}</h1>
       <h2>Your Companies</h2>
-      {companies.length > 0 ? (
+
+      {isAdmin ? (
+        companies.length > 0 ? (
+          <ul>
+            {companies.map((company) => (
+              <li key={company.id}>
+                <a
+                  onClick={() => handleCompanyClick(company.id)}
+                  style={{
+                    cursor: "pointer",
+                    color: "blue",
+                    textDecoration: "underline",
+                  }}
+                >
+                  {company.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No companies assigned.</p>
+        )
+      ) : companies.length > 0 ? (
         <ul>
           {userCompanies.map((company) => (
             <li key={company.id}>

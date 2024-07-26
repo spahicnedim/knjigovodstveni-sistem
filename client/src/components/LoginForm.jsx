@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, fetchUserCompanies } from "../features/auth/authThunks";
-import { logout } from "../features/auth/authSlice";
 import { fetchServices } from "../features/services/serviceThunk";
+import useAuthorization from "./useAuthorization";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +13,7 @@ const LoginForm = () => {
   const userCompanies = useSelector((state) => state.auth.companies);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAdmin = useAuthorization([1]);
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -30,6 +31,9 @@ const LoginForm = () => {
   }, [user, dispatch]);
 
   useEffect(() => {
+    if (isAdmin) {
+      navigate("/admin/services");
+    }
     if (user?.serviceId && services?.length > 0) {
       const matchService = services.find(
         (service) => service.id === user?.serviceId

@@ -7,11 +7,13 @@ import {
   FaUserPlus,
   FaChevronUp,
   FaChevronDown,
+  FaLock,
 } from "react-icons/fa";
 import useAuthorization from "./useAuthorization";
 
 const Sidebar = () => {
   const isVlasnik = useAuthorization([1, 3]);
+  const isAdmin = useAuthorization([1]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -73,6 +75,18 @@ const Sidebar = () => {
                 </li>
               </ul>
             )}
+          </li>
+        )}
+
+        {isAdmin && (
+          <li>
+            <NavLink
+              to='/admin/services'
+              className='flex items-center p-4 hover:bg-gray-700'
+              activeClassName='bg-gray-600'
+            >
+              <FaLock className='mr-2' /> Admin panel
+            </NavLink>
           </li>
         )}
       </ul>
