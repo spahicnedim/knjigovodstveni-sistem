@@ -5,7 +5,7 @@ import { fetchServiceById } from "../features/services/serviceThunk";
 import { logout } from "../features/auth/authSlice";
 import CompanyList from "../components/CompanyList";
 import Dashboard from "../components/Dashboard";
-import Sidebar from "../components/Sidebar";
+import MySidebar from "../components/Sidebar";
 
 const ServiceDetail = () => {
   const service = useSelector((state) => state.service.current);
@@ -27,7 +27,7 @@ const ServiceDetail = () => {
 
   return (
     <div className='flex'>
-      <Sidebar />
+      <MySidebar />
       <div className='flex-1 p-4'>
         <h1>{service?.name}</h1>
         <p>Owner ID: {service?.ownerId}</p>
