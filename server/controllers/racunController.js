@@ -1,4 +1,5 @@
 const prisma = require("../prismaClient");
+const { io } = require("../config/socket.io");
 
 const createRacun = async (req, res) => {
   const { naziv_banke, br_racuna, devizni, companyId } = req.body;
@@ -12,6 +13,8 @@ const createRacun = async (req, res) => {
         companyId: parseInt(companyId, 10),
       },
     });
+
+    io.emit("racunCreated", racun);
 
     res.status(201).json({ racun });
   } catch (error) {
@@ -46,6 +49,8 @@ const deleteRacun = async (req, res) => {
     await prisma.racun.delete({
       where: { id: Number(id) },
     });
+
+    io.emit("racunDeleted", { id });
 
     res.status(204).send();
   } catch (error) {

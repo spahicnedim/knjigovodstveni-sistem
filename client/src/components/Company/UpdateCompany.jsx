@@ -15,6 +15,10 @@ import {
   deleteRacun,
 } from "../../features/racuni/racunThunk";
 
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3001");
+
 const UpdateCompany = () => {
   const [name, setName] = useState("");
   const [adresa, setAdresa] = useState("");
@@ -97,6 +101,21 @@ const UpdateCompany = () => {
 
     dispatch(updateCompany({ companyId, companyData }));
   };
+
+  useEffect(() => {
+    socket.on("racunCreated", (newRacun) => {
+      dispatch(fetchRacuni(companyId));
+    });
+
+    socket.on("racunDeleted", (deletedRacun) => {
+      dispatch(fetchRacuni(companyId));
+    });
+
+    return () => {
+      socket.off("racunCreated");
+      socket.off("racunDeleted");
+    };
+  }, [companyId, dispatch]);
 
   const handleBankDetailsCreate = (e) => {
     e.preventDefault();

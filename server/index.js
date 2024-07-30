@@ -14,6 +14,7 @@ const JSONBigIntMiddleware = require("./middlewares/jsonStringifyMiddleware");
 dotenv.config();
 
 const app = express();
+
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(JSONBigIntMiddleware);
@@ -28,6 +29,7 @@ app.use("/api/gradovi", citiesRoute);
 app.use("/api/racun", racunRoute);
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

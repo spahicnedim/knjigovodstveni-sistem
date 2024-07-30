@@ -9,7 +9,7 @@ const Companies = () => {
   return (
     <div className='flex'>
       <CompanySidebar />
-      <div className='flex-1 p-4'>
+      <div className='flex-1 p-4 '>
         <CompanyDetail />
         <Routes>
           <Route path='home' element={<CompanyHome />} />
