@@ -5,6 +5,8 @@ import {
   fetchoneCompany,
   fetchGradovi,
   updateCompany,
+  createRacun,
+  fetchRacuni,
 } from "./companyThunks";
 
 const companySlice = createSlice({
@@ -13,8 +15,9 @@ const companySlice = createSlice({
     companies: [],
     current: null,
     gradovi: [],
+    racuni: [],
     error: null,
-    status: null, // Add status to the initial state
+    status: null,
   },
   extraReducers: (builder) => {
     builder
@@ -37,6 +40,12 @@ const companySlice = createSlice({
       })
       .addCase(fetchGradovi.fulfilled, (state, action) => {
         state.gradovi = action.payload;
+      })
+      .addCase(createRacun.fulfilled, (state, action) => {
+        state.racuni.push(action.payload);
+      })
+      .addCase(fetchRacuni.fulfilled, (state, action) => {
+        state.racuni = action.payload;
       })
       .addMatcher(
         (action) =>

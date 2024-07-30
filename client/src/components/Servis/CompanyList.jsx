@@ -41,7 +41,9 @@ const CompanyList = () => {
     try {
       const company = companies.find((company) => company.id === companyId);
       if (company && company.serviceId === service.id) {
-        dispatch(fetchoneCompany({ serviceId: service.id, id: companyId }));
+        dispatch(
+          fetchoneCompany({ serviceId: service.id, companyId: companyId })
+        );
         navigate(`/service/${service.id}/company/${companyId}/home`);
       } else {
         throw new Error("Company does not belong to the current service.");

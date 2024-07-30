@@ -56,10 +56,10 @@ model Gradovi {
 model Racun {
   id Int @id @default(autoincrement())
   naziv_banke String
-  br_racuna Int
+  br_racuna String
   devizni Boolean
 
-  companyId Int @unique
+  companyId Int
   company Company @relation("Racun", fields: [companyId], references: [id])
 }
 

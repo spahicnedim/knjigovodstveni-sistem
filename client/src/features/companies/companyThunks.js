@@ -49,12 +49,38 @@ export const fetchGradovi = createAsyncThunk(
 
 export const updateCompany = createAsyncThunk(
   "companies/updateCompany",
-  async ({ companyId, companyData }, rejectWithValue) => {
+  async ({ companyId, companyData }, thunkAPI) => {
     try {
       const response = await api.put(`/companies/${companyId}`, companyData);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const createRacun = createAsyncThunk(
+  "cities/createRacun",
+  async (racunData, thunkAPI) => {
+    try {
+      const response = await api.post("/racun", racunData);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const fetchRacuni = createAsyncThunk(
+  "racun/fetchRacuni",
+  async (companyId, thunkAPI) => {
+    try {
+      const response = await api.post(`/racun/${companyId}`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
