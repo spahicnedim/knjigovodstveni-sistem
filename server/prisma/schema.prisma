@@ -26,16 +26,16 @@ model Company {
   id        Int      @id @default(autoincrement())
   name      String
   adresa String
-  sjedisteId Int @unique
-  sjediste Gradovi @relation(fields: [sjedisteId], references: [id]) // ide referenca
+  sjedisteId Int 
+  sjediste Gradovi @relation(fields: [sjedisteId], references: [id]) // provjeriti ovo
   drzava String
-  PDV_broj Int @unique // jedinstven
-  ID_broj Int @unique // jedinstven
+  PDVbroj String  // jedinstven
+  IDbroj String  // jedinstven
   valuta String
   djelatnost Djelatnost?  @relation("Djelatnost")// ide referenca
-  obveznik_pdv Boolean
-  telefon Int
-  fax Int
+  obveznikPDV Boolean
+  telefon String
+  fax String
   email String
   web String
   racun Racun[] @relation("Racun")//ide referenca
@@ -50,7 +50,7 @@ model Gradovi {
   id Int @id @default(autoincrement())
   naziv String
   postanski_broj Int
-  company Company?
+  company Company[]
 }
 
 model Racun {

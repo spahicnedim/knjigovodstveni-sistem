@@ -27,12 +27,21 @@ export const fetchCompanies = createAsyncThunk(
 
 export const fetchoneCompany = createAsyncThunk(
   "companies/fetchOneCompany",
-  async ({ serviceId, id, thunkAPI }) => {
+  async ({ serviceId, id }, thunkAPI) => {
     try {
       const response = await api.get(`/companies/${serviceId}/${id}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }
+  }
+);
+
+export const fetchGradovi = createAsyncThunk(
+  "cities/fetchGradovi",
+  async () => {
+    const response = await api.get("/gradovi");
+    console.log(response.data);
+    return response.data;
   }
 );

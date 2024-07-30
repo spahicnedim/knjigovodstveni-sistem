@@ -1,18 +1,47 @@
 const prisma = require("../prismaClient");
 
 const createCompany = async (req, res) => {
-  const { name, serviceId } = req.body;
+  const {
+    name,
+    adresa,
+    sjedisteId,
+    drzava,
+    PDVbroj,
+    IDbroj,
+    valuta,
+    obveznikPDV,
+    telefon,
+    fax,
+    email,
+    web,
+    serviceId,
+  } = req.body;
+
   try {
     const company = await prisma.company.create({
       data: {
         name,
+        adresa,
+        sjedisteId,
+        drzava,
+        PDVbroj: PDVbroj.toString(),
+        IDbroj: IDbroj.toString(),
+        valuta,
+        obveznikPDV,
+        telefon: telefon.toString(),
+        fax: fax.toString(),
+        email,
+        web,
         serviceId,
       },
     });
 
     res.status(201).json({ company });
   } catch (error) {
-    res.status(400).json({ error: "Error creating company" });
+    console.error("Error creating company:", error);
+    res
+      .status(400)
+      .json({ error: "Error creating company", details: error.message });
   }
 };
 
