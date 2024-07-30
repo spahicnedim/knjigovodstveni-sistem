@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchCompanies } from "../features/companies/companyThunks";
-import { fetchServiceById } from "../features/services/serviceThunk";
-import { fetchUserCompanies } from "../features/auth/authThunks";
+import { fetchCompanies } from "../../features/companies/companyThunks";
+import { fetchServiceById } from "../../features/services/serviceThunk";
+import { fetchUserCompanies } from "../../features/auth/authThunks";
 import {
   fetchUsers,
   assignUserToCompany,
   removeUserFromCompany,
-} from "../features/users/userThunk";
+} from "../../features/users/userThunk";
 
-const AssignEmployees = () => {
+const AssignRadnici = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const service = useSelector((state) => state.service.current);
@@ -110,4 +110,4 @@ const AssignEmployees = () => {
   );
 };
 
-export default AssignEmployees;
+export default AssignRadnici;

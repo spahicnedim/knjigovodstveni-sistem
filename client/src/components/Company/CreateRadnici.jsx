@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchCompanies } from "../features/companies/companyThunks";
-import { fetchServiceById } from "../features/services/serviceThunk";
-import { fetchUserCompanies } from "../features/auth/authThunks";
-import { createUser, fetchUsers } from "../features/users/userThunk";
+import { fetchCompanies } from "../../features/companies/companyThunks";
+import { fetchServiceById } from "../../features/services/serviceThunk";
+import { fetchUserCompanies } from "../../features/auth/authThunks";
+import { createUser, fetchUsers } from "../../features/users/userThunk";
 
-const CreateEmployees = () => {
+const CreateRadnici = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -96,4 +96,4 @@ const CreateEmployees = () => {
   );
 };
 
-export default CreateEmployees;
+export default CreateRadnici;

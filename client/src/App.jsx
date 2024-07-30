@@ -12,7 +12,10 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/service/:serviceId/*' element={<ServiceDetail />} />
-        <Route path='/service/:serviceId/company/:id' element={<Companies />} />
+        <Route
+          path='/service/:serviceId/company/:companyId/*'
+          element={<Companies />}
+        />
         <Route path='/unauthorized' element={<Unauthorized />} />
         <Route
           path='/admin/services'

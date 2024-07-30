@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   createCompany,
+  updateCompany,
+  fetchoneCompany,
   fetchCompanies,
   fetchGradovi,
-} from "../features/companies/companyThunks";
-import { fetchServiceById } from "../features/services/serviceThunk";
-import { fetchUsers } from "../features/users/userThunk";
+} from "../../features/companies/companyThunks";
+import { fetchServiceById } from "../../features/services/serviceThunk";
+import { fetchUsers } from "../../features/users/userThunk";
 
-const CreateCompany = () => {
+const UpdateCompany = () => {
   const [name, setName] = useState("");
   const [adresa, setAdresa] = useState("");
   const [drzava, setDrzava] = useState("");
@@ -23,17 +25,19 @@ const CreateCompany = () => {
   const [web, setWeb] = useState("");
   const [sjedisteId, setSjedisteId] = useState(null);
 
-  const { id } = useParams();
+  const { serviceId, companyId } = useParams(); // Get companyId from URL params
   const dispatch = useDispatch();
   const service = useSelector((state) => state.service.current);
   const user = useSelector((state) => state.auth.user);
   const gradovi = useSelector((state) => state.company.gradovi);
+  const company = useSelector((state) => state.company.current); // Select current company
 
+  console.log(serviceId, companyId);
   useEffect(() => {
-    if (id) {
-      dispatch(fetchServiceById(id));
+    if (serviceId) {
+      dispatch(fetchServiceById(serviceId));
     }
-  }, [user, id, dispatch]);
+  }, [user, serviceId, dispatch]);
 
   useEffect(() => {
     if (service.id) {
@@ -43,25 +47,49 @@ const CreateCompany = () => {
     }
   }, [service, dispatch]);
 
+  useEffect(() => {
+    if (companyId) {
+      dispatch(fetchoneCompany({ serviceId, companyId })); // Fetch company data if companyId exists
+    }
+  }, [companyId, dispatch]);
+
+  useEffect(() => {
+    if (company) {
+      setName(company.name);
+      setAdresa(company.adresa);
+      setDrzava(company.drzava);
+      setPDVbroj(company.PDVbroj);
+      setIDbroj(company.IDbroj);
+      setValuta(company.valuta);
+      setObveznikPDV(company.obveznikPDV);
+      setTelefon(company.telefon);
+      setFax(company.fax);
+      setEmail(company.email);
+      setWeb(company.web);
+      setSjedisteId(company.sjedisteId);
+    }
+  }, [company]);
+
   const handleCompanyCreate = (e) => {
     e.preventDefault();
-    dispatch(
-      createCompany({
-        name,
-        adresa,
-        sjedisteId,
-        drzava,
-        PDVbroj,
-        IDbroj,
-        valuta,
-        obveznikPDV,
-        telefon,
-        fax,
-        email,
-        web,
-        serviceId: service.id,
-      })
-    );
+    const companyData = {
+      name,
+      adresa,
+      sjedisteId,
+      drzava,
+      PDVbroj,
+      IDbroj,
+      valuta,
+      obveznikPDV,
+      telefon,
+      fax,
+      email,
+      web,
+    };
+
+    dispatch(updateCompany({ companyId, companyData }));
+
+    // history.push("/path-to-redirect-after-create-or-update");
   };
 
   if (!service) {
@@ -70,7 +98,7 @@ const CreateCompany = () => {
 
   return (
     <div className='max-w-md mx-auto p-4 bg-white shadow-md rounded-lg'>
-      <h2 className='text-2xl font-bold mb-4'>Create Company</h2>
+      <h2 className='text-2xl font-bold mb-4'>Update Company</h2>
       <form onSubmit={handleCompanyCreate} className='space-y-4'>
         <input
           type='text'
@@ -108,14 +136,14 @@ const CreateCompany = () => {
         <input
           type='text'
           value={PDVbroj}
-          onChange={(e) => setPDVbroj(Number(e.target.value))}
+          onChange={(e) => setPDVbroj(e.target.value)}
           placeholder='PDV Number'
           className='w-full p-2 border border-gray-300 rounded'
         />
         <input
           type='text'
           value={IDbroj}
-          onChange={(e) => setIDbroj(Number(e.target.value))}
+          onChange={(e) => setIDbroj(e.target.value)}
           placeholder='ID Number'
           className='w-full p-2 border border-gray-300 rounded'
         />
@@ -138,14 +166,14 @@ const CreateCompany = () => {
         <input
           type='text'
           value={telefon}
-          onChange={(e) => setTelefon(Number(e.target.value))}
+          onChange={(e) => setTelefon(e.target.value)}
           placeholder='Phone'
           className='w-full p-2 border border-gray-300 rounded'
         />
         <input
           type='text'
           value={fax}
-          onChange={(e) => setFax(Number(e.target.value))}
+          onChange={(e) => setFax(e.target.value)}
           placeholder='Fax'
           className='w-full p-2 border border-gray-300 rounded'
         />
@@ -167,11 +195,11 @@ const CreateCompany = () => {
           type='submit'
           className='w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600'
         >
-          Create Company
+          Update Company
         </button>
       </form>
     </div>
   );
 };
 
-export default CreateCompany;
+export default UpdateCompany;

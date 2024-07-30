@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import CreateCompany from "../components/CreateCompany";
-import AssignEmployees from "../components/AssignEmployees";
-import CreateEmployees from "../components/CreateEmployees";
+import UpdateCompany from "./UpdateCompany";
+import AssignRadnici from "./AssignRadici";
+import CreateRadnici from "./CreateRadnici";
 
 const Dashboard = () => {
   return (
@@ -10,17 +10,17 @@ const Dashboard = () => {
       <Routes>
         <Route
           path='dodaj-firmu'
-          element={<CreateCompany />}
+          element={<UpdateCompany />}
           allowedRoles={[1, 3]}
         />
         <Route
           path='prava-zaposlenih'
-          element={<AssignEmployees />}
+          element={<AssignRadnici />}
           allowedRoles={[1, 3]}
         />
         <Route
-          path='dodaj-zaposlenog'
-          element={<CreateEmployees />}
+          path='dodaj-radnika'
+          element={<CreateRadnici />}
           allowedRoles={[1, 3]}
         />
       </Routes>

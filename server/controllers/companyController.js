@@ -21,17 +21,17 @@ const createCompany = async (req, res) => {
     const company = await prisma.company.create({
       data: {
         name,
-        adresa,
-        sjedisteId,
-        drzava,
-        PDVbroj: PDVbroj.toString(),
-        IDbroj: IDbroj.toString(),
-        valuta,
-        obveznikPDV,
-        telefon: telefon.toString(),
-        fax: fax.toString(),
-        email,
-        web,
+        adresa: adresa || null,
+        sjedisteId: sjedisteId || null,
+        drzava: drzava || null,
+        PDVbroj: PDVbroj ? PDVbroj.toString() : null,
+        IDbroj: IDbroj ? IDbroj.toString() : null,
+        valuta: valuta || null,
+        obveznikPDV: obveznikPDV !== undefined ? obveznikPDV : null,
+        telefon: telefon ? telefon.toString() : null,
+        fax: fax ? fax.toString() : null,
+        email: email || null,
+        web: web || null,
         serviceId,
       },
     });
@@ -45,11 +45,58 @@ const createCompany = async (req, res) => {
   }
 };
 
+const updateCompany = async (req, res) => {
+  const { companyId } = req.params;
+  const {
+    name,
+    adresa,
+    sjedisteId,
+    drzava,
+    PDVbroj,
+    IDbroj,
+    valuta,
+    obveznikPDV,
+    telefon,
+    fax,
+    email,
+    web,
+  } = req.body;
+
+  try {
+    const company = await prisma.company.update({
+      where: {
+        id: parseInt(companyId, 10), // Ensure id is correctly parsed to an integer
+      },
+      data: {
+        name: name || undefined,
+        adresa: adresa || undefined,
+        sjedisteId: sjedisteId || undefined,
+        drzava: drzava || undefined,
+        PDVbroj: PDVbroj ? PDVbroj.toString() : undefined,
+        IDbroj: IDbroj ? IDbroj.toString() : undefined,
+        valuta: valuta || undefined,
+        obveznikPDV: obveznikPDV !== undefined ? obveznikPDV : undefined,
+        telefon: telefon ? telefon.toString() : undefined,
+        fax: fax ? fax.toString() : undefined,
+        email: email || undefined,
+        web: web || undefined,
+      },
+    });
+
+    res.status(200).json({ company });
+  } catch (error) {
+    console.error("Error updating company:", error);
+    res
+      .status(400)
+      .json({ error: "Error updating company", details: error.message });
+  }
+};
+
 const getOneCompany = async (req, res) => {
-  const { serviceId, id } = req.params;
+  const { serviceId, companyId } = req.params;
   try {
     const company = await prisma.company.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: parseInt(companyId) },
     });
     if (!company) {
       return res.status(404).json({ error: "Company not found" });
@@ -76,4 +123,9 @@ const getCompanyById = async (req, res) => {
   res.json(companies);
 };
 
-module.exports = { createCompany, getOneCompany, getCompanyById };
+module.exports = {
+  createCompany,
+  getOneCompany,
+  getCompanyById,
+  updateCompany,
+};

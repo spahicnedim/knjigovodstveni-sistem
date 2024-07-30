@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { FaHome, FaBuilding, FaUser, FaUserPlus, FaLock } from "react-icons/fa";
-import useAuthorization from "./useAuthorization";
+import useAuthorization from "../useAuthorization";
 import {
   Sidebar,
   Menu,
@@ -9,9 +9,9 @@ import {
   SubMenu,
   menuClasses,
 } from "react-pro-sidebar";
-import "../styles/sidebar.css";
+import "../../styles/sidebar.css";
 
-const MySidebar = () => {
+const ServiceSidebar = () => {
   const isVlasnik = useAuthorization([1, 3]);
   const isAdmin = useAuthorization([1]);
   const [collapsed, setCollapsed] = useState(true);
@@ -159,4 +159,4 @@ const MySidebar = () => {
   );
 };
 
-export default MySidebar;
+export default ServiceSidebar;

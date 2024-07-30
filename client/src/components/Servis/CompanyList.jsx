@@ -5,11 +5,11 @@ import { useParams } from "react-router-dom";
 import {
   fetchCompanies,
   fetchoneCompany,
-} from "../features/companies/companyThunks";
-import { fetchServiceById } from "../features/services/serviceThunk";
-import { fetchUserCompanies } from "../features/auth/authThunks";
-import { fetchUsers } from "../features/users/userThunk";
-import useAuthorization from "./useAuthorization";
+} from "../../features/companies/companyThunks";
+import { fetchServiceById } from "../../features/services/serviceThunk";
+import { fetchUserCompanies } from "../../features/auth/authThunks";
+import { fetchUsers } from "../../features/users/userThunk";
+import useAuthorization from "../useAuthorization";
 
 const CompanyList = () => {
   const { id } = useParams();
@@ -42,7 +42,7 @@ const CompanyList = () => {
       const company = companies.find((company) => company.id === companyId);
       if (company && company.serviceId === service.id) {
         dispatch(fetchoneCompany({ serviceId: service.id, id: companyId }));
-        navigate(`/service/${service.id}/company/${companyId}`);
+        navigate(`/service/${service.id}/company/${companyId}/home`);
       } else {
         throw new Error("Company does not belong to the current service.");
       }

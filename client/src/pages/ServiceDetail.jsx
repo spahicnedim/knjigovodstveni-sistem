@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Route, Routes } from "react-router-dom";
 import { fetchServiceById } from "../features/services/serviceThunk";
 import { logout } from "../features/auth/authSlice";
-import CompanyList from "../components/CompanyList";
-import Dashboard from "../components/Dashboard";
-import MySidebar from "../components/Sidebar";
+import CompanyList from "../components/Servis/CompanyList";
+import Dashboard from "../components/Servis/Dashboard";
+import ServiceSidebar from "../components/Servis/serviceSidebar";
 
 const ServiceDetail = () => {
   const service = useSelector((state) => state.service.current);
@@ -27,7 +27,7 @@ const ServiceDetail = () => {
 
   return (
     <div className='flex'>
-      <MySidebar />
+      <ServiceSidebar />
       <div className='flex-1 p-4'>
         <h1>{service?.name}</h1>
         <p>Owner ID: {service?.ownerId}</p>

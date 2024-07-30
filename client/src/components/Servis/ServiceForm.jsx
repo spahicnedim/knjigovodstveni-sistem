@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createService } from "../features/services/serviceThunk";
-import { logout } from "../features/auth/authSlice";
+import { createService } from "../../features/services/serviceThunk";
+import { logout } from "../../features/auth/authSlice";
 
 const ServiceForm = () => {
   const [name, setName] = useState("");

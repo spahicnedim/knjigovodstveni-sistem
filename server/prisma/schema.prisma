@@ -24,20 +24,20 @@ model Service {
 
 model Company {
   id        Int      @id @default(autoincrement())
-  name      String
-  adresa String
-  sjedisteId Int 
-  sjediste Gradovi @relation(fields: [sjedisteId], references: [id]) // provjeriti ovo
-  drzava String
-  PDVbroj String  // jedinstven
-  IDbroj String  // jedinstven
-  valuta String
+  name      String?
+  adresa String?
+  sjedisteId Int? 
+  sjediste Gradovi? @relation(fields: [sjedisteId], references: [id]) // provjeriti ovo
+  drzava String?
+  PDVbroj String?  // jedinstven
+  IDbroj String? // jedinstven
+  valuta String?
   djelatnost Djelatnost?  @relation("Djelatnost")// ide referenca
-  obveznikPDV Boolean
-  telefon String
-  fax String
-  email String
-  web String
+  obveznikPDV Boolean?
+  telefon String?
+  fax String?
+  email String?
+  web String?
   racun Racun[] @relation("Racun")//ide referenca
   service   Service  @relation(fields: [serviceId], references: [id])
   serviceId Int

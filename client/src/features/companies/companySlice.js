@@ -4,6 +4,7 @@ import {
   fetchCompanies,
   fetchoneCompany,
   fetchGradovi,
+  updateCompany,
 } from "./companyThunks";
 
 const companySlice = createSlice({
@@ -13,38 +14,55 @@ const companySlice = createSlice({
     current: null,
     gradovi: [],
     error: null,
+    status: null, // Add status to the initial state
   },
   extraReducers: (builder) => {
     builder
       .addCase(createCompany.fulfilled, (state, action) => {
         state.companies.push(action.payload);
-        state.error = null;
       })
-      .addCase(createCompany.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-      .addCase(fetchCompanies.fulfilled, (state, action) => {
-        state.companies = action.payload;
-        state.error = null;
-      })
-      .addCase(fetchCompanies.rejected, (state, action) => {
-        state.error = action.payload;
+      .addCase(updateCompany.fulfilled, (state, action) => {
+        const index = state.companies.findIndex(
+          (company) => company.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.companies[index] = action.payload;
+        }
       })
       .addCase(fetchoneCompany.fulfilled, (state, action) => {
         state.current = action.payload;
-        state.error = null;
       })
-      .addCase(fetchoneCompany.rejected, (state, action) => {
-        state.error = action.payload;
+      .addCase(fetchCompanies.fulfilled, (state, action) => {
+        state.companies = action.payload;
       })
       .addCase(fetchGradovi.fulfilled, (state, action) => {
-        state.loading = false;
         state.gradovi = action.payload;
       })
-      .addCase(fetchGradovi.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      });
+      .addMatcher(
+        (action) =>
+          action.type.startsWith("companies/") &&
+          action.type.endsWith("/pending"),
+        (state) => {
+          state.status = "loading";
+        }
+      )
+      .addMatcher(
+        (action) =>
+          action.type.startsWith("companies/") &&
+          action.type.endsWith("/fulfilled"),
+        (state) => {
+          state.status = "succeeded";
+        }
+      )
+      .addMatcher(
+        (action) =>
+          action.type.startsWith("companies/") &&
+          action.type.endsWith("/rejected"),
+        (state, action) => {
+          state.status = "failed";
+          state.error = action.error; // Use action.error instead of action.payload for error details
+        }
+      );
   },
 });
 

@@ -6,10 +6,10 @@ import {
   createCompany,
   fetchCompanies,
   fetchoneCompany,
-} from "../features/companies/companyThunks";
-import { fetchServiceById } from "../features/services/serviceThunk";
-import { createUser, fetchUsers } from "../features/users/userThunk";
-import { logout } from "../features/auth/authSlice";
+} from "../../features/companies/companyThunks";
+import { fetchServiceById } from "../../features/services/serviceThunk";
+import { createUser, fetchUsers } from "../../features/users/userThunk";
+import { logout } from "../../features/auth/authSlice";
 
 const ServiceDetail = () => {
   const [name, setName] = useState("");
