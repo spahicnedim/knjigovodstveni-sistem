@@ -16,6 +16,10 @@ import {
 } from "../../features/racuni/racunThunk";
 
 import io from "socket.io-client";
+import {
+  createOrUpdateDjelatnost,
+  fetchDjelatnostByCompanyId,
+} from "../../features/djelatnost/djelatnostThunk";
 
 const socket = io("http://localhost:3001");
 
@@ -35,6 +39,8 @@ const UpdateCompany = () => {
   const [naziv_banke, setNazivBanke] = useState("");
   const [br_racuna, setBrRacuna] = useState("");
   const [devizni, setDevizni] = useState(false);
+  const [djelatnostNaziv, setDjelatnostNaziv] = useState("");
+  const [djelatnostSifra, setDjelatnostSifra] = useState("");
 
   const { serviceId, companyId } = useParams();
   const dispatch = useDispatch();
@@ -42,7 +48,8 @@ const UpdateCompany = () => {
   const user = useSelector((state) => state.auth.user);
   const gradovi = useSelector((state) => state.company.gradovi);
   const company = useSelector((state) => state.company.current);
-  const racuni = useSelector((state) => state.racun.racuni); // Select bank accounts
+  const racuni = useSelector((state) => state.racun.racuni);
+  const djelatnost = useSelector((state) => state.djelatnost.djelatnosti);
 
   useEffect(() => {
     if (serviceId) {
@@ -61,7 +68,8 @@ const UpdateCompany = () => {
   useEffect(() => {
     if (companyId) {
       dispatch(fetchoneCompany({ serviceId, companyId }));
-      dispatch(fetchRacuni(companyId)); // Fetch bank accounts for the company
+      dispatch(fetchRacuni(companyId));
+      dispatch(fetchDjelatnostByCompanyId(companyId));
     }
   }, [companyId, dispatch]);
 
@@ -79,8 +87,18 @@ const UpdateCompany = () => {
       setEmail(company.email);
       setWeb(company.web);
       setSjedisteId(company.sjedisteId);
+      setDjelatnostNaziv(djelatnost?.naziv);
+      setDjelatnostSifra(djelatnost?.sifra);
     }
-  }, [company]);
+
+    if (djelatnost) {
+      setDjelatnostNaziv(djelatnost.naziv);
+      setDjelatnostSifra(djelatnost.sifra);
+    } else {
+      setDjelatnostNaziv("");
+      setDjelatnostSifra("");
+    }
+  }, [company, djelatnost]);
 
   const handleCompanyUpdate = (e) => {
     e.preventDefault();
@@ -100,6 +118,18 @@ const UpdateCompany = () => {
     };
 
     dispatch(updateCompany({ companyId, companyData }));
+
+    if (djelatnostNaziv && djelatnostSifra) {
+      const decimalSifra = parseFloat(djelatnostSifra);
+
+      dispatch(
+        createOrUpdateDjelatnost({
+          naziv: djelatnostNaziv,
+          sifra: decimalSifra,
+          companyId,
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -233,6 +263,27 @@ const UpdateCompany = () => {
               placeholder='Website'
               className='w-full p-2 border border-gray-300 rounded'
             />
+
+            <div className='bg-white shadow-md rounded-lg p-4'>
+              <h2 className='text-2xl font-bold mb-4'>Djelatnost Details</h2>
+              <form className='space-y-4'>
+                <input
+                  type='text'
+                  value={djelatnostNaziv}
+                  onChange={(e) => setDjelatnostNaziv(e.target.value)}
+                  placeholder='Djelatnost Naziv'
+                  className='w-full p-2 border border-gray-300 rounded'
+                />
+                <input
+                  type='number'
+                  step='0.01'
+                  value={djelatnostSifra}
+                  onChange={(e) => setDjelatnostSifra(e.target.value)}
+                  placeholder='Djelatnost Sifra'
+                  className='w-full p-2 border border-gray-300 rounded'
+                />
+              </form>
+            </div>
             <button
               type='submit'
               className='w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600'

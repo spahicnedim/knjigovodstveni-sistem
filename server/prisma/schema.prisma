@@ -66,7 +66,7 @@ model Racun {
 model Djelatnost {
   id Int @id @default(autoincrement())
   naziv String
-  sifra Int
+  sifra      Decimal  @db.Decimal(10, 2)
 
   companyId Int @unique
   company Company @relation("Djelatnost", fields: [companyId], references: [id])

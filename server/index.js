@@ -9,6 +9,7 @@ const roleRoutes = require("./routes/roleRoutes");
 const cookieParser = require("cookie-parser");
 const citiesRoute = require("./routes/gradRoutes");
 const racunRoute = require("./routes/racunRoutes");
+const djelatnostRoute = require("./routes/djelatnostRoutes");
 const JSONBigIntMiddleware = require("./middlewares/jsonStringifyMiddleware");
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/gradovi", citiesRoute);
 app.use("/api/racun", racunRoute);
+app.use("/api/djelatnost", djelatnostRoute);
 
 const PORT = process.env.PORT || 3000;
 
