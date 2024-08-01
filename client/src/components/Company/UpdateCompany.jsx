@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -193,31 +194,31 @@ const UpdateCompany = () => {
               placeholder='Address'
               className='w-full p-2 border border-gray-300 rounded'
             />
-            <select
-              value={sjedisteId}
-              onChange={(e) => setSjedisteId(Number(e.target.value))}
+            <Select
+              options={gradovi.map((grad) => ({
+                value: grad.id,
+                label: grad.naziv,
+              }))}
+              value={gradovi.find((grad) => grad.id === sjedisteId)}
+              onChange={(selectedOption) =>
+                setSjedisteId(selectedOption ? selectedOption.value : null)
+              }
+              placeholder='Select City'
               className='w-full p-2 border border-gray-300 rounded'
-            >
-              <option value=''>Select City</option>
-              {gradovi.map((grad) => (
-                <option key={grad.id} value={grad.id}>
-                  {grad.naziv}
-                </option>
-              ))}
-            </select>
+            />
 
-            <select
-              value={drzavaId}
-              onChange={(e) => setDrzavaId(Number(e.target.value))}
+            <Select
+              options={drzave.map((drzava) => ({
+                value: drzava.id,
+                label: drzava.naziv,
+              }))}
+              value={drzave.find((drzava) => drzava.id === drzavaId)}
+              onChange={(selectedOption) =>
+                setDrzavaId(selectedOption ? selectedOption.value : null)
+              }
+              placeholder='Select Drzava'
               className='w-full p-2 border border-gray-300 rounded'
-            >
-              <option value=''>Select Drzava</option>
-              {drzave.map((drzava) => (
-                <option key={drzava.id} value={drzava.id}>
-                  {drzava.naziv}
-                </option>
-              ))}
-            </select>
+            />
             <input
               type='text'
               value={PDVbroj}
@@ -309,18 +310,18 @@ const UpdateCompany = () => {
         <div className='bg-white shadow-md rounded-lg p-4'>
           <h2 className='text-2xl font-bold mb-4'>Bank Account Details</h2>
           <form onSubmit={handleBankDetailsCreate} className='space-y-4'>
-            <select
-              value={nazivId}
-              onChange={(e) => setNazivId(Number(e.target.value))}
-              className='w-full p-2 border border-gray-300 rounded'
-            >
-              <option value=''>Select Banka</option>
-              {banke.map((banka) => (
-                <option key={banka.id} value={banka.id}>
-                  {banka.naziv}
-                </option>
-              ))}
-            </select>
+            <Select
+              options={banke.map((banka) => ({
+                value: banka.id,
+                label: banka.naziv,
+              }))}
+              value={banke.find((banka) => banka.id === nazivId)}
+              onChange={(selectedOption) =>
+                setNazivId(selectedOption ? selectedOption.value : null)
+              }
+              placeholder='Select Banka'
+              className='w-full p-2 rounded'
+            />
             <input
               type='text'
               value={br_racuna}
