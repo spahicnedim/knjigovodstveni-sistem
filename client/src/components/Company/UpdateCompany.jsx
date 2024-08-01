@@ -6,6 +6,7 @@ import {
   fetchoneCompany,
   fetchCompanies,
   fetchGradovi,
+  fetchDrzave,
 } from "../../features/companies/companyThunks";
 import { fetchServiceById } from "../../features/services/serviceThunk";
 import { fetchUsers } from "../../features/users/userThunk";
@@ -41,6 +42,7 @@ const UpdateCompany = () => {
   const [devizni, setDevizni] = useState(false);
   const [djelatnostNaziv, setDjelatnostNaziv] = useState("");
   const [djelatnostSifra, setDjelatnostSifra] = useState("");
+  const [drzavaId, setDrzavaId] = useState(null);
 
   const { serviceId, companyId } = useParams();
   const dispatch = useDispatch();
@@ -50,6 +52,7 @@ const UpdateCompany = () => {
   const company = useSelector((state) => state.company.current);
   const racuni = useSelector((state) => state.racun.racuni);
   const djelatnost = useSelector((state) => state.djelatnost.djelatnosti);
+  const drzave = useSelector((state) => state.company.drzave);
 
   useEffect(() => {
     if (serviceId) {
@@ -62,6 +65,7 @@ const UpdateCompany = () => {
       dispatch(fetchCompanies(service.id));
       dispatch(fetchUsers(service.id));
       dispatch(fetchGradovi());
+      dispatch(fetchDrzave());
     }
   }, [service, dispatch]);
 
@@ -77,7 +81,6 @@ const UpdateCompany = () => {
     if (company) {
       setName(company.name);
       setAdresa(company.adresa);
-      setDrzava(company.drzava);
       setPDVbroj(company.PDVbroj);
       setIDbroj(company.IDbroj);
       setValuta(company.valuta);
@@ -87,6 +90,7 @@ const UpdateCompany = () => {
       setEmail(company.email);
       setWeb(company.web);
       setSjedisteId(company.sjedisteId);
+      setDrzavaId(company.drzavaId);
       setDjelatnostNaziv(djelatnost?.naziv);
       setDjelatnostSifra(djelatnost?.sifra);
     }
@@ -106,7 +110,7 @@ const UpdateCompany = () => {
       name,
       adresa,
       sjedisteId,
-      drzava,
+      drzavaId,
       PDVbroj,
       IDbroj,
       valuta,
@@ -198,13 +202,19 @@ const UpdateCompany = () => {
                 </option>
               ))}
             </select>
-            <input
-              type='text'
-              value={drzava}
-              onChange={(e) => setDrzava(e.target.value)}
-              placeholder='Country'
+
+            <select
+              value={drzavaId}
+              onChange={(e) => setDrzavaId(Number(e.target.value))}
               className='w-full p-2 border border-gray-300 rounded'
-            />
+            >
+              <option value=''>Select Drzava</option>
+              {drzave.map((drzava) => (
+                <option key={drzava.id} value={drzava.id}>
+                  {drzava.naziv}
+                </option>
+              ))}
+            </select>
             <input
               type='text'
               value={PDVbroj}

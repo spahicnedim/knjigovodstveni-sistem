@@ -28,7 +28,8 @@ model Company {
   adresa String?
   sjedisteId Int? 
   sjediste Gradovi? @relation(fields: [sjedisteId], references: [id]) // provjeriti ovo
-  drzava String?
+  drzavaId Int?
+  drzava Drzave? @relation(fields: [drzavaId], references: [id])
   PDVbroj String?  // jedinstven
   IDbroj String? // jedinstven
   valuta String?
@@ -50,6 +51,12 @@ model Gradovi {
   id Int @id @default(autoincrement())
   naziv String
   postanski_broj Int
+  company Company[]
+}
+
+model Drzave {
+  id Int @id @default(autoincrement())
+  naziv String
   company Company[]
 }
 

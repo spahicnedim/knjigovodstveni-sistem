@@ -84,3 +84,9 @@ export const fetchRacuni = createAsyncThunk(
     }
   }
 );
+
+export const fetchDrzave = createAsyncThunk("cities/fetchDrzave", async () => {
+  const response = await api.get("/drzava");
+  console.log(response.data);
+  return response.data;
+});

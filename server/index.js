@@ -11,6 +11,7 @@ const citiesRoute = require("./routes/gradRoutes");
 const racunRoute = require("./routes/racunRoutes");
 const djelatnostRoute = require("./routes/djelatnostRoutes");
 const JSONBigIntMiddleware = require("./middlewares/jsonStringifyMiddleware");
+const drzavaRoute = require("./routes/drzavaRoutes");
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use("/api/roles", roleRoutes);
 app.use("/api/gradovi", citiesRoute);
 app.use("/api/racun", racunRoute);
 app.use("/api/djelatnost", djelatnostRoute);
+app.use("/api/drzava", drzavaRoute);
 
 const PORT = process.env.PORT || 3000;
 
