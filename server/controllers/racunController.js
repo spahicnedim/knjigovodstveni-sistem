@@ -2,12 +2,12 @@ const prisma = require("../prismaClient");
 const { io } = require("../config/socket.io");
 
 const createRacun = async (req, res) => {
-  const { naziv_banke, br_racuna, devizni, companyId } = req.body;
+  const { nazivId, br_racuna, devizni, companyId } = req.body;
 
   try {
     const racun = await prisma.racun.create({
       data: {
-        naziv_banke,
+        nazivId,
         br_racuna,
         devizni,
         companyId: parseInt(companyId, 10),

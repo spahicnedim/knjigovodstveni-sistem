@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { getDrzava } = require("../controllers/drzavaController");
+const { getBanke } = require("../controllers/bankeController");
 
-router.get("/", getDrzava);
+router.get("/", getBanke);
 
 module.exports = router;

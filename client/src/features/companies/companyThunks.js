@@ -85,8 +85,14 @@ export const fetchRacuni = createAsyncThunk(
   }
 );
 
-export const fetchDrzave = createAsyncThunk("cities/fetchDrzave", async () => {
+export const fetchDrzave = createAsyncThunk("drzava/fetchDrzave", async () => {
   const response = await api.get("/drzava");
+  console.log(response.data);
+  return response.data;
+});
+
+export const fetchBanke = createAsyncThunk("banka/fetchBanke", async () => {
+  const response = await api.get("/banke");
   console.log(response.data);
   return response.data;
 });

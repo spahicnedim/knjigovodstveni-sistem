@@ -62,12 +62,20 @@ model Drzave {
 
 model Racun {
   id Int @id @default(autoincrement())
-  naziv_banke String
+  nazivId Int
+  banka Banke @relation(fields: [nazivId], references: [id])
   br_racuna String
   devizni Boolean
 
   companyId Int
   company Company @relation("Racun", fields: [companyId], references: [id])
+}
+
+model Banke {
+  id Int @id @default(autoincrement())
+  naziv String
+
+  racun Racun[]
 }
 
 model Djelatnost {

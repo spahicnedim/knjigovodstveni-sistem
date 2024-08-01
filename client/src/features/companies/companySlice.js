@@ -8,6 +8,7 @@ import {
   createRacun,
   fetchRacuni,
   fetchDrzave,
+  fetchBanke,
 } from "./companyThunks";
 
 const companySlice = createSlice({
@@ -18,6 +19,7 @@ const companySlice = createSlice({
     gradovi: [],
     racuni: [],
     drzave: [],
+    banke: [],
     error: null,
     status: null,
   },
@@ -61,6 +63,10 @@ const companySlice = createSlice({
         state.drzave = action.payload;
         state.status = "succeeded";
       })
+      .addCase(fetchBanke.fulfilled, (state, action) => {
+        state.banke = action.payload;
+        state.status = "succeeded";
+      })
       // Pending
       .addCase(createCompany.pending, (state) => {
         state.status = "loading";
@@ -84,6 +90,9 @@ const companySlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchDrzave.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchBanke.pending, (state) => {
         state.status = "loading";
       })
       // Rejected
@@ -116,6 +125,10 @@ const companySlice = createSlice({
         state.error = action.error;
       })
       .addCase(fetchDrzave.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error;
+      })
+      .addCase(fetchBanke.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error;
       });

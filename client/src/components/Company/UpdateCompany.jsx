@@ -7,6 +7,7 @@ import {
   fetchCompanies,
   fetchGradovi,
   fetchDrzave,
+  fetchBanke,
 } from "../../features/companies/companyThunks";
 import { fetchServiceById } from "../../features/services/serviceThunk";
 import { fetchUsers } from "../../features/users/userThunk";
@@ -27,7 +28,6 @@ const socket = io("http://localhost:3001");
 const UpdateCompany = () => {
   const [name, setName] = useState("");
   const [adresa, setAdresa] = useState("");
-  const [drzava, setDrzava] = useState("");
   const [PDVbroj, setPDVbroj] = useState("");
   const [IDbroj, setIDbroj] = useState("");
   const [valuta, setValuta] = useState("");
@@ -43,6 +43,7 @@ const UpdateCompany = () => {
   const [djelatnostNaziv, setDjelatnostNaziv] = useState("");
   const [djelatnostSifra, setDjelatnostSifra] = useState("");
   const [drzavaId, setDrzavaId] = useState(null);
+  const [nazivId, setNazivId] = useState(null);
 
   const { serviceId, companyId } = useParams();
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const UpdateCompany = () => {
   const racuni = useSelector((state) => state.racun.racuni);
   const djelatnost = useSelector((state) => state.djelatnost.djelatnosti);
   const drzave = useSelector((state) => state.company.drzave);
+  const banke = useSelector((state) => state.company.banke);
 
   useEffect(() => {
     if (serviceId) {
@@ -66,6 +68,7 @@ const UpdateCompany = () => {
       dispatch(fetchUsers(service.id));
       dispatch(fetchGradovi());
       dispatch(fetchDrzave());
+      dispatch(fetchBanke());
     }
   }, [service, dispatch]);
 
@@ -154,7 +157,7 @@ const UpdateCompany = () => {
   const handleBankDetailsCreate = (e) => {
     e.preventDefault();
     const racunData = {
-      naziv_banke,
+      nazivId,
       br_racuna,
       devizni,
       companyId,
@@ -306,13 +309,18 @@ const UpdateCompany = () => {
         <div className='bg-white shadow-md rounded-lg p-4'>
           <h2 className='text-2xl font-bold mb-4'>Bank Account Details</h2>
           <form onSubmit={handleBankDetailsCreate} className='space-y-4'>
-            <input
-              type='text'
-              value={naziv_banke}
-              onChange={(e) => setNazivBanke(e.target.value)}
-              placeholder='Bank Name'
+            <select
+              value={nazivId}
+              onChange={(e) => setNazivId(Number(e.target.value))}
               className='w-full p-2 border border-gray-300 rounded'
-            />
+            >
+              <option value=''>Select Banka</option>
+              {banke.map((banka) => (
+                <option key={banka.id} value={banka.id}>
+                  {banka.naziv}
+                </option>
+              ))}
+            </select>
             <input
               type='text'
               value={br_racuna}
@@ -346,9 +354,12 @@ const UpdateCompany = () => {
                   key={racun.id}
                   className='flex justify-between items-center p-2 border-b'
                 >
-                  <span>
-                    {racun.naziv_banke} - {racun.br_racuna}
-                  </span>
+                  {banke.map((banka) => (
+                    <span>
+                      {banka.naziv}- {racun.br_racuna}
+                    </span>
+                  ))}
+
                   <button
                     onClick={() => handleRacunDelete(racun.id)}
                     className='text-red-500 hover:underline'

@@ -1,6 +1,5 @@
 const prisma = require("../prismaClient");
 
-// Controller to get all cities
 const getDrzava = async (req, res) => {
   try {
     const drzave = await prisma.drzave.findMany();
