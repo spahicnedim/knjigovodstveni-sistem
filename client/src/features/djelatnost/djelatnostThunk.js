@@ -26,3 +26,11 @@ export const fetchDjelatnostByCompanyId = createAsyncThunk(
     }
   }
 );
+
+export const fetchDjelatnosti = createAsyncThunk(
+  "djelatnosti/fetchDjelatnosti",
+  async () => {
+    const response = await api.get("/djelatnost");
+    return response.data;
+  }
+);

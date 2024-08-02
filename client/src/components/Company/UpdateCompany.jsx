@@ -22,6 +22,7 @@ import io from "socket.io-client";
 import {
   createOrUpdateDjelatnost,
   fetchDjelatnostByCompanyId,
+  fetchDjelatnosti,
 } from "../../features/djelatnost/djelatnostThunk";
 
 const socket = io("http://localhost:3001");
@@ -45,6 +46,9 @@ const UpdateCompany = () => {
   const [djelatnostSifra, setDjelatnostSifra] = useState("");
   const [drzavaId, setDrzavaId] = useState(null);
   const [nazivId, setNazivId] = useState(null);
+  const [djelatnostId, setDjelatnostId] = useState(null);
+  const [postalCode, setPostalCode] = useState("");
+  const [sifraDjelatnosti, setSifraDjelatnosti] = useState(null);
 
   const { serviceId, companyId } = useParams();
   const dispatch = useDispatch();
@@ -53,9 +57,11 @@ const UpdateCompany = () => {
   const gradovi = useSelector((state) => state.company.gradovi);
   const company = useSelector((state) => state.company.current);
   const racuni = useSelector((state) => state.racun.racuni);
-  const djelatnost = useSelector((state) => state.djelatnost.djelatnosti);
+  const djelatnosti = useSelector((state) => state.djelatnost.djelatnosti);
   const drzave = useSelector((state) => state.company.drzave);
   const banke = useSelector((state) => state.company.banke);
+
+  console.log(djelatnosti.naziv);
 
   useEffect(() => {
     if (serviceId) {
@@ -70,6 +76,7 @@ const UpdateCompany = () => {
       dispatch(fetchGradovi());
       dispatch(fetchDrzave());
       dispatch(fetchBanke());
+      dispatch(fetchDjelatnosti());
     }
   }, [service, dispatch]);
 
@@ -77,7 +84,7 @@ const UpdateCompany = () => {
     if (companyId) {
       dispatch(fetchoneCompany({ serviceId, companyId }));
       dispatch(fetchRacuni(companyId));
-      dispatch(fetchDjelatnostByCompanyId(companyId));
+      // dispatch(fetchDjelatnostByCompanyId(companyId));
     }
   }, [companyId, dispatch]);
 
@@ -95,18 +102,9 @@ const UpdateCompany = () => {
       setWeb(company.web);
       setSjedisteId(Number(company.sjedisteId));
       setDrzavaId(Number(company.drzavaId));
-      setDjelatnostNaziv(djelatnost?.naziv);
-      setDjelatnostSifra(djelatnost?.sifra);
+      setDjelatnostId(Number(company.djelatnostId));
     }
-
-    if (djelatnost) {
-      setDjelatnostNaziv(djelatnost.naziv);
-      setDjelatnostSifra(djelatnost.sifra);
-    } else {
-      setDjelatnostNaziv("");
-      setDjelatnostSifra("");
-    }
-  }, [company, djelatnost]);
+  }, [company]);
 
   const handleCompanyUpdate = (e) => {
     e.preventDefault();
@@ -118,6 +116,7 @@ const UpdateCompany = () => {
       PDVbroj,
       IDbroj,
       valuta,
+      djelatnostId,
       obveznikPDV,
       telefon,
       fax,
@@ -126,18 +125,6 @@ const UpdateCompany = () => {
     };
 
     dispatch(updateCompany({ companyId, companyData }));
-
-    if (djelatnostNaziv && djelatnostSifra) {
-      const decimalSifra = parseFloat(djelatnostSifra);
-
-      dispatch(
-        createOrUpdateDjelatnost({
-          naziv: djelatnostNaziv,
-          sifra: decimalSifra,
-          companyId,
-        })
-      );
-    }
   };
 
   useEffect(() => {
@@ -169,6 +156,26 @@ const UpdateCompany = () => {
   const handleRacunDelete = (id) => {
     dispatch(deleteRacun(id));
   };
+
+  useEffect(() => {
+    if (sjedisteId) {
+      const selectedGrad = gradovi.find((grad) => grad.id === sjedisteId);
+      setPostalCode(selectedGrad ? selectedGrad.postanski_broj : "");
+    } else {
+      setPostalCode("");
+    }
+  }, [sjedisteId, gradovi]);
+
+  useEffect(() => {
+    if (djelatnostId) {
+      const selectedDjelatnost = djelatnosti.find(
+        (djelatnost) => djelatnost.id === djelatnostId
+      );
+      setSifraDjelatnosti(selectedDjelatnost ? selectedDjelatnost.sifra : "");
+    } else {
+      setPostalCode("");
+    }
+  }, [djelatnostId, djelatnosti]);
 
   if (!service) {
     return <div>Loading...</div>;
@@ -213,6 +220,13 @@ const UpdateCompany = () => {
               }
               placeholder='Select City'
               className=''
+            />
+            <input
+              type='text'
+              value={postalCode}
+              readOnly
+              placeholder='Postal Code'
+              className='w-full p-2 border border-gray-300 rounded'
             />
 
             <Select
@@ -296,7 +310,7 @@ const UpdateCompany = () => {
 
             <div className='bg-white shadow-md rounded-lg p-4'>
               <h2 className='text-2xl font-bold mb-4'>Djelatnost Details</h2>
-              <form className='space-y-4'>
+              {/* <form className='space-y-4'>
                 <input
                   type='text'
                   value={djelatnostNaziv}
@@ -312,8 +326,40 @@ const UpdateCompany = () => {
                   placeholder='Djelatnost Sifra'
                   className='w-full p-2 border border-gray-300 rounded'
                 />
-              </form>
+                
+              </form> */}
+              <Select
+                options={djelatnosti.map((djelatnost) => ({
+                  value: djelatnost.id,
+                  label: djelatnost.naziv,
+                }))}
+                value={
+                  djelatnosti.find(
+                    (djelatnost) => djelatnost.id === djelatnostId
+                  )
+                    ? {
+                        value: djelatnostId,
+                        label: djelatnosti.find(
+                          (djelatnost) => djelatnost.id === djelatnostId
+                        ).naziv,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) =>
+                  setDjelatnostId(selectedOption ? selectedOption.value : null)
+                }
+                placeholder='Select Djelatnost'
+                className=''
+              />
+              <input
+                type='text'
+                value={sifraDjelatnosti}
+                readOnly
+                placeholder='Sifra djelatnosti'
+                className='w-full p-2 border border-gray-300 rounded'
+              />
             </div>
+
             <button
               type='submit'
               className='w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600'

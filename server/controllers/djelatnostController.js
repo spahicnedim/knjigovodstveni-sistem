@@ -57,7 +57,18 @@ const getDjelatnostByCompanyId = async (req, res) => {
   }
 };
 
+const getDjelatnosti = async (req, res) => {
+  try {
+    const djelatnost = await prisma.djelatnost.findMany();
+    res.status(200).json(djelatnost);
+  } catch (error) {
+    console.error("Error fetching djelatnost:", error);
+    res.status(500).json({ error: "Error fetching djelatnost" });
+  }
+};
+
 module.exports = {
   createOrUpdateDjelatnost,
   getDjelatnostByCompanyId,
+  getDjelatnosti,
 };
