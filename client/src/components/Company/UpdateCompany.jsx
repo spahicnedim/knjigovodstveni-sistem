@@ -93,8 +93,8 @@ const UpdateCompany = () => {
       setFax(company.fax);
       setEmail(company.email);
       setWeb(company.web);
-      setSjedisteId(company.sjedisteId);
-      setDrzavaId(company.drzavaId);
+      setSjedisteId(Number(company.sjedisteId));
+      setDrzavaId(Number(company.drzavaId));
       setDjelatnostNaziv(djelatnost?.naziv);
       setDjelatnostSifra(djelatnost?.sifra);
     }
@@ -199,12 +199,20 @@ const UpdateCompany = () => {
                 value: grad.id,
                 label: grad.naziv,
               }))}
-              value={gradovi.find((grad) => grad.id === sjedisteId)}
+              value={
+                gradovi.find((grad) => grad.id === sjedisteId)
+                  ? {
+                      value: sjedisteId,
+                      label: gradovi.find((grad) => grad.id === sjedisteId)
+                        .naziv,
+                    }
+                  : null
+              }
               onChange={(selectedOption) =>
                 setSjedisteId(selectedOption ? selectedOption.value : null)
               }
               placeholder='Select City'
-              className='w-full p-2 border border-gray-300 rounded'
+              className=''
             />
 
             <Select
@@ -212,12 +220,20 @@ const UpdateCompany = () => {
                 value: drzava.id,
                 label: drzava.naziv,
               }))}
-              value={drzave.find((drzava) => drzava.id === drzavaId)}
+              value={
+                drzave.find((drzava) => drzava.id === drzavaId)
+                  ? {
+                      value: drzavaId,
+                      label: drzave.find((drzava) => drzava.id === drzavaId)
+                        .naziv,
+                    }
+                  : null
+              }
               onChange={(selectedOption) =>
                 setDrzavaId(selectedOption ? selectedOption.value : null)
               }
               placeholder='Select Drzava'
-              className='w-full p-2 border border-gray-300 rounded'
+              className=''
             />
             <input
               type='text'
@@ -315,12 +331,21 @@ const UpdateCompany = () => {
                 value: banka.id,
                 label: banka.naziv,
               }))}
-              value={banke.find((banka) => banka.id === nazivId)}
+              value={
+                nazivId
+                  ? {
+                      value: nazivId,
+                      label:
+                        banke.find((banka) => banka.id === nazivId)?.naziv ||
+                        "Select Banka",
+                    }
+                  : null
+              }
               onChange={(selectedOption) =>
                 setNazivId(selectedOption ? selectedOption.value : null)
               }
               placeholder='Select Banka'
-              className='w-full p-2 rounded'
+              className=''
             />
             <input
               type='text'
@@ -350,25 +375,30 @@ const UpdateCompany = () => {
           <div className='mt-4'>
             <h3 className='text-xl font-bold'>Existing Bank Accounts</h3>
             <ul className='mt-2'>
-              {racuni.map((racun) => (
-                <li
-                  key={racun.id}
-                  className='flex justify-between items-center p-2 border-b'
-                >
-                  {banke.map((banka) => (
-                    <span>
-                      {banka.naziv}- {racun.br_racuna}
-                    </span>
-                  ))}
-
-                  <button
-                    onClick={() => handleRacunDelete(racun.id)}
-                    className='text-red-500 hover:underline'
+              {racuni.map((racun) => {
+                const banka = banke.find((b) => b.id === racun.nazivId);
+                return (
+                  <li
+                    key={racun.id}
+                    className='flex justify-between items-center p-2 border-b'
                   >
-                    Delete
-                  </button>
-                </li>
-              ))}
+                    <span>
+                      {banka
+                        ? `${banka.naziv} - ${racun.br_racuna}`
+                        : racun.br_racuna}{" "}
+                    </span>
+
+                    <span>Devizni: {racun.devizni ? "Da" : "No"}</span>
+
+                    <button
+                      onClick={() => handleRacunDelete(racun.id)}
+                      className='text-red-500 hover:underline'
+                    >
+                      Delete
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
