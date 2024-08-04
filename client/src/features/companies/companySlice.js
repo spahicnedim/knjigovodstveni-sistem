@@ -9,6 +9,8 @@ import {
   fetchRacuni,
   fetchDrzave,
   fetchBanke,
+  createGrad,
+  createDrzava,
 } from "./companyThunks";
 
 const companySlice = createSlice({
@@ -65,6 +67,14 @@ const companySlice = createSlice({
       })
       .addCase(fetchBanke.fulfilled, (state, action) => {
         state.banke = action.payload;
+        state.status = "succeeded";
+      })
+      .addCase(createGrad.fulfilled, (state, action) => {
+        state.gradovi.push(action.payload);
+        state.status = "succeeded";
+      })
+      .addCase(createDrzava.fulfilled, (state, action) => {
+        state.drzave.push(action.payload);
         state.status = "succeeded";
       })
       // Pending

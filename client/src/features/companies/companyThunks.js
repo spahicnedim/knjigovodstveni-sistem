@@ -96,3 +96,27 @@ export const fetchBanke = createAsyncThunk("banka/fetchBanke", async () => {
   console.log(response.data);
   return response.data;
 });
+
+export const createGrad = createAsyncThunk(
+  "gradovi/createGrad",
+  async (gradData, thunkAPI) => {
+    try {
+      const response = await api.post("/gradovi", gradData);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const createDrzava = createAsyncThunk(
+  "drzave/createDrzava",
+  async (drzavaData, thunkAPI) => {
+    try {
+      const response = await api.post("/drzava", drzavaData);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);

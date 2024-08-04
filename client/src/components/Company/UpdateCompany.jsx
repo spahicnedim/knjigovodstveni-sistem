@@ -19,11 +19,11 @@ import {
 } from "../../features/racuni/racunThunk";
 
 import io from "socket.io-client";
-import {
-  createOrUpdateDjelatnost,
-  fetchDjelatnostByCompanyId,
-  fetchDjelatnosti,
-} from "../../features/djelatnost/djelatnostThunk";
+import { fetchDjelatnosti } from "../../features/djelatnost/djelatnostThunk";
+import Drawer from "../Drawer";
+import GradForm from "./CityForm";
+import DrzavaForm from "./DrzavaForm";
+import DjelatnostForm from "./DjelatnostForm";
 
 const socket = io("http://localhost:3001");
 
@@ -39,16 +39,16 @@ const UpdateCompany = () => {
   const [email, setEmail] = useState("");
   const [web, setWeb] = useState("");
   const [sjedisteId, setSjedisteId] = useState(null);
-  const [naziv_banke, setNazivBanke] = useState("");
   const [br_racuna, setBrRacuna] = useState("");
   const [devizni, setDevizni] = useState(false);
-  const [djelatnostNaziv, setDjelatnostNaziv] = useState("");
-  const [djelatnostSifra, setDjelatnostSifra] = useState("");
   const [drzavaId, setDrzavaId] = useState(null);
   const [nazivId, setNazivId] = useState(null);
   const [djelatnostId, setDjelatnostId] = useState(null);
   const [postalCode, setPostalCode] = useState("");
   const [sifraDjelatnosti, setSifraDjelatnosti] = useState(null);
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState("");
 
   const { serviceId, companyId } = useParams();
   const dispatch = useDispatch();
@@ -61,7 +61,15 @@ const UpdateCompany = () => {
   const drzave = useSelector((state) => state.company.drzave);
   const banke = useSelector((state) => state.company.banke);
 
-  console.log(djelatnosti.naziv);
+  const openDrawer = (content) => {
+    setDrawerContent(content);
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setDrawerContent("");
+  };
 
   useEffect(() => {
     if (serviceId) {
@@ -84,7 +92,6 @@ const UpdateCompany = () => {
     if (companyId) {
       dispatch(fetchoneCompany({ serviceId, companyId }));
       dispatch(fetchRacuni(companyId));
-      // dispatch(fetchDjelatnostByCompanyId(companyId));
     }
   }, [companyId, dispatch]);
 
@@ -201,26 +208,35 @@ const UpdateCompany = () => {
               placeholder='Address'
               className='w-full p-2 border border-gray-300 rounded'
             />
-            <Select
-              options={gradovi.map((grad) => ({
-                value: grad.id,
-                label: grad.naziv,
-              }))}
-              value={
-                gradovi.find((grad) => grad.id === sjedisteId)
-                  ? {
-                      value: sjedisteId,
-                      label: gradovi.find((grad) => grad.id === sjedisteId)
-                        .naziv,
-                    }
-                  : null
-              }
-              onChange={(selectedOption) =>
-                setSjedisteId(selectedOption ? selectedOption.value : null)
-              }
-              placeholder='Select City'
-              className=''
-            />
+            <div className='flex items-center'>
+              <Select
+                options={gradovi.map((grad) => ({
+                  value: grad.id,
+                  label: grad.naziv,
+                }))}
+                value={
+                  gradovi.find((grad) => grad.id === sjedisteId)
+                    ? {
+                        value: sjedisteId,
+                        label: gradovi.find((grad) => grad.id === sjedisteId)
+                          .naziv,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) =>
+                  setSjedisteId(selectedOption ? selectedOption.value : null)
+                }
+                placeholder='Select City'
+                className='flex-grow'
+              />
+              <button
+                type='button'
+                className='ml-2 p-2 bg-blue-500 text-white rounded'
+                onClick={() => openDrawer("city")}
+              >
+                Add Grad
+              </button>
+            </div>
             <input
               type='text'
               value={postalCode}
@@ -228,27 +244,35 @@ const UpdateCompany = () => {
               placeholder='Postal Code'
               className='w-full p-2 border border-gray-300 rounded'
             />
-
-            <Select
-              options={drzave.map((drzava) => ({
-                value: drzava.id,
-                label: drzava.naziv,
-              }))}
-              value={
-                drzave.find((drzava) => drzava.id === drzavaId)
-                  ? {
-                      value: drzavaId,
-                      label: drzave.find((drzava) => drzava.id === drzavaId)
-                        .naziv,
-                    }
-                  : null
-              }
-              onChange={(selectedOption) =>
-                setDrzavaId(selectedOption ? selectedOption.value : null)
-              }
-              placeholder='Select Drzava'
-              className=''
-            />
+            <div className='flex items-center'>
+              <Select
+                options={drzave.map((drzava) => ({
+                  value: drzava.id,
+                  label: drzava.naziv,
+                }))}
+                value={
+                  drzave.find((drzava) => drzava.id === drzavaId)
+                    ? {
+                        value: drzavaId,
+                        label: drzave.find((drzava) => drzava.id === drzavaId)
+                          .naziv,
+                      }
+                    : null
+                }
+                onChange={(selectedOption) =>
+                  setDrzavaId(selectedOption ? selectedOption.value : null)
+                }
+                placeholder='Select Drzava'
+                className=''
+              />
+              <button
+                type='button'
+                className='ml-2 p-2 bg-blue-500 text-white rounded'
+                onClick={() => openDrawer("drzava")}
+              >
+                Add Drzava
+              </button>
+            </div>
             <input
               type='text'
               value={PDVbroj}
@@ -310,54 +334,52 @@ const UpdateCompany = () => {
 
             <div className='bg-white shadow-md rounded-lg p-4'>
               <h2 className='text-2xl font-bold mb-4'>Djelatnost Details</h2>
-              {/* <form className='space-y-4'>
+
+              <div className='flex items-center space-x-4'>
+                <div className='flex-grow'>
+                  <Select
+                    options={djelatnosti.map((djelatnost) => ({
+                      value: djelatnost.id,
+                      label: djelatnost.naziv,
+                    }))}
+                    value={
+                      djelatnosti.find(
+                        (djelatnost) => djelatnost.id === djelatnostId
+                      )
+                        ? {
+                            value: djelatnostId,
+                            label: djelatnosti.find(
+                              (djelatnost) => djelatnost.id === djelatnostId
+                            ).naziv,
+                          }
+                        : null
+                    }
+                    onChange={(selectedOption) =>
+                      setDjelatnostId(
+                        selectedOption ? selectedOption.value : null
+                      )
+                    }
+                    placeholder='Select Djelatnost'
+                    className='w-full'
+                  />
+                </div>
+
                 <input
                   type='text'
-                  value={djelatnostNaziv}
-                  onChange={(e) => setDjelatnostNaziv(e.target.value)}
-                  placeholder='Djelatnost Naziv'
-                  className='w-full p-2 border border-gray-300 rounded'
+                  value={sifraDjelatnosti}
+                  readOnly
+                  placeholder='Sifra djelatnosti'
+                  className='w-32 p-2 border border-gray-300 rounded'
                 />
-                <input
-                  type='number'
-                  step='0.01'
-                  value={djelatnostSifra}
-                  onChange={(e) => setDjelatnostSifra(e.target.value)}
-                  placeholder='Djelatnost Sifra'
-                  className='w-full p-2 border border-gray-300 rounded'
-                />
-                
-              </form> */}
-              <Select
-                options={djelatnosti.map((djelatnost) => ({
-                  value: djelatnost.id,
-                  label: djelatnost.naziv,
-                }))}
-                value={
-                  djelatnosti.find(
-                    (djelatnost) => djelatnost.id === djelatnostId
-                  )
-                    ? {
-                        value: djelatnostId,
-                        label: djelatnosti.find(
-                          (djelatnost) => djelatnost.id === djelatnostId
-                        ).naziv,
-                      }
-                    : null
-                }
-                onChange={(selectedOption) =>
-                  setDjelatnostId(selectedOption ? selectedOption.value : null)
-                }
-                placeholder='Select Djelatnost'
-                className=''
-              />
-              <input
-                type='text'
-                value={sifraDjelatnosti}
-                readOnly
-                placeholder='Sifra djelatnosti'
-                className='w-full p-2 border border-gray-300 rounded'
-              />
+
+                <button
+                  type='button'
+                  className='p-2 bg-blue-500 text-white rounded'
+                  onClick={() => openDrawer("djelatnost")}
+                >
+                  Add Djelatnost
+                </button>
+              </div>
             </div>
 
             <button
@@ -449,6 +471,12 @@ const UpdateCompany = () => {
           </div>
         </div>
       </div>
+      <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+        {drawerContent === "city" && <GradForm />}
+        {drawerContent === "drzava" && <DrzavaForm />}
+        {drawerContent === "djelatnost" && <DjelatnostForm />}
+        {/* Other forms as needed */}
+      </Drawer>
     </div>
   );
 };

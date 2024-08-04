@@ -10,6 +10,27 @@ const getDrzava = async (req, res) => {
   }
 };
 
+const createDrzava = async (req, res) => {
+  const { naziv } = req.body;
+
+  try {
+    const drzava = await prisma.drzave.create({
+      data: {
+        naziv,
+      },
+    });
+
+    res.status(201).json({ drzava });
+  } catch (error) {
+    console.error("Error creating Drzava:", error);
+    res.status(400).json({
+      error: "Error creating Drzava",
+      details: error.message,
+    });
+  }
+};
+
 module.exports = {
   getDrzava,
+  createDrzava,
 };

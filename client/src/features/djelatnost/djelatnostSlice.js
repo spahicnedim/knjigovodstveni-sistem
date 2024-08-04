@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createOrUpdateDjelatnost,
-  fetchDjelatnostByCompanyId,
   fetchDjelatnosti,
+  createDjelatnost,
 } from "./djelatnostThunk";
 
 const djelatnostSlice = createSlice({
@@ -40,6 +40,14 @@ const djelatnostSlice = createSlice({
         state.djelatnosti = action.payload;
       })
       .addCase(fetchDjelatnosti.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(createDjelatnost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.djelatnosti.push(action.payload);
+      })
+      .addCase(createDjelatnost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

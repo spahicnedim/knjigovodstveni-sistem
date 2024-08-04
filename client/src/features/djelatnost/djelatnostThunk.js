@@ -34,3 +34,15 @@ export const fetchDjelatnosti = createAsyncThunk(
     return response.data;
   }
 );
+
+export const createDjelatnost = createAsyncThunk(
+  "djelatnosti/createDjelatnost",
+  async (djelatnost, thunkAPI) => {
+    try {
+      const response = await api.post("/djelatnost", djelatnost);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
