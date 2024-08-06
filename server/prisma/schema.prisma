@@ -22,6 +22,10 @@ model Service {
   employees User[]    @relation("ServiceEmployees")
 }
 
+//**********************************************************************************************************************
+
+// FIRME
+
 model Company {
   id              Int              @id @default(autoincrement())
   name            String?
@@ -45,6 +49,7 @@ model Company {
   serviceId       Int
   workers         User[]           @relation("CompanyWorkers")
   kupciDobavljaci KupacDobavljac[]
+  poslovnice      Poslovnice[]
 }
 
 model KupacDobavljac {
@@ -72,12 +77,28 @@ model KupacDobavljac {
   company      Company     @relation(fields: [companyId], references: [id])
 }
 
+model Poslovnice {
+  id         Int      @id @default(autoincrement())
+  naziv      String?
+  adresa     String?
+  IDbroj     String?
+  sjedisteId Int?
+  sjediste   Gradovi? @relation(fields: [sjedisteId], references: [id])
+  racun      Racun[]
+  companyId  Int
+  company    Company  @relation(fields: [companyId], references: [id])
+}
+
+// *********************************************************************************************************************
+// POMOCNE TABELE
+
 model Gradovi {
   id             Int              @id @default(autoincrement())
   naziv          String
   postanski_broj Int
   company        Company[]
   kupacDobavljac KupacDobavljac[]
+  poslovnice     Poslovnice[]
 }
 
 model Drzave {
@@ -99,6 +120,9 @@ model Racun {
 
   kupacDobavljacID Int
   kupacDobavljac   KupacDobavljac @relation(fields: [kupacDobavljacID], references: [id])
+
+  poslovnicaID Int
+  poslovnica   Poslovnice @relation(fields: [poslovnicaID], references: [id])
 }
 
 model Banke {
@@ -115,6 +139,10 @@ model Djelatnost {
   company        Company[]
   kupacDobavljac KupacDobavljac[]
 }
+
+// *********************************************************************************************************************
+
+// KORISNICI
 
 model User {
   id           Int       @id @default(autoincrement())
