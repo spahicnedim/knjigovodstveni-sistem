@@ -50,6 +50,7 @@ model Company {
   workers         User[]           @relation("CompanyWorkers")
   kupciDobavljaci KupacDobavljac[]
   poslovnice      Poslovnice[]
+  skladista       Skladiste[]
 }
 
 model KupacDobavljac {
@@ -78,15 +79,28 @@ model KupacDobavljac {
 }
 
 model Poslovnice {
-  id         Int      @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   naziv      String?
   adresa     String?
   IDbroj     String?
   sjedisteId Int?
-  sjediste   Gradovi? @relation(fields: [sjedisteId], references: [id])
+  sjediste   Gradovi?    @relation(fields: [sjedisteId], references: [id])
   racun      Racun[]
   companyId  Int
-  company    Company  @relation(fields: [companyId], references: [id])
+  company    Company     @relation(fields: [companyId], references: [id])
+  skladista  Skladiste[]
+}
+
+model Skladiste {
+  id    Int     @id @default(autoincrement())
+  naziv String?
+  sifra String?
+
+  poslovnicaId Int
+  poslovnica   Poslovnice @relation(fields: [poslovnicaId], references: [id])
+
+  companyId Int
+  company   Company @relation(fields: [companyId], references: [id])
 }
 
 // *********************************************************************************************************************
