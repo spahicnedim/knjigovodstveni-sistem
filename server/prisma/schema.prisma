@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" 
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,80 +23,110 @@ model Service {
 }
 
 model Company {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  adresa String?
-  sjedisteId Int? 
-  sjediste Gradovi? @relation(fields: [sjedisteId], references: [id]) // provjeriti ovo
-  drzavaId Int?
-  drzava Drzave? @relation(fields: [drzavaId], references: [id])
-  PDVbroj String?  // jedinstven
-  IDbroj String? // jedinstven
-  valuta String?
-  djelatnostId Int?
-  djelatnost Djelatnost? @relation(fields: [djelatnostId], references: [id])
-  obveznikPDV Boolean?
-  telefon String?
-  fax String?
-  email String?
-  web String?
-  racun Racun[] @relation("Racun")//ide referenca
-  service   Service  @relation(fields: [serviceId], references: [id])
-  serviceId Int
-  workers   User[]   @relation("CompanyWorkers")
+  id              Int              @id @default(autoincrement())
+  name            String?
+  adresa          String?
+  sjedisteId      Int?
+  sjediste        Gradovi?         @relation(fields: [sjedisteId], references: [id]) // provjeriti ovo
+  drzavaId        Int?
+  drzava          Drzave?          @relation(fields: [drzavaId], references: [id])
+  PDVbroj         String? // jedinstven
+  IDbroj          String? // jedinstven
+  valuta          String?
+  djelatnostId    Int?
+  djelatnost      Djelatnost?      @relation(fields: [djelatnostId], references: [id])
+  obveznikPDV     Boolean?
+  telefon         String?
+  fax             String?
+  email           String?
+  web             String?
+  racun           Racun[]          @relation("Racun") // ide referenca
+  service         Service          @relation(fields: [serviceId], references: [id])
+  serviceId       Int
+  workers         User[]           @relation("CompanyWorkers")
+  kupciDobavljaci KupacDobavljac[]
 }
 
-
+model KupacDobavljac {
+  id           Int         @id @default(autoincrement())
+  name         String?
+  adresa       String?
+  sjedisteId   Int?
+  sjediste     Gradovi?    @relation(fields: [sjedisteId], references: [id])
+  drzavaId     Int?
+  drzava       Drzave?     @relation(fields: [drzavaId], references: [id])
+  PDVbroj      String?
+  IDbroj       String?
+  valuta       String?
+  djelatnostId Int?
+  djelatnost   Djelatnost? @relation(fields: [djelatnostId], references: [id])
+  obveznikPDV  Boolean?
+  telefon      String?
+  fax          String?
+  email        String?
+  web          String?
+  racun        Racun[]
+  kupac        Boolean?
+  dobavljac    Boolean?
+  companyId    Int
+  company      Company     @relation(fields: [companyId], references: [id])
+}
 
 model Gradovi {
-  id Int @id @default(autoincrement())
-  naziv String
+  id             Int              @id @default(autoincrement())
+  naziv          String
   postanski_broj Int
-  company Company[]
+  company        Company[]
+  kupacDobavljac KupacDobavljac[]
 }
 
 model Drzave {
-  id Int @id @default(autoincrement())
-  naziv String
-  company Company[]
+  id             Int              @id @default(autoincrement())
+  naziv          String
+  company        Company[]
+  kupacDobavljac KupacDobavljac[]
 }
 
 model Racun {
-  id Int @id @default(autoincrement())
-  nazivId Int
-  banka Banke @relation(fields: [nazivId], references: [id])
+  id        Int     @id @default(autoincrement())
+  nazivId   Int
+  banka     Banke   @relation(fields: [nazivId], references: [id])
   br_racuna String
-  devizni Boolean
+  devizni   Boolean
 
   companyId Int
-  company Company @relation("Racun", fields: [companyId], references: [id])
+  company   Company @relation("Racun", fields: [companyId], references: [id])
+
+  kupacDobavljacID Int
+  kupacDobavljac   KupacDobavljac @relation(fields: [kupacDobavljacID], references: [id])
 }
 
 model Banke {
-  id Int @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   naziv String
 
   racun Racun[]
 }
 
 model Djelatnost {
-  id Int @id @default(autoincrement())
-  naziv String
-  sifra      Decimal  @db.Decimal(10, 2)
-  company Company[]
+  id             Int              @id @default(autoincrement())
+  naziv          String
+  sifra          Decimal          @db.Decimal(10, 2)
+  company        Company[]
+  kupacDobavljac KupacDobavljac[]
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  password  String
-  username String
-  roleId      Int
-  role        Role      @relation(fields: [roleId], references: [id])
-  ownedService  Service?  @relation("ServiceOwner")
-  service   Service?  @relation("ServiceEmployees", fields: [serviceId], references: [id])
-  serviceId Int?
-  companies Company[] @relation("CompanyWorkers")
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  password     String
+  username     String
+  roleId       Int
+  role         Role      @relation(fields: [roleId], references: [id])
+  ownedService Service?  @relation("ServiceOwner")
+  service      Service?  @relation("ServiceEmployees", fields: [serviceId], references: [id])
+  serviceId    Int?
+  companies    Company[] @relation("CompanyWorkers")
 }
 
 model Role {
