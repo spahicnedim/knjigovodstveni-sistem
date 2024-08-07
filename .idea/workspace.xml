@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/controllers/poslovniceController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routes/poslovniceRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/skladisteController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +83,7 @@
       <workItem from="1722932723906" duration="195000" />
       <workItem from="1722963472098" duration="776000" />
       <workItem from="1722965034316" duration="8337000" />
-      <workItem from="1723048735964" duration="3520000" />
+      <workItem from="1723048735964" duration="3981000" />
     </task>
     <servers />
   </component>

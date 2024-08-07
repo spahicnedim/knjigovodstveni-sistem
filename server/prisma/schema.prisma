@@ -96,45 +96,45 @@ model Skladiste {
   naziv String?
   sifra String?
 
-  poslovnicaId Int
-  poslovnica   Poslovnice @relation(fields: [poslovnicaId], references: [id])
+  poslovnicaId Int?
+  poslovnica   Poslovnice? @relation(fields: [poslovnicaId], references: [id])
 
-  companyId Int
-  company   Company @relation(fields: [companyId], references: [id])
+  companyId Int?
+  company   Company? @relation(fields: [companyId], references: [id])
 
   skladisteArtikli SkladisteArtikli[]
-  izTransferi   Transferi[] @relation("IzSkladista")
-  uTransferi    Transferi[] @relation("USkladista")
+  izTransferi      Transferi[]        @relation("IzSkladista")
+  uTransferi       Transferi[]        @relation("USkladista")
 }
 
 model Artikli {
-  id Int @id @default(autoincrement())
-  naziv String
-  sifra String @unique
-  jedinicaMjere String
+  id               Int                @id @default(autoincrement())
+  naziv            String
+  sifra            String             @unique
+  jedinicaMjere    String
   skladisteArtikli SkladisteArtikli[]
-  transfer Transferi[]
+  transfer         Transferi[]
 }
 
 model SkladisteArtikli {
-  id Int @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   skladisteId Int
-  skladiste Skladiste @relation(fields: [skladisteId], references: [id])
-  artikliId Int
-  artikli Artikli @relation(fields: [artikliId], references: [id])
-  kolicina Decimal @db.Decimal(10, 2)
+  skladiste   Skladiste @relation(fields: [skladisteId], references: [id])
+  artikliId   Int
+  artikli     Artikli   @relation(fields: [artikliId], references: [id])
+  kolicina    Decimal   @db.Decimal(10, 2)
 }
 
 model Transferi {
-  id Int @id @default(autoincrement())
-  artikliId Int
-  artikli Artikli @relation(fields: [artikliId], references: [id])
-  izSkladisteId Int
-  izskladiste Skladiste @relation("IzSkladista", fields: [izSkladisteId], references: [id])
-  uSkladisteId Int
-  uSkladiste Skladiste @relation("USkladista", fields: [uSkladisteId], references: [id])
-  kolicina Decimal @db.Decimal(10, 2)
-  datumTransfera DateTime @default(now())
+  id             Int       @id @default(autoincrement())
+  artikliId      Int
+  artikli        Artikli   @relation(fields: [artikliId], references: [id])
+  izSkladisteId  Int
+  izskladiste    Skladiste @relation("IzSkladista", fields: [izSkladisteId], references: [id])
+  uSkladisteId   Int
+  uSkladiste     Skladiste @relation("USkladista", fields: [uSkladisteId], references: [id])
+  kolicina       Decimal   @db.Decimal(10, 2)
+  datumTransfera DateTime  @default(now())
 }
 
 // *********************************************************************************************************************
