@@ -17,6 +17,7 @@ const kupacDobavljacRoute = require("./routes/kupacDobavljacRoutes");
 const poslovniceRoute = require("./routes/poslovniceRoutes");
 const skladisteRoute = require("./routes/skladisteRoutes");
 const artikliRoute = require("./routes/artikliRoutes");
+const transferRoute = require("./routes/transferRoutes");
 
 dotenv.config();
 
@@ -40,7 +41,8 @@ app.use("/api/banke", bankeRoute);
 app.use("/api/kupacDobavljac", kupacDobavljacRoute)
 app.use("/api/poslovnice", poslovniceRoute);
 app.use("/api/skladiste", skladisteRoute);
-app.use("/api/artikli", artikliRoute)
+app.use("/api/artikli", artikliRoute);
+app.use("/api/transfer", transferRoute);
 
 const PORT = process.env.PORT || 3000;
 

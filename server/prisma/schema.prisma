@@ -123,6 +123,8 @@ model SkladisteArtikli {
   artikliId   Int
   artikli     Artikli   @relation(fields: [artikliId], references: [id])
   kolicina    Decimal   @db.Decimal(10, 2)
+
+  @@unique([skladisteId, artikliId])
 }
 
 model Transferi {

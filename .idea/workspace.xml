@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="skladiste controller and routes">
-      <change afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routes/artikliRoutes.js" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="artikli controller and routes">
+      <change afterPath="$PROJECT_DIR$/server/controllers/transferController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240807204119_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/transferRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +88,7 @@
       <workItem from="1722932723906" duration="195000" />
       <workItem from="1722963472098" duration="776000" />
       <workItem from="1722965034316" duration="8337000" />
-      <workItem from="1723048735964" duration="5653000" />
+      <workItem from="1723048735964" duration="7553000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -96,7 +98,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723060656069</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="artikli controller and routes">
+      <option name="closed" value="true" />
+      <created>1723062207477</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1723062207477</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,6 +126,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="skladiste controller and routes" />
-    <option name="LAST_COMMIT_MESSAGE" value="skladiste controller and routes" />
+    <MESSAGE value="artikli controller and routes" />
+    <option name="LAST_COMMIT_MESSAGE" value="artikli controller and routes" />
   </component>
 </project>
