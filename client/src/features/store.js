@@ -7,6 +7,8 @@ import serviceReducer from "./services/serviceSlice";
 import userReducer from "./users/userSlice";
 import racunReducer from "./racuni/racunSlice";
 import djelatnostReducer from "./djelatnost/djelatnostSlice";
+import kupacDobavljacReducer from "./kupacDobavljac/kupacDobavljacSlice.js";
+import gradReducer from "./gradovi/gradSlice.js";
 
 const persistConfig = {
   key: "auth", // Specify a different key for each reducer
@@ -45,6 +47,8 @@ const store = configureStore({
     users: persistedUserReducer,
     racun: persistedRacunReducer,
     djelatnost: djelatnostReducer,
+    kupacDobavljac: kupacDobavljacReducer,
+    grad: gradReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

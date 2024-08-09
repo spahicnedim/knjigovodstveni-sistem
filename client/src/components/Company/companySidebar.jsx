@@ -59,6 +59,13 @@ const CompanySidebar = () => {
               Dodaj Firmu
             </MenuItem>
             <MenuItem
+                component={<Link to='dashboard/dodaj-kupacDobavljac' />}
+                icon={<FaBuilding />}
+                className='text-white hover:text-black'
+            >
+              Dodaj Kupca/Dobavljaca
+            </MenuItem>
+            <MenuItem
               component={<Link to='dashboard/prava-zaposlenih' />}
               icon={<FaUser />}
               className='text-white hover:text-black'

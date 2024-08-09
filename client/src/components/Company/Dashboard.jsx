@@ -1,8 +1,8 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import UpdateCompany from "./UpdateCompany";
 import AssignRadnici from "./AssignRadici";
 import CreateRadnici from "./CreateRadnici";
+import KupacDobavljac from "./KupacDobavljac.jsx";
 
 const Dashboard = () => {
   return (
@@ -11,6 +11,11 @@ const Dashboard = () => {
         <Route
           path='dodaj-firmu'
           element={<UpdateCompany />}
+          allowedRoles={[1, 3]}
+        />
+        <Route
+          path={'dodaj-kupacDobavljac'}
+          element={<KupacDobavljac />}
           allowedRoles={[1, 3]}
         />
         <Route

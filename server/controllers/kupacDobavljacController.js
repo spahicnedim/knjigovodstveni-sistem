@@ -38,7 +38,7 @@ const createKupacDobavljac = async (req, res) => {
                 web: web || null,
                 kupac: kupac !== undefined ? kupac : null,
                 dobavljac: dobavljac !== undefined ? dobavljac : null,
-                companyId
+                companyId: parseInt(companyId)
             },
         });
 
