@@ -4,19 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="transfer controller and routes">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/KupacDobavljac.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/gradovi/gradSlice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/gradovi/gradThunk.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/kupacDobavljac/kupacDobavljacSlice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/kupacDobavljac/kupacDobavljacThunk.js" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="added kupacDobavljac form and gradovi redux">
+      <change afterPath="$PROJECT_DIR$/client/src/features/banke/bankaSlice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/banke/bankaThunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/drzave/DrzavaThunk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/drzave/drzavaSlice.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/CityForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/CityForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/DrzavaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/DrzavaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KupacDobavljac.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KupacDobavljac.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Servis/CreateCompany.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Servis/CreateCompany.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/companies/companySlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/companies/companySlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/companies/companyThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/companies/companyThunks.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/features/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/kupacDobavljacController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/kupacDobavljacController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +99,7 @@
       <workItem from="1723048735964" duration="8040000" />
       <workItem from="1723128001819" duration="176000" />
       <workItem from="1723129739552" duration="176000" />
-      <workItem from="1723182068058" duration="4565000" />
+      <workItem from="1723182068058" duration="6309000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -124,7 +125,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723064136945</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added kupacDobavljac form and gradovi redux">
+      <option name="closed" value="true" />
+      <created>1723186779796</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1723186779796</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,6 +155,7 @@
     <MESSAGE value="skladiste controller and routes" />
     <MESSAGE value="artikli controller and routes" />
     <MESSAGE value="transfer controller and routes" />
-    <option name="LAST_COMMIT_MESSAGE" value="transfer controller and routes" />
+    <MESSAGE value="added kupacDobavljac form and gradovi redux" />
+    <option name="LAST_COMMIT_MESSAGE" value="added kupacDobavljac form and gradovi redux" />
   </component>
 </project>

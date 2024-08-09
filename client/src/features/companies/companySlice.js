@@ -3,14 +3,7 @@ import {
   createCompany,
   fetchCompanies,
   fetchoneCompany,
-  fetchGradovi,
   updateCompany,
-  createRacun,
-  fetchRacuni,
-  fetchDrzave,
-  fetchBanke,
-  createGrad,
-  createDrzava,
 } from "./companyThunks";
 
 const companySlice = createSlice({
@@ -18,10 +11,6 @@ const companySlice = createSlice({
   initialState: {
     companies: [],
     current: null,
-    gradovi: [],
-    racuni: [],
-    drzave: [],
-    banke: [],
     error: null,
     status: null,
   },
@@ -49,34 +38,6 @@ const companySlice = createSlice({
         state.companies = action.payload;
         state.status = "succeeded";
       })
-      .addCase(fetchGradovi.fulfilled, (state, action) => {
-        state.gradovi = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(createRacun.fulfilled, (state, action) => {
-        state.racuni.push(action.payload);
-        state.status = "succeeded";
-      })
-      .addCase(fetchRacuni.fulfilled, (state, action) => {
-        state.racuni = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(fetchDrzave.fulfilled, (state, action) => {
-        state.drzave = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(fetchBanke.fulfilled, (state, action) => {
-        state.banke = action.payload;
-        state.status = "succeeded";
-      })
-      .addCase(createGrad.fulfilled, (state, action) => {
-        state.gradovi.push(action.payload);
-        state.status = "succeeded";
-      })
-      .addCase(createDrzava.fulfilled, (state, action) => {
-        state.drzave.push(action.payload);
-        state.status = "succeeded";
-      })
       // Pending
       .addCase(createCompany.pending, (state) => {
         state.status = "loading";
@@ -88,21 +49,6 @@ const companySlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchCompanies.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchGradovi.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(createRacun.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchRacuni.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchDrzave.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchBanke.pending, (state) => {
         state.status = "loading";
       })
       // Rejected
@@ -122,26 +68,6 @@ const companySlice = createSlice({
         state.status = "failed";
         state.error = action.error;
       })
-      .addCase(fetchGradovi.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error;
-      })
-      .addCase(createRacun.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error;
-      })
-      .addCase(fetchRacuni.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error;
-      })
-      .addCase(fetchDrzave.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error;
-      })
-      .addCase(fetchBanke.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error;
-      });
   },
 });
 

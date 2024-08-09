@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createDrzava } from "../../features/companies/companyThunks";
+import { createDrzava } from "../../features/drzave/DrzavaThunk.js";
 import { useParams } from "react-router-dom";
 
 const DrzavaForm = () => {

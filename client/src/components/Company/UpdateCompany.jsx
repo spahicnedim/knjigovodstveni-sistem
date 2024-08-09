@@ -6,10 +6,10 @@ import {
   updateCompany,
   fetchoneCompany,
   fetchCompanies,
-  fetchDrzave,
-  fetchBanke,
 } from "../../features/companies/companyThunks";
 import {fetchGradovi} from "../../features/gradovi/gradThunk.js"
+import {fetchDrzave} from "../../features/drzave/DrzavaThunk.js"
+import {fetchBanke} from "../../features/banke/bankaThunk.js"
 import { fetchServiceById } from "../../features/services/serviceThunk";
 import { fetchUsers } from "../../features/users/userThunk";
 import {
@@ -58,8 +58,8 @@ const UpdateCompany = () => {
   const company = useSelector((state) => state.company.current);
   const racuni = useSelector((state) => state.racun.racuni);
   const djelatnosti = useSelector((state) => state.djelatnost.djelatnosti);
-  const drzave = useSelector((state) => state.company.drzave);
-  const banke = useSelector((state) => state.company.banke);
+  const drzave = useSelector((state) => state.drzava.drzave);
+  const banke = useSelector((state) => state.banka.banke);
 
   const openDrawer = (content) => {
     setDrawerContent(content);

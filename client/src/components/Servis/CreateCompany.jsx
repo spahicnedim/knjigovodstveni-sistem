@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
   createCompany,
   fetchCompanies,
-  fetchGradovi,
 } from "../../features/companies/companyThunks";
 import { fetchServiceById } from "../../features/services/serviceThunk";
 import { fetchUsers } from "../../features/users/userThunk";
@@ -27,7 +26,6 @@ const CreateCompany = () => {
   const dispatch = useDispatch();
   const service = useSelector((state) => state.service.current);
   const user = useSelector((state) => state.auth.user);
-  // const gradovi = useSelector((state) => state.company.gradovi);
 
   useEffect(() => {
     if (id) {

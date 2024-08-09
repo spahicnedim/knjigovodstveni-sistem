@@ -6,11 +6,9 @@ import {
     createKupacDobavljac,
     updateKupacDobavljac,
 } from "../../features/kupacDobavljac/kupacDobavljacThunk";
-import {
-    fetchGradovi,
-    fetchDrzave,
-    fetchBanke,
-} from "../../features/companies/companyThunks";
+import {fetchBanke} from "../../features/banke/bankaThunk.js"
+import {fetchGradovi} from "../../features/gradovi/gradThunk.js"
+import {fetchDrzave} from "../../features/drzave/DrzavaThunk.js"
 import { fetchServiceById } from "../../features/services/serviceThunk";
 import { fetchUsers } from "../../features/users/userThunk";
 import {
@@ -55,12 +53,12 @@ const KupacDobavljacForm = () => {
     const dispatch = useDispatch();
     const service = useSelector((state) => state.service.current);
     const user = useSelector((state) => state.auth.user);
-    const gradovi = useSelector((state) => state.company.gradovi);
+    const gradovi = useSelector((state) => state.grad.gradovi);
     const company = useSelector((state) => state.company.current);
     const racuni = useSelector((state) => state.racun.racuni);
     const djelatnosti = useSelector((state) => state.djelatnost.djelatnosti);
-    const drzave = useSelector((state) => state.company.drzave);
-    const banke = useSelector((state) => state.company.banke);
+    const drzave = useSelector((state) => state.drzava.drzave);
+    const banke = useSelector((state) => state.banka.banke);
     const kupacDobavljac = useSelector((state) => state.kupacDobavljac.kupciDobavljaci);
 
     const openDrawer = (content) => {
