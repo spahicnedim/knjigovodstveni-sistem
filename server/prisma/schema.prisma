@@ -51,6 +51,8 @@ model Company {
   kupciDobavljaci KupacDobavljac[]
   poslovnice      Poslovnice[]
   skladista       Skladiste[]
+  knjige          Knjige[]
+  dokumenti       Dokumenti[]
 }
 
 model KupacDobavljac {
@@ -89,6 +91,7 @@ model Poslovnice {
   companyId  Int
   company    Company     @relation(fields: [companyId], references: [id])
   skladista  Skladiste[]
+  dokumenti  Dokumenti[]
 }
 
 model Skladiste {
@@ -105,6 +108,7 @@ model Skladiste {
   skladisteArtikli SkladisteArtikli[]
   izTransferi      Transferi[]        @relation("IzSkladista")
   uTransferi       Transferi[]        @relation("USkladista")
+  dokumenti        Dokumenti[]
 }
 
 model Artikli {
@@ -114,6 +118,8 @@ model Artikli {
   jedinicaMjere    String
   skladisteArtikli SkladisteArtikli[]
   transfer         Transferi[]
+  Godine           Godine?            @relation(fields: [godineId], references: [id])
+  godineId         Int?
 }
 
 model SkladisteArtikli {
@@ -123,6 +129,8 @@ model SkladisteArtikli {
   artikliId   Int
   artikli     Artikli   @relation(fields: [artikliId], references: [id])
   kolicina    Decimal   @db.Decimal(10, 2)
+  Godine      Godine?   @relation(fields: [godineId], references: [id])
+  godineId    Int?
 
   @@unique([skladisteId, artikliId])
 }
@@ -188,6 +196,43 @@ model Djelatnost {
   sifra          Decimal          @db.Decimal(10, 2)
   company        Company[]
   kupacDobavljac KupacDobavljac[]
+}
+
+// GODINE
+
+model Godine {
+  id    Int @id @default(autoincrement())
+  naziv Int @unique
+
+  skladisteArtikli SkladisteArtikli[]
+  artikli          Artikli[]
+  dokumenti        Dokumenti[]
+  knjige           Knjige[]
+}
+
+// Knjige i dokumenti
+
+model Dokumenti {
+  id           Int         @id @default(autoincrement())
+  naziv        String
+  datum        DateTime    @default(now())
+  Godine       Godine?     @relation(fields: [godineId], references: [id])
+  godineId     Int?
+  Company      Company?    @relation(fields: [companyId], references: [id])
+  companyId    Int?
+  Poslovnice   Poslovnice? @relation(fields: [poslovniceId], references: [id])
+  poslovniceId Int?
+  Skladiste    Skladiste?  @relation(fields: [skladisteId], references: [id])
+  skladisteId  Int?
+}
+
+model Knjige {
+  id        Int      @id @default(autoincrement())
+  naziv     String
+  Godine    Godine?  @relation(fields: [godineId], references: [id])
+  godineId  Int?
+  Company   Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
 }
 
 // *********************************************************************************************************************

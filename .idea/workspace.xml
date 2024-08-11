@@ -4,20 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="added kupacDobavljac form and gradovi redux">
-      <change afterPath="$PROJECT_DIR$/client/src/features/banke/bankaSlice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/banke/bankaThunk.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/drzave/DrzavaThunk.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/drzave/drzavaSlice.js" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="redux organized">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/CityForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/CityForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/DrzavaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/DrzavaForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KupacDobavljac.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KupacDobavljac.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Servis/CreateCompany.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Servis/CreateCompany.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/companies/companySlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/companies/companySlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/companies/companyThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/companies/companyThunks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,24 +34,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ReactCreateComponentLastSelected": "arrowFunctionComponent",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ReactCreateComponentLastSelected&quot;: &quot;arrowFunctionComponent&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -99,7 +88,8 @@
       <workItem from="1723048735964" duration="8040000" />
       <workItem from="1723128001819" duration="176000" />
       <workItem from="1723129739552" duration="176000" />
-      <workItem from="1723182068058" duration="6309000" />
+      <workItem from="1723182068058" duration="6454000" />
+      <workItem from="1723392405899" duration="2513000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -133,7 +123,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723186779796</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="redux organized">
+      <option name="closed" value="true" />
+      <created>1723188542979</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1723188542979</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,6 +154,7 @@
     <MESSAGE value="artikli controller and routes" />
     <MESSAGE value="transfer controller and routes" />
     <MESSAGE value="added kupacDobavljac form and gradovi redux" />
-    <option name="LAST_COMMIT_MESSAGE" value="added kupacDobavljac form and gradovi redux" />
+    <MESSAGE value="redux organized" />
+    <option name="LAST_COMMIT_MESSAGE" value="redux organized" />
   </component>
 </project>
