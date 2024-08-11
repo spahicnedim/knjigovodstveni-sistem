@@ -53,45 +53,51 @@ model Company {
   skladista       Skladiste[]
   knjige          Knjige[]
   dokumenti       Dokumenti[]
+  SjedisteFirme   SjedisteFirme?   @relation(fields: [sjedisteFirmeId], references: [id])
+  sjedisteFirmeId Int?
 }
 
 model KupacDobavljac {
-  id           Int         @id @default(autoincrement())
-  name         String?
-  adresa       String?
-  sjedisteId   Int?
-  sjediste     Gradovi?    @relation(fields: [sjedisteId], references: [id])
-  drzavaId     Int?
-  drzava       Drzave?     @relation(fields: [drzavaId], references: [id])
-  PDVbroj      String?
-  IDbroj       String?
-  valuta       String?
-  djelatnostId Int?
-  djelatnost   Djelatnost? @relation(fields: [djelatnostId], references: [id])
-  obveznikPDV  Boolean?
-  telefon      String?
-  fax          String?
-  email        String?
-  web          String?
-  racun        Racun[]
-  kupac        Boolean?
-  dobavljac    Boolean?
-  companyId    Int
-  company      Company     @relation(fields: [companyId], references: [id])
+  id              Int            @id @default(autoincrement())
+  name            String?
+  adresa          String?
+  sjedisteId      Int?
+  sjediste        Gradovi?       @relation(fields: [sjedisteId], references: [id])
+  drzavaId        Int?
+  drzava          Drzave?        @relation(fields: [drzavaId], references: [id])
+  PDVbroj         String?
+  IDbroj          String?
+  valuta          String?
+  djelatnostId    Int?
+  djelatnost      Djelatnost?    @relation(fields: [djelatnostId], references: [id])
+  obveznikPDV     Boolean?
+  telefon         String?
+  fax             String?
+  email           String?
+  web             String?
+  racun           Racun[]
+  kupac           Boolean?
+  dobavljac       Boolean?
+  companyId       Int
+  company         Company        @relation(fields: [companyId], references: [id])
+  SjedisteFirme   SjedisteFirme? @relation(fields: [sjedisteFirmeId], references: [id])
+  sjedisteFirmeId Int?
 }
 
 model Poslovnice {
-  id         Int         @id @default(autoincrement())
-  naziv      String?
-  adresa     String?
-  IDbroj     String?
-  sjedisteId Int?
-  sjediste   Gradovi?    @relation(fields: [sjedisteId], references: [id])
-  racun      Racun[]
-  companyId  Int
-  company    Company     @relation(fields: [companyId], references: [id])
-  skladista  Skladiste[]
-  dokumenti  Dokumenti[]
+  id              Int            @id @default(autoincrement())
+  naziv           String?
+  adresa          String?
+  IDbroj          String?
+  sjedisteId      Int?
+  sjediste        Gradovi?       @relation(fields: [sjedisteId], references: [id])
+  racun           Racun[]
+  companyId       Int
+  company         Company        @relation(fields: [companyId], references: [id])
+  skladista       Skladiste[]
+  dokumenti       Dokumenti[]
+  SjedisteFirme   SjedisteFirme? @relation(fields: [sjedisteFirmeId], references: [id])
+  sjedisteFirmeId Int?
 }
 
 model Skladiste {
@@ -198,7 +204,7 @@ model Djelatnost {
   kupacDobavljac KupacDobavljac[]
 }
 
-// GODINE
+// Tabele koje sluze za izlistavanje
 
 model Godine {
   id    Int @id @default(autoincrement())
@@ -208,6 +214,15 @@ model Godine {
   artikli          Artikli[]
   dokumenti        Dokumenti[]
   knjige           Knjige[]
+}
+
+model SjedisteFirme {
+  id    Int    @id @default(autoincrement())
+  naziv String
+
+  companies      Company[]
+  kupacDobavljac KupacDobavljac[]
+  poslovnice     Poslovnice[]
 }
 
 // Knjige i dokumenti

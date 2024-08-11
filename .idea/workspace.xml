@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="redux organized">
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240811180921_dodano_sjeidiste_firme_i_poslovnice/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
@@ -89,7 +90,7 @@
       <workItem from="1723128001819" duration="176000" />
       <workItem from="1723129739552" duration="176000" />
       <workItem from="1723182068058" duration="6454000" />
-      <workItem from="1723392405899" duration="2513000" />
+      <workItem from="1723392405899" duration="3737000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -131,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723188542979</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="redux organized">
+      <option name="closed" value="true" />
+      <created>1723397922997</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1723397922997</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
