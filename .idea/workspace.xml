@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="prisma change">
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240811190652_/migration.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240822064958_povezani_dokumenti_sa_artiklima/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/artikliController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +93,8 @@
       <workItem from="1723182068058" duration="6454000" />
       <workItem from="1723392405899" duration="9686000" />
       <workItem from="1723443396837" duration="606000" />
-      <workItem from="1724308387563" duration="1135000" />
+      <workItem from="1724308387563" duration="5335000" />
+      <workItem from="1724329645870" duration="1512000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -160,7 +160,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723400790790</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="prisma change">
+      <option name="closed" value="true" />
+      <created>1724309610932</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1724309610932</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
