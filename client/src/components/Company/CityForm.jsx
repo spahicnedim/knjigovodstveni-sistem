@@ -22,7 +22,7 @@ const GradForm = () => {
       onSubmit={handleSubmit}
       className='bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto'
     >
-      <h2 className='text-2xl font-bold mb-4'>Create Djelatnost</h2>
+      <h2 className='text-2xl font-bold mb-4'>Create Grad</h2>
 
       {error && <p className='text-red-500 mb-4'>{error}</p>}
 

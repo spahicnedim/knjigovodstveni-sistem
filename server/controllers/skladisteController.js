@@ -5,6 +5,7 @@ const createSkladiste = async (req, res) => {
         name,
         sifra,
         poslovnicaId,
+        vrstaSkladistaId,
         companyId
     } = req.body;
 
@@ -14,6 +15,7 @@ const createSkladiste = async (req, res) => {
                 name,
                 sifra,
                 poslovnicaId,
+                vrstaSkladistaId,
                 companyId,
             },
         });
@@ -33,6 +35,7 @@ const updateSkladiste = async (req, res) => {
         name,
         sifra,
         poslovnicaId,
+        vrstaSkladistaId,
         companyId
     } = req.body;
 
@@ -45,6 +48,7 @@ const updateSkladiste = async (req, res) => {
                 name: name || undefined,
                 sifra: sifra || undefined,
                 poslovnicaId: poslovnicaId || undefined,
+                vrstaSkladistaId: vrstaSkladistaId || undefined,
                 companyId: companyId || undefined,
             },
         });

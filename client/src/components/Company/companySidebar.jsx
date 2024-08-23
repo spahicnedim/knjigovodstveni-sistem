@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { useState } from "react";
+import {  Link } from "react-router-dom";
 import { FaHome, FaBuilding, FaUser, FaUserPlus, FaLock } from "react-icons/fa";
 import useAuthorization from "../useAuthorization";
 import {
@@ -32,6 +32,39 @@ const CompanySidebar = () => {
         >
           Home
         </MenuItem>
+        <MenuItem
+            component={<Link to='unosRobe' />}
+            icon={<FaHome />}
+            className='text-white hover:text-black'
+        >
+          Unos robe
+        </MenuItem>
+        <SubMenu
+            label='Sifrarnik'
+            className='text-white'
+            icon={<FaBuilding />}
+            rootStyles={{
+              ["& > ." + menuClasses.button]: {
+                backgroundColor: "#023E8A",
+                color: "white",
+                "&:hover": {
+                  color: "black",
+                },
+              },
+              ["." + menuClasses.subMenuContent]: {
+                backgroundColor: "#023E8A",
+                color: "white",
+              },
+            }}
+        >
+          <MenuItem
+              component={<Link to='sifrarnik/skladiste' />}
+              icon={<FaHome />}
+              className='text-white hover:text-black'
+          >
+            Skladiste
+          </MenuItem>
+        </SubMenu>
         {isVlasnik && (
           <SubMenu
             label='Dashboard'

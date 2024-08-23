@@ -3,16 +3,22 @@ const prisma = require("../prismaClient");
 const createDokumenti = async (req, res) => {
     const {
         naziv,
-        datum,
-        redniBroj
+        redniBroj,
+        // vrstaDokumentaId,
+        // poslovniceId,
+        // skladisteId,
+        companyId
     } = req.body;
 
     try {
         const dokument = await prisma.dokumenti.create({
             data: {
                 naziv,
-                datum,
-                redniBroj
+                redniBroj: parseInt(redniBroj),
+                // vrstaDokumentaId,
+                // poslovniceId,
+                // skladisteId,
+                companyId: parseInt(companyId),
             },
         });
 
@@ -29,8 +35,8 @@ const updateDokumenta = async (req, res) => {
     const { id } = req.params;
     const {
         naziv,
-        datum,
-        redniBroj
+        redniBroj,
+        vrstaDokumentaId
     } = req.body;
 
     try {
@@ -40,8 +46,8 @@ const updateDokumenta = async (req, res) => {
             },
             data: {
                 naziv,
-                datum,
-                redniBroj
+                redniBroj,
+                vrstaDokumentaId
             },
         });
 

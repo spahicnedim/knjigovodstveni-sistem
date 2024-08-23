@@ -115,6 +115,14 @@ model Skladiste {
   izTransferi      Transferi[]        @relation("IzSkladista")
   uTransferi       Transferi[]        @relation("USkladista")
   dokumenti        Dokumenti[]
+  VrstaSkladista   VrstaSkladista?    @relation(fields: [vrstaSkladistaId], references: [id])
+  vrstaSkladistaId Int?
+}
+
+model VrstaSkladista {
+  id        Int         @id @default(autoincrement())
+  naziv     String
+  skladiste Skladiste[]
 }
 
 model Artikli {

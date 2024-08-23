@@ -6,7 +6,8 @@ const createArtikli = async (req, res) => {
         sifra,
         jedinicaMjere,
         skladisteId,
-        kolicina
+        kolicina,
+        cijena,
     } = req.body;
 
     try {
@@ -23,6 +24,13 @@ const createArtikli = async (req, res) => {
                 skladisteId: skladisteId,
                 artikliId: artikl.id,
                 kolicina: kolicina,
+            }
+        })
+
+        await prisma.artikliCijene.create({
+            data: {
+                artikliId: artikl.id,
+                cijena: cijena
             }
         })
 
