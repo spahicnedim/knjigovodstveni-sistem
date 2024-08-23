@@ -64,6 +64,13 @@ const CompanySidebar = () => {
           >
             Skladiste
           </MenuItem>
+          <MenuItem
+              component={<Link to='sifrarnik/poslovnica' />}
+              icon={<FaHome />}
+              className='text-white hover:text-black'
+          >
+            Poslovnica
+          </MenuItem>
         </SubMenu>
         {isVlasnik && (
           <SubMenu

@@ -15,7 +15,7 @@ const dokumentSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(createDokument.fulfilled, (state, action) => {
-                state.gradovi.push(action.payload);
+                state.dokumenti.push(action.payload);
                 state.status = "succeeded";
             })
 

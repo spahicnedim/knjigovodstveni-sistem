@@ -1,9 +1,6 @@
 import {Route, Routes} from "react-router-dom";
-import UpdateCompany from "./UpdateCompany.jsx";
-import KupacDobavljac from "./KupacDobavljac.jsx";
-import AssignRadnici from "./AssignRadici.jsx";
-import CreateRadnici from "./CreateRadnici.jsx";
 import {Skladiste} from "./Skladiste.jsx";
+import {Poslovnica} from "./Poslovnica.jsx";
 
 export const Sifrarnik = () => {
     return (
@@ -12,6 +9,13 @@ export const Sifrarnik = () => {
                 <Route
                     path='skladiste'
                     element={<Skladiste />}
+                />
+
+            </Routes>
+            <Routes>
+                <Route
+                    path='poslovnica'
+                    element={<Poslovnica />}
                 />
 
             </Routes>

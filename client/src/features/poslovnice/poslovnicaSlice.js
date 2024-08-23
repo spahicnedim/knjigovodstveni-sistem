@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     createPoslovnica,
+    fetchPoslovnice
 } from "./poslovnicaThunks.js";
 
 
@@ -15,7 +16,11 @@ const poslovnicaSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(createPoslovnica.fulfilled, (state, action) => {
-                state.gradovi.push(action.payload);
+                state.poslovnice.push(action.payload);
+                state.status = "succeeded";
+            })
+            .addCase(fetchPoslovnice.fulfilled, (state, action) => {
+                state.poslovnice = action.payload;
                 state.status = "succeeded";
             })
 

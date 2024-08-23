@@ -1,18 +1,26 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {createSkladiste} from "../../features/skladista/skladisteThunks.js";
 import { useParams } from "react-router-dom";
+import {fetchPoslovnice} from "../../features/poslovnice/poslovnicaThunks.js";
 
 export const Skladiste = () => {
     const dispatch = useDispatch()
     const [naziv, setNaziv] = useState("");
-    const [redniBroj, setRedniBroj] = useState(0);
+    const [sifra, setSifra] = useState("");
+    const [poslovnicaId, setPoslovnicaId] = useState(null);
 
     const { companyId } = useParams();
 
+    const poslovnice = useSelector((state) => state.poslovnica.poslovnice);
+
+    useEffect(() => {
+        dispatch(fetchPoslovnice());
+    }, [dispatch]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createDokument({ naziv, redniBroj, companyId }));
+        dispatch(createSkladiste({ naziv, sifra, poslovnicaId, companyId }));
     };
 
     return (
@@ -20,8 +28,7 @@ export const Skladiste = () => {
             onSubmit={handleSubmit}
             className='bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto'
         >
-            <h2 className='text-2xl font-bold mb-4'>Create Dokument</h2>
-
+            <h2 className='text-2xl font-bold mb-4'>Kreiraj Skladište</h2>
 
             <div className='mb-4'>
                 <label className='block text-gray-700 text-sm font-bold mb-2'>
@@ -32,32 +39,50 @@ export const Skladiste = () => {
                     value={naziv}
                     onChange={(e) => setNaziv(e.target.value)}
                     className='w-full p-2 border border-gray-300 rounded'
-                    placeholder='Enter naziv'
+                    placeholder='Unesite naziv'
                     required
                 />
             </div>
 
             <div className='mb-4'>
                 <label className='block text-gray-700 text-sm font-bold mb-2'>
-                    Redni broj
+                    Šifra
                 </label>
                 <input
                     type='text'
-                    value={redniBroj}
-                    onChange={(e) => setRedniBroj(e.target.value)}
+                    value={sifra}
+                    onChange={(e) => setSifra(e.target.value)}
                     className='w-full p-2 border border-gray-300 rounded'
-                    placeholder='Enter Postanski Broj'
+                    placeholder='Unesite šifru'
                     required
                 />
             </div>
 
+            <div className='mb-4'>
+                <label className='block text-gray-700 text-sm font-bold mb-2'>
+                    Poslovnica
+                </label>
+                <select
+                    value={poslovnicaId}
+                    onChange={(e) => setPoslovnicaId(e.target.value)}
+                    className='w-full p-2 border border-gray-300 rounded'
+                    required
+                >
+                    <option value="">Odaberite poslovnicu</option>
+                    {poslovnice.map((poslovnica) => (
+                        <option key={poslovnica.id} value={poslovnica.id}>
+                            {poslovnica.naziv}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
             <button
                 type='submit'
-                className={`w-full p-2 text-black border-2 rounded `}
-
+                className='w-full p-2 text-black border-2 rounded'
             >
-                Create
+                Kreiraj
             </button>
         </form>
-    )
+    );
 }

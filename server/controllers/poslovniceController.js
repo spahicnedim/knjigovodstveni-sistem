@@ -2,7 +2,7 @@ const prisma = require("../prismaClient");
 
 const createPoslovnice = async (req, res) => {
     const {
-        name,
+        naziv,
         adresa,
         IDbroj,
         sjedisteId,
@@ -12,11 +12,11 @@ const createPoslovnice = async (req, res) => {
     try {
         const poslovnica = await prisma.poslovnice.create({
             data: {
-                name,
+                naziv,
                 adresa: adresa || null,
                 IDbroj: IDbroj ? IDbroj.toString() : null,
                 sjedisteId: sjedisteId || null,
-                companyId,
+                companyId: parseInt(companyId),
             },
         });
 
@@ -32,7 +32,7 @@ const createPoslovnice = async (req, res) => {
 const updatePoslovnice = async (req, res) => {
     const { id } = req.params;
     const {
-        name,
+        naziv,
         adresa,
         IDbroj,
         sjedisteId,
@@ -44,7 +44,7 @@ const updatePoslovnice = async (req, res) => {
                 id: parseInt(id, 10), // Ensure id is correctly parsed to an integer
             },
             data: {
-                name: name || undefined,
+                naziv: naziv || undefined,
                 adresa: adresa || undefined,
                 IDbroj: IDbroj ? IDbroj.toString() : undefined,
                 sjedisteId: sjedisteId || undefined,
@@ -60,7 +60,18 @@ const updatePoslovnice = async (req, res) => {
     }
 };
 
+const getAllPoslovnice = async (req, res) => {
+    try {
+        const poslovnice = await prisma.poslovnice.findMany();
+        res.status(200).json(poslovnice);
+    } catch (error) {
+        console.error("Error fetching poslovnice:", error);
+        res.status(500).json({ error: "Error fetching poslovnice", details: error.message });
+    }
+};
+
 module.exports = {
     createPoslovnice,
-    updatePoslovnice
+    updatePoslovnice,
+    getAllPoslovnice
 }

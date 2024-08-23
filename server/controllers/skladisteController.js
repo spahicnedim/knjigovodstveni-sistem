@@ -2,21 +2,21 @@ const prisma = require("../prismaClient");
 
 const createSkladiste = async (req, res) => {
     const {
-        name,
+        naziv,
         sifra,
         poslovnicaId,
-        vrstaSkladistaId,
+        // vrstaSkladistaId,
         companyId
     } = req.body;
 
     try {
         const skladiste = await prisma.skladiste.create({
             data: {
-                name,
+                naziv,
                 sifra,
-                poslovnicaId,
-                vrstaSkladistaId,
-                companyId,
+                poslovnicaId: parseInt(poslovnicaId),
+                // vrstaSkladistaId,
+                companyId: parseInt(companyId),
             },
         });
 
@@ -32,7 +32,7 @@ const createSkladiste = async (req, res) => {
 const updateSkladiste = async (req, res) => {
     const { id } = req.params;
     const {
-        name,
+        naziv,
         sifra,
         poslovnicaId,
         vrstaSkladistaId,
@@ -45,7 +45,7 @@ const updateSkladiste = async (req, res) => {
                 id: parseInt(id, 10), // Ensure id is correctly parsed to an integer
             },
             data: {
-                name: name || undefined,
+                naziv: naziv || undefined,
                 sifra: sifra || undefined,
                 poslovnicaId: poslovnicaId || undefined,
                 vrstaSkladistaId: vrstaSkladistaId || undefined,

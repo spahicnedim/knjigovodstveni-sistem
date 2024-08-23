@@ -15,7 +15,7 @@ const skladisteSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(createSkladiste.fulfilled, (state, action) => {
-                state.gradovi.push(action.payload);
+                state.skladista.push(action.payload);
                 state.status = "succeeded";
             })
 

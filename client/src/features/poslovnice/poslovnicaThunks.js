@@ -12,3 +12,15 @@ export const createPoslovnica = createAsyncThunk(
         }
     }
 );
+
+export const fetchPoslovnice = createAsyncThunk(
+    "poslovnice/fetchPoslovnice",
+    async (_, thunkAPI) => {
+        try {
+            const response = await api.get("/poslovnice");
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);

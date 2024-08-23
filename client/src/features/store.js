@@ -11,6 +11,9 @@ import kupacDobavljacReducer from "./kupacDobavljac/kupacDobavljacSlice.js";
 import gradReducer from "./gradovi/gradSlice.js";
 import drzavaReducer from "./drzave/drzavaSlice.js";
 import bankaReducer from "./banke/bankaSlice.js";
+import dokumentReducer from "./dokumenti/dokumentSlice.js";
+import skladisteReducer from "./skladista/skladisteSlice.js";
+import poslovnicaReducer from "./poslovnice/poslovnicaSlice.js";
 
 const persistConfig = {
   key: "auth", // Specify a different key for each reducer
@@ -52,7 +55,10 @@ const store = configureStore({
     kupacDobavljac: kupacDobavljacReducer,
     grad: gradReducer,
     drzava: drzavaReducer,
-    banka: bankaReducer
+    banka: bankaReducer,
+    dokument: dokumentReducer,
+    skladiste: skladisteReducer,
+    poslovnica: poslovnicaReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
