@@ -5,7 +5,7 @@ const createSkladiste = async (req, res) => {
         naziv,
         sifra,
         poslovnicaId,
-        // vrstaSkladistaId,
+        vrstaSkladistaId,
         companyId
     } = req.body;
 
@@ -15,7 +15,7 @@ const createSkladiste = async (req, res) => {
                 naziv,
                 sifra,
                 poslovnicaId: parseInt(poslovnicaId),
-                // vrstaSkladistaId,
+                vrstaSkladistaId: parseInt(vrstaSkladistaId),
                 companyId: parseInt(companyId),
             },
         });

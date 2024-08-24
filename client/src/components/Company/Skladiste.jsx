@@ -3,24 +3,28 @@ import { useDispatch, useSelector } from "react-redux";
 import {createSkladiste} from "../../features/skladista/skladisteThunks.js";
 import { useParams } from "react-router-dom";
 import {fetchPoslovnice} from "../../features/poslovnice/poslovnicaThunks.js";
+import {fetchvrstaSkladista} from "../../features/vrstaSkladista/vrstaSkladistaThunks.js";
 
 export const Skladiste = () => {
     const dispatch = useDispatch()
     const [naziv, setNaziv] = useState("");
     const [sifra, setSifra] = useState("");
     const [poslovnicaId, setPoslovnicaId] = useState(null);
+    const [vrstaSkladistaId, setVrstaSkladistaId] = useState(null);
 
     const { companyId } = useParams();
 
     const poslovnice = useSelector((state) => state.poslovnica.poslovnice);
+    const vrstaSkladista = useSelector((state) => state.vrstaSkladista.vrsteSkladista);
 
     useEffect(() => {
         dispatch(fetchPoslovnice());
+        dispatch(fetchvrstaSkladista())
     }, [dispatch]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createSkladiste({ naziv, sifra, poslovnicaId, companyId }));
+        dispatch(createSkladiste({ naziv, sifra, poslovnicaId, vrstaSkladistaId, companyId }));
     };
 
     return (
@@ -72,6 +76,25 @@ export const Skladiste = () => {
                     {poslovnice.map((poslovnica) => (
                         <option key={poslovnica.id} value={poslovnica.id}>
                             {poslovnica.naziv}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className='mb-4'>
+                <label className='block text-gray-700 text-sm font-bold mb-2'>
+                    Vrsta Skladista
+                </label>
+                <select
+                    value={vrstaSkladistaId}
+                    onChange={(e) => setVrstaSkladistaId(e.target.value)}
+                    className='w-full p-2 border border-gray-300 rounded'
+                    required
+                >
+                 <option value="">Odaberite vrstu skladista</option>
+                    {vrstaSkladista.map((vrstaSkladista) => (
+                        <option key={vrstaSkladista.id} value={vrstaSkladista.id}>
+                            {vrstaSkladista.naziv}
                         </option>
                     ))}
                 </select>
