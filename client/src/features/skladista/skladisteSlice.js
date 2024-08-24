@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     createSkladiste,
+    fetchSkladista
 } from "./skladisteThunks.js";
 
 
@@ -16,6 +17,10 @@ const skladisteSlice = createSlice({
         builder
             .addCase(createSkladiste.fulfilled, (state, action) => {
                 state.skladista.push(action.payload);
+                state.status = "succeeded";
+            })
+            .addCase(fetchSkladista.fulfilled, (state, action) => {
+                state.skladista = action.payload;
                 state.status = "succeeded";
             })
 

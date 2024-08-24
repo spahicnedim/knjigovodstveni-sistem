@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="doradjene poslovnice i skladista">
-      <change afterPath="$PROJECT_DIR$/client/src/features/vrstaSkladista/vrstaSkladistaSlice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/vrstaSkladista/vrstaSkladistaThunks.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/controllers/vrstaSkladistaController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routes/vrstaSkladistaRoutes.js" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana vrstaSkladista">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Skladiste.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Skladiste.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/skladista/skladisteSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/skladista/skladisteSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/skladista/skladisteThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/skladista/skladisteThunks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/skladisteController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/skladisteController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/skladisteRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/skladisteRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +99,7 @@
       <workItem from="1724308387563" duration="5335000" />
       <workItem from="1724329645870" duration="4982000" />
       <workItem from="1724424707173" duration="10823000" />
-      <workItem from="1724489566198" duration="2002000" />
+      <workItem from="1724489566198" duration="4052000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -207,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724443270818</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="dodana vrstaSkladista">
+      <option name="closed" value="true" />
+      <created>1724493175544</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1724493175544</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +242,7 @@
     <MESSAGE value="vrstaDokumenta controller" />
     <MESSAGE value="skladiste dokument i poslovnica" />
     <MESSAGE value="doradjene poslovnice i skladista" />
-    <option name="LAST_COMMIT_MESSAGE" value="doradjene poslovnice i skladista" />
+    <MESSAGE value="dodana vrstaSkladista" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodana vrstaSkladista" />
   </component>
 </project>

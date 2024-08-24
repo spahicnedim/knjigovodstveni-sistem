@@ -62,7 +62,18 @@ const updateSkladiste = async (req, res) => {
     }
 };
 
+const getAllSkladista = async (req, res) => {
+    try {
+        const skladista = await prisma.skladiste.findMany();
+        res.status(200).json(skladista);
+    } catch (error) {
+        console.error("Error fetching skladista:", error);
+        res.status(500).json({ error: "Error fetching skladista", details: error.message });
+    }
+};
+
 module.exports = {
     createSkladiste,
-    updateSkladiste
+    updateSkladiste,
+    getAllSkladista
 }

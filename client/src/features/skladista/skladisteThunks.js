@@ -12,3 +12,15 @@ export const createSkladiste = createAsyncThunk(
         }
     }
 );
+
+export const fetchSkladista = createAsyncThunk(
+    "skladista/fetchSkladista",
+    async (_, thunkAPI) => {
+        try {
+            const response = await api.get("/skladiste");
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);

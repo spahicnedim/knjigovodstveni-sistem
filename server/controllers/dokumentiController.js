@@ -4,9 +4,9 @@ const createDokumenti = async (req, res) => {
     const {
         naziv,
         redniBroj,
-        // vrstaDokumentaId,
-        // poslovniceId,
-        // skladisteId,
+        vrstaDokumentaId,
+        poslovniceId,
+        skladisteId,
         companyId
     } = req.body;
 
@@ -15,9 +15,9 @@ const createDokumenti = async (req, res) => {
             data: {
                 naziv,
                 redniBroj: parseInt(redniBroj),
-                // vrstaDokumentaId,
-                // poslovniceId,
-                // skladisteId,
+                vrstaDokumentaId: parseInt(vrstaDokumentaId),
+                poslovniceId: parseInt(poslovniceId),
+                skladisteId: parseInt(skladisteId),
                 companyId: parseInt(companyId),
             },
         });
