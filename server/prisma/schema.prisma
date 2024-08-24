@@ -141,8 +141,8 @@ model Artikli {
 
 model ArtikliCijene {
   id        Int      @id @default(autoincrement())
-  artikliId Int
-  artikli   Artikli  @relation(fields: [artikliId], references: [id])
+  artikliId Int?
+  artikli   Artikli? @relation(fields: [artikliId], references: [id])
   cijena    Decimal  @db.Decimal(10, 2)
   datum     DateTime @default(now())
 
@@ -150,13 +150,13 @@ model ArtikliCijene {
 }
 
 model SkladisteArtikli {
-  id          Int       @id @default(autoincrement())
-  skladisteId Int
-  skladiste   Skladiste @relation(fields: [skladisteId], references: [id])
-  artikliId   Int
-  artikli     Artikli   @relation(fields: [artikliId], references: [id])
-  kolicina    Decimal   @db.Decimal(10, 2)
-  Godine      Godine?   @relation(fields: [godineId], references: [id])
+  id          Int        @id @default(autoincrement())
+  skladisteId Int?
+  skladiste   Skladiste? @relation(fields: [skladisteId], references: [id])
+  artikliId   Int?
+  artikli     Artikli?   @relation(fields: [artikliId], references: [id])
+  kolicina    Decimal    @db.Decimal(10, 2)
+  Godine      Godine?    @relation(fields: [godineId], references: [id])
   godineId    Int?
 
   @@unique([skladisteId, artikliId])
@@ -268,7 +268,7 @@ model Dokumenti {
   knjigeId         Int?
   artikli          Artikli[]       @relation("ArtikliDokumenti")
 
-  @@unique([vrstaDokumentaId, redniBroj])
+  @@unique([redniBroj])
 }
 
 model Knjige {

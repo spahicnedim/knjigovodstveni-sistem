@@ -1,14 +1,10 @@
 const prisma = require("../prismaClient");
+const {parse} = require("dotenv");
 
-const createArtikli = async (req, res) => {
-    const {
-        naziv,
-        sifra,
-        jedinicaMjere,
-        skladisteId,
-        kolicina,
-        cijena,
-    } = req.body;
+const createArtikl = async (req, res) => {
+    const { naziv, sifra, jedinicaMjere, skladisteId, kolicina, cijena } = req.body;
+    const parsedSkladisteId = parseInt(skladisteId, 10);
+
 
     try {
         const artikl = await prisma.artikli.create({
@@ -16,30 +12,27 @@ const createArtikli = async (req, res) => {
                 naziv,
                 sifra,
                 jedinicaMjere,
+                skladisteArtikli: {
+                    create: {
+                        kolicina: parseFloat(kolicina),
+                        skladiste: {
+                            connect: { id: parsedSkladisteId }
+                        }
+                    },
+
+                },
+                artikliCijene: {
+                    create: {
+                        cijena: parseFloat(cijena),
+                    },
+                },
             },
         });
 
-        await prisma.skladisteArtikli.create({
-            data: {
-                skladisteId: skladisteId,
-                artikliId: artikl.id,
-                kolicina: kolicina,
-            }
-        })
-
-        await prisma.artikliCijene.create({
-            data: {
-                artikliId: artikl.id,
-                cijena: cijena
-            }
-        })
-
-        res.status(201).json({ artikl });
+        res.status(201).json(artikl);
     } catch (error) {
-        console.error("Error creating company:", error);
-        res
-            .status(400)
-            .json({ error: "Error creating company", details: error.message });
+        console.error("Error creating artikl:", error);
+        res.status(400).json({ error: "Error creating artikl", details: error.message });
     }
 };
 
@@ -73,6 +66,6 @@ const updateArtikala = async (req, res) => {
 };
 
 module.exports = {
-    createArtikli,
+    createArtikl,
     updateArtikala
 }

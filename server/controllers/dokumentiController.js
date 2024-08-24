@@ -1,33 +1,65 @@
 const prisma = require("../prismaClient");
+const { createArtikl } = require('./artikliController');
 
 const createDokumenti = async (req, res) => {
     const {
         naziv,
         redniBroj,
-        vrstaDokumentaId,
         poslovniceId,
         skladisteId,
-        companyId
+        vrstaDokumentaId,
+        companyId,
+        artikli, // Nova lista artikala
     } = req.body;
 
     try {
-        const dokument = await prisma.dokumenti.create({
-            data: {
-                naziv,
-                redniBroj: parseInt(redniBroj),
-                vrstaDokumentaId: parseInt(vrstaDokumentaId),
-                poslovniceId: parseInt(poslovniceId),
-                skladisteId: parseInt(skladisteId),
-                companyId: parseInt(companyId),
-            },
+        // Kreiramo dokument i artikle unutar transakcije
+        const dokument = await prisma.$transaction(async (prisma) => {
+            const createdDokument = await prisma.dokumenti.create({
+                data: {
+                    naziv,
+                    redniBroj: parseInt(redniBroj),
+                    poslovniceId: parseInt(poslovniceId),
+                    skladisteId: parseInt(skladisteId),
+                    vrstaDokumentaId: parseInt(vrstaDokumentaId),
+                    companyId: parseInt(companyId),
+                }
+            });
+
+            // Kreiramo artikle povezane s dokumentom
+            for (const artikl of artikli) {
+                await prisma.artikli.create({
+                    data: {
+                        naziv: artikl.naziv,
+                        sifra: artikl.sifra,
+                        jedinicaMjere: artikl.jedinicaMjere,
+                        skladisteArtikli: {
+                            create: {
+                                kolicina: parseFloat(artikl.kolicina),
+                                skladiste: {
+                                    connect: { id: parseInt(skladisteId, 10) }
+                                }
+                            }
+                        },
+                        ArtikliCijene: {
+                            create: {
+                                cijena: parseFloat(artikl.cijena),
+                            },
+                        },
+                        dokumenti: { // Ispravljeni naziv relacije za povezivanje s dokumentom
+                            connect: { id: createdDokument.id }// Veza s dokumentom
+                        },
+                    }
+                });
+            }
+
+            return createdDokument;
         });
 
         res.status(201).json({ dokument });
     } catch (error) {
-        console.error("Error creating dokument:", error);
-        res
-            .status(400)
-            .json({ error: "Error creating dokument", details: error.message });
+        console.error("Error creating dokument and artikli:", error);
+        res.status(400).json({ error: "Error creating dokument and artikli", details: error.message });
     }
 };
 

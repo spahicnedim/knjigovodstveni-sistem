@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const {
-    createArtikli,
+    createArtikl,
     updateArtikala,
 } = require("../controllers/ArtikliController");
 
-router.post("/", createArtikli);
+router.post("/", createArtikl);
 router.put("/:id", updateArtikala);
 
 module.exports = router;

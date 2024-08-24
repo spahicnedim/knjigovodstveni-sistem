@@ -4,14 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana vrstaSkladista">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodane funkcionalnosti u unosrobe">
+      <change afterPath="$PROJECT_DIR$/client/src/features/artikli/artikliSlice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/artikli/artikliThunks.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/vrstaDokumenta/vrstaDokumentaSlice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/vrstaDokumenta/vrstaDokumentaThunks.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240824143527_/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/skladista/skladisteSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/skladista/skladisteSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/skladista/skladisteThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/skladista/skladisteThunks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/artikliController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/skladisteController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/skladisteController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/skladisteRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/skladisteRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/vrstaDokumentaController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/vrstaDokumentaController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/artikliRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/artikliRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/vrstaDokumentaRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/vrstaDokumentaRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +106,8 @@
       <workItem from="1724308387563" duration="5335000" />
       <workItem from="1724329645870" duration="4982000" />
       <workItem from="1724424707173" duration="10823000" />
-      <workItem from="1724489566198" duration="4052000" />
+      <workItem from="1724489566198" duration="4840000" />
+      <workItem from="1724508115409" duration="4836000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -213,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724493175544</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="dodane funkcionalnosti u unosrobe">
+      <option name="closed" value="true" />
+      <created>1724495001625</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1724495001625</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,6 +259,7 @@
     <MESSAGE value="skladiste dokument i poslovnica" />
     <MESSAGE value="doradjene poslovnice i skladista" />
     <MESSAGE value="dodana vrstaSkladista" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodana vrstaSkladista" />
+    <MESSAGE value="dodane funkcionalnosti u unosrobe" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodane funkcionalnosti u unosrobe" />
   </component>
 </project>

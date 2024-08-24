@@ -46,7 +46,18 @@ const updateVrstaDokumenta = async (req, res) => {
     }
 };
 
+const getAllVrstaDokumenata = async (req, res) => {
+    try {
+        const vrsteDokumenata = await prisma.vrstaDokumenta.findMany();
+        res.status(200).json(vrsteDokumenata);
+    } catch (error) {
+        console.error("Error fetching vrsteDokumenata:", error);
+        res.status(500).json({ error: "Error fetching vrsteDokumenata", details: error.message });
+    }
+};
+
 module.exports = {
     createVrstaDokumenta,
-    updateVrstaDokumenta
+    updateVrstaDokumenta,
+    getAllVrstaDokumenata
 }
