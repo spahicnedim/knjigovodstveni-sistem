@@ -82,6 +82,7 @@ model KupacDobavljac {
   company         Company        @relation(fields: [companyId], references: [id])
   SjedisteFirme   SjedisteFirme? @relation(fields: [sjedisteFirmeId], references: [id])
   sjedisteFirmeId Int?
+  Dokumenti       Dokumenti[]
 }
 
 model Poslovnice {
@@ -144,6 +145,7 @@ model ArtikliCijene {
   artikliId Int?
   artikli   Artikli? @relation(fields: [artikliId], references: [id])
   cijena    Decimal  @db.Decimal(10, 2)
+  mpcijena  Decimal? @db.Decimal(10, 2)
   datum     DateTime @default(now())
 
   @@index([artikliId, datum])
@@ -267,6 +269,8 @@ model Dokumenti {
   Knjige           Knjige?         @relation(fields: [knjigeId], references: [id])
   knjigeId         Int?
   artikli          Artikli[]       @relation("ArtikliDokumenti")
+  kupacDobavljacId Int?
+  kupacDobavljac   KupacDobavljac? @relation(fields: [kupacDobavljacId], references: [id])
 
   @@unique([redniBroj])
 }

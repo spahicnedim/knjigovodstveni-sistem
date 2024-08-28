@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
     createKupacDobavljac,
     updateKupacDobavljac,
+    fetchKupciDobavljaci
 } from "./kupacDobavljacThunk.js";
 
 const kupacDobavljacSlice = createSlice({
@@ -45,6 +46,10 @@ const kupacDobavljacSlice = createSlice({
             .addCase(updateKupacDobavljac.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error;
+            })
+            .addCase(fetchKupciDobavljaci.fulfilled, (state, action) => {
+                state.loading = false;
+                state.kupciDobavljaci = action.payload;
             })
 
     },

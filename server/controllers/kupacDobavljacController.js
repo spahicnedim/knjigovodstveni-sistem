@@ -104,7 +104,25 @@ const updateKupacDobavljac = async (req, res) => {
     }
 };
 
+const getKupciDobavljaci = async (req, res) => {
+    try {
+        const kupciDobavljaci = await prisma.kupacDobavljac.findMany({
+            where: {
+                companyId: parseInt(req.query.companyId, 10), // Pretpostavljam da šaljete companyId kao query parametar
+            }
+        });
+
+        res.status(200).json({ kupciDobavljaci });
+    } catch (error) {
+        console.error("Error fetching kupci/dobavljaci:", error);
+        res
+            .status(400)
+            .json({ error: "Error fetching kupci/dobavljaci", details: error.message });
+    }
+};
+
 module.exports = {
     createKupacDobavljac,
-    updateKupacDobavljac
+    updateKupacDobavljac,
+    getKupciDobavljaci
 }

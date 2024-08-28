@@ -18,7 +18,7 @@ const getArtikli = async (req, res) => {
 
 // Kreiraj novi artikl
 const createArtikl = async (req, res) => {
-    const { naziv, sifra, jedinicaMjere, kolicina, cijena } = req.body;
+    const { naziv, sifra, jedinicaMjere, kolicina, cijena, mpcijena } = req.body;
 
     try {
         // Pokrećemo transakciju
@@ -42,7 +42,8 @@ const createArtikl = async (req, res) => {
                 await prisma.ArtikliCijene.create({
                     where: { artiklId: existingArtikl.id },
                     data: {
-                        cijena: parseFloat(cijena) // Ažuriramo cijenu artikla
+                        cijena: parseFloat(cijena), // Ažuriramo cijenu artikla
+                        mpcijena: parseFloat(mpcijena)
                     }
                 });
 
@@ -62,6 +63,7 @@ const createArtikl = async (req, res) => {
                         ArtikliCijene: {
                             create: {
                                 cijena: parseFloat(cijena),
+                                mpcijena: parseFloat(mpcijena)
                             }
                         }
                     }

@@ -6,6 +6,7 @@ import {fetchSkladista} from "../../features/skladista/skladisteThunks.js";
 import {fetchPoslovnice} from "../../features/poslovnice/poslovnicaThunks.js";
 import {fetchVrstaDokumenta} from "../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 import {fetchArtikli} from "../../features/artikli/artikliThunks.js";
+import {fetchKupciDobavljaci} from "../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import Drawer from "../Drawer";
 import {ArtikliForm} from "./ArtikliForm.jsx";
 
@@ -21,6 +22,8 @@ export const UnosRobe = () => {
     const [odabraniArtikl, setOdabraniArtikl] = useState(null); // Odabrani artikl iz dropdowna
     const [kolicina, setKolicina] = useState(0);
     const [cijena, setCijena] = useState(0);
+    const [mpcijena, setMpCijena] = useState(0);
+    const [dobavljacId, setDobavljacId] = useState(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerContent, setDrawerContent] = useState("");
 
@@ -29,6 +32,7 @@ export const UnosRobe = () => {
     const skladista = useSelector((state) => state.skladiste.skladista);
     const vrstaDokumenta = useSelector((state) => state.vrstaDokumenta.vrsteDokumenata);
     const artikliList = useSelector((state) => state.artikl.artikli);
+    const kupciDobavljaci = useSelector((state) => state.kupacDobavljac.kupciDobavljaci);
 
     const { companyId } = useParams();
 
@@ -47,6 +51,7 @@ export const UnosRobe = () => {
         dispatch(fetchSkladista());
         dispatch(fetchVrstaDokumenta())
         dispatch(fetchArtikli());
+        dispatch(fetchKupciDobavljaci(companyId))
     }, [dispatch]);
 
     useEffect(() => {
@@ -71,7 +76,8 @@ export const UnosRobe = () => {
             skladisteId: parseInt(skladisteId, 10),
             vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
             artikli, // Provjerite da li je ovo lista artikala sa validnim ID-evima
-            companyId
+            companyId,
+            kupacDobavljacId: parseInt(dobavljacId, 10)
         }));
     };
 
@@ -85,6 +91,7 @@ export const UnosRobe = () => {
                 ...selectedArtikl,
                 kolicina: 0, // Resetiramo količinu prilikom odabira novog artikla
                 cijena: selectedArtikl.ArtikliCijene[0]?.cijena || 0,
+                mpcijena: selectedArtikl.ArtikliCijene[0]?.mpcijena || 0
             });
         }
     };
@@ -95,6 +102,7 @@ export const UnosRobe = () => {
                 ...odabraniArtikl,
                 kolicina: parseFloat(kolicina),
                 cijena: parseFloat(cijena),
+                mpcijena: parseFloat(mpcijena)
             };
             setArtikli([...artikli, artiklZaDodavanje]);
             setOdabraniArtikl(null);
@@ -107,9 +115,16 @@ export const UnosRobe = () => {
         if (odabraniArtikl) {
             // Nađi zadnju cijenu iz liste cijena
             const zadnjaCijena = odabraniArtikl.ArtikliCijene.slice(-1)[0]?.cijena || 0;
+            const zadnjaMPCijena = odabraniArtikl.ArtikliCijene.slice(-1)[0]?.mpcijena || 0;
             setCijena(zadnjaCijena);
+            setMpCijena(zadnjaMPCijena)
         }
     }, [odabraniArtikl]);
+
+    function roundTo(num, precision) {
+        const factor = Math.pow(10, precision)
+        return Math.round(num * factor) / factor
+    }
 
 
     return (
@@ -196,6 +211,24 @@ export const UnosRobe = () => {
                 </div>
 
                 <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-medium mb-2">Dobavljač</label>
+                    <select
+                        value={dobavljacId}
+                        onChange={(e) => setDobavljacId(e.target.value)}
+                        className="w-full p-3 border border-gray-300 rounded-lg"
+                    >
+                        <option value="">Odaberite dobavljača</option>
+                        {kupciDobavljaci
+                            .filter((dobavljac) => dobavljac.dobavljac === true)
+                            .map((dobavljac) => (
+                                <option key={dobavljac.id} value={dobavljac.id}>
+                                    {dobavljac.name}
+                                </option>
+                            ))}
+                    </select>
+                </div>
+
+                <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-4">Dodaj Artikl</h3>
 
                     <div className="flex items-center mb-4">
@@ -237,6 +270,13 @@ export const UnosRobe = () => {
                                 placeholder="Cijena"
                                 className="w-full p-3 border border-gray-300 rounded-lg ml-4"
                             />
+                            <input
+                                type="number"
+                                value={mpcijena}
+                                onChange={(e) => setMpCijena(e.target.value)}
+                                placeholder="Maloprodajna cijena"
+                                className="w-full p-3 border border-gray-300 rounded-lg ml-4"
+                            />
                             <button
                                 type="button"
                                 onClick={handleAddArtikl}
@@ -254,19 +294,43 @@ export const UnosRobe = () => {
                         <table className="w-full border-collapse border border-gray-300">
                             <thead>
                             <tr>
+                                <th className="border border-gray-300 p-3">Redni broj</th>
                                 <th className="border border-gray-300 p-3">Naziv</th>
+                                <th className="border border-gray-300 p-3">Jedinica mjere</th>
                                 <th className="border border-gray-300 p-3">Količina</th>
-                                <th className="border border-gray-300 p-3">Cijena</th>
-                                <th className="border border-gray-300 p-3">Ukupno</th>
+                                <th className="border border-gray-300 p-3">Fakturna cijena bez PDV-a</th>
+                                <th className="border border-gray-300 p-3">Fakturna vrijednost bez PDV-a</th>
+                                <th className="border border-gray-300 p-3">Zavisni troskovi bez PDV-a</th>
+                                <th className="border border-gray-300 p-3">Nabavna cijena po jedinici mjere</th>
+                                <th className="border border-gray-300 p-3">Nabavna vrijednost bez PDV-a</th>
+                                <th className="border border-gray-300 p-3">Stopa razlike u cijeni</th>
+                                <th className="border border-gray-300 p-3">Iznos razlike u cijeni</th>
+                                <th className="border border-gray-300 p-3">Prodajna vrijednost proizvoda bez PDV-a</th>
+                                <th className="border border-gray-300 p-3">Stopa PDV-a</th>
+                                <th className="border border-gray-300 p-3">Iznos PDV-a</th>
+                                <th className="border border-gray-300 p-3">Maloprodajna vrijednost sa PDV-om</th>
+                                <th className="border border-gray-300 p-3">Maloprodajna cijena sa PDV-om</th>
                             </tr>
                             </thead>
                             <tbody>
                             {artikli.map((artikl, index) => (
                                 <tr key={index}>
+                                    <td className="border border-gray-300 p-3">{index + 1}</td>
                                     <td className="border border-gray-300 p-3">{artikl.naziv}</td>
+                                    <td className="border border-gray-300 p-3">{artikl.jedinicaMjere}</td>
                                     <td className="border border-gray-300 p-3">{artikl.kolicina}</td>
                                     <td className="border border-gray-300 p-3">{artikl.cijena}</td>
                                     <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
+                                    <td className="border border-gray-300 p-3">0</td>
+                                    <td className="border border-gray-300 p-3">{artikl.cijena}</td>
+                                    <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
+                                    <td className="border border-gray-300 p-3">{roundTo(((artikl.kolicina * artikl.mpcijena)-(artikl.kolicina * artikl.cijena))/(artikl.kolicina * artikl.mpcijena)*100, 2)}%</td>
+                                    <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena)-(artikl.kolicina * artikl.cijena)}</td>
+                                    <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena)-((artikl.kolicina * artikl.mpcijena)*17)/100}</td>
+                                    <td className="border border-gray-300 p-3">17%</td>
+                                    <td className="border border-gray-300 p-3">{((artikl.kolicina * artikl.mpcijena)*17)/100}</td>
+                                    <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.mpcijena}</td>
+                                    <td className="border border-gray-300 p-3">{artikl.mpcijena}</td>
                                 </tr>
                             ))}
                             </tbody>
@@ -287,7 +351,7 @@ export const UnosRobe = () => {
             </form>
 
             <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-                {drawerContent === "artikli" && <ArtikliForm />}
+                {drawerContent === "artikli" && <ArtikliForm/>}
             </Drawer>
         </div>
     );

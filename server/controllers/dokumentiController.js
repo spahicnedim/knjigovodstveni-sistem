@@ -9,6 +9,7 @@ const createDokumenti = async (req, res) => {
         skladisteId,
         vrstaDokumentaId,
         companyId,
+        kupacDobavljacId,
         artikli, // Lista objekata sa {id, kolicina, cijena}
     } = req.body;
 
@@ -26,6 +27,7 @@ const createDokumenti = async (req, res) => {
                     skladisteId: parseInt(skladisteId, 10),
                     vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
                     companyId: parseInt(companyId, 10),
+                    kupacDobavljacId: parseInt(kupacDobavljacId, 10)
                 }
             });
 

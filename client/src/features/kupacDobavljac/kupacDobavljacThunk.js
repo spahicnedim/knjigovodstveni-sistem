@@ -26,4 +26,18 @@ export const updateKupacDobavljac = createAsyncThunk(
     }
 );
 
+export const fetchKupciDobavljaci = createAsyncThunk(
+    "kupciDobavljaci/fetchKupciDobavljaci",
+    async (companyId, thunkAPI) => {
+        try {
+            const response = await api.get("/kupacDobavljac", {
+                params: { companyId }
+            });
+            return response.data.kupciDobavljaci;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
 
