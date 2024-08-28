@@ -5,7 +5,9 @@ import { useParams } from "react-router-dom";
 import {fetchSkladista} from "../../features/skladista/skladisteThunks.js";
 import {fetchPoslovnice} from "../../features/poslovnice/poslovnicaThunks.js";
 import {fetchVrstaDokumenta} from "../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
-
+import {fetchArtikli} from "../../features/artikli/artikliThunks.js";
+import Drawer from "../Drawer";
+import {ArtikliForm} from "./ArtikliForm.jsx";
 
 export const UnosRobe = () => {
     const dispatch = useDispatch()
@@ -16,25 +18,35 @@ export const UnosRobe = () => {
     const [filteredSkladista, setFilteredSkladista] = useState([]);
     const [vrstaDokumentaId, setVrstaDokumentaId] = useState(null);
     const [artikli, setArtikli] = useState([]); // Lista artikala za dokument
-    const [noviArtikl, setNoviArtikl] = useState({
-        naziv: "",
-        sifra: "",
-        jedinicaMjere: "",
-        kolicina: 0,
-        cijena: 0,
-    });
+    const [odabraniArtikl, setOdabraniArtikl] = useState(null); // Odabrani artikl iz dropdowna
+    const [kolicina, setKolicina] = useState(0);
+    const [cijena, setCijena] = useState(0);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [drawerContent, setDrawerContent] = useState("");
 
 
     const poslovnice = useSelector((state) => state.poslovnica.poslovnice);
     const skladista = useSelector((state) => state.skladiste.skladista);
     const vrstaDokumenta = useSelector((state) => state.vrstaDokumenta.vrsteDokumenata);
+    const artikliList = useSelector((state) => state.artikl.artikli);
 
     const { companyId } = useParams();
+
+    const openDrawer = (content) => {
+        setDrawerContent(content);
+        setIsDrawerOpen(true);
+    };
+
+    const closeDrawer = () => {
+        setIsDrawerOpen(false);
+        setDrawerContent("");
+    };
 
     useEffect(() => {
         dispatch(fetchPoslovnice());
         dispatch(fetchSkladista());
         dispatch(fetchVrstaDokumenta())
+        dispatch(fetchArtikli());
     }, [dispatch]);
 
     useEffect(() => {
@@ -51,190 +63,232 @@ export const UnosRobe = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // Provjerite da li su svi podaci ispravni prije slanja
         dispatch(createDokument({
             naziv,
             redniBroj: parseInt(redniBroj, 10),
             poslovniceId: parseInt(poslovniceId, 10),
             skladisteId: parseInt(skladisteId, 10),
             vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
-            artikli, // Prosljeđujemo listu artikala zajedno s podacima dokumenta
+            artikli, // Provjerite da li je ovo lista artikala sa validnim ID-evima
             companyId
         }));
     };
 
-
-    const handleArtiklChange = (e) => {
-        const { name, value } = e.target;
-        setNoviArtikl({
-            ...noviArtikl,
-            [name]: value,
-        });
+    const handleOdabraniArtiklChange = (e) => {
+        const artiklId = e.target.value;
+        const selectedArtikl = artikliList.find(
+            (artikl) => artikl.id === parseInt(artiklId, 10)
+        );
+        if (selectedArtikl) {
+            setOdabraniArtikl({
+                ...selectedArtikl,
+                kolicina: 0, // Resetiramo količinu prilikom odabira novog artikla
+                cijena: selectedArtikl.ArtikliCijene[0]?.cijena || 0,
+            });
+        }
     };
 
     const handleAddArtikl = () => {
-        setArtikli([...artikli, noviArtikl]);
-        setNoviArtikl({
-            naziv: "",
-            sifra: "",
-            jedinicaMjere: "",
-            kolicina: 0,
-            cijena: 0,
-        });
+        if (odabraniArtikl && kolicina > 0) {
+            const artiklZaDodavanje = {
+                ...odabraniArtikl,
+                kolicina: parseFloat(kolicina),
+                cijena: parseFloat(cijena),
+            };
+            setArtikli([...artikli, artiklZaDodavanje]);
+            setOdabraniArtikl(null);
+            setKolicina(0);
+            setCijena(0);
+        }
     };
 
+    useEffect(() => {
+        if (odabraniArtikl) {
+            // Nađi zadnju cijenu iz liste cijena
+            const zadnjaCijena = odabraniArtikl.ArtikliCijene.slice(-1)[0]?.cijena || 0;
+            setCijena(zadnjaCijena);
+        }
+    }, [odabraniArtikl]);
+
+
     return (
-        <form
-            onSubmit={handleSubmit}
-            className='bg-white shadow-md rounded-lg p-6 max-w-lg mx-auto'
-        >
-            <h2 className='text-2xl font-bold mb-4'>Create Dokument</h2>
+        <div className="min-h-screen bg-gray-50 p-8">
+            <form
+                onSubmit={handleSubmit}
+                className=""
+            >
+                <h2 className="text-2xl font-semibold mb-6">Kreiraj Dokument</h2>
 
-
-            <div className='mb-4'>
-                <label className='block text-gray-700 text-sm font-bold mb-2'>
-                    Naziv
-                </label>
-                <input
-                    type='text'
-                    value={naziv}
-                    onChange={(e) => setNaziv(e.target.value)}
-                    className='w-full p-2 border border-gray-300 rounded'
-                    placeholder='Enter naziv'
-                    required
-                />
-            </div>
-
-            <div className='mb-4'>
-                <label className='block text-gray-700 text-sm font-bold mb-2'>
-                    Redni broj
-                </label>
-                <input
-                    type='text'
-                    value={redniBroj}
-                    onChange={(e) => setRedniBroj(e.target.value)}
-                    className='w-full p-2 border border-gray-300 rounded'
-                    placeholder='Enter Postanski Broj'
-                    required
-                />
-            </div>
-            <div className='mb-4'>
-                <label className='block text-gray-700 text-sm font-bold mb-2'>
-                    Vrsta Dokumenta
-                </label>
-                <select
-                    value={vrstaDokumentaId}
-                    onChange={(e) => setVrstaDokumentaId(e.target.value)}
-                    className='w-full p-2 border border-gray-300 rounded'
-                    required
-                >
-                    <option value="">Odaberite dokument</option>
-                    {vrstaDokumenta.map((vrstaDokumenta) => (
-                        <option key={vrstaDokumenta.id} value={vrstaDokumenta.id}>
-                            {vrstaDokumenta.naziv}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <div className='mb-4'>
-                <label className='block text-gray-700 text-sm font-bold mb-2'>
-                    Poslovnica
-                </label>
-                <select
-                    value={poslovniceId}
-                    onChange={(e) => setPoslovnicaId(e.target.value)}
-                    className='w-full p-2 border border-gray-300 rounded'
-                    required
-                >
-                    <option value="">Odaberite poslovnicu</option>
-                    {poslovnice.map((poslovnica) => (
-                        <option key={poslovnica.id} value={poslovnica.id}>
-                            {poslovnica.naziv}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <div className='mb-4'>
-                <label className='block text-gray-700 text-sm font-bold mb-2'>
-                    Skladište
-                </label>
-                <select
-                    value={skladisteId}
-                    onChange={(e) => setSkladisteId(e.target.value)}
-                    className='w-full p-2 border border-gray-300 rounded'
-                    required
-                >
-                    <option value="">Odaberite skladište</option>
-                    {filteredSkladista.map((skladiste) => (
-                        <option key={skladiste.id} value={skladiste.id}>
-                            {skladiste.naziv}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <div className='mb-4'>
-                <h3 className='text-xl font-bold mb-2'>Dodaj Artikl</h3>
-                <input
-                    type='text'
-                    name='naziv'
-                    value={noviArtikl.naziv}
-                    onChange={handleArtiklChange}
-                    className='w-full p-2 border border-gray-300 rounded mb-2'
-                    placeholder='Naziv artikla'
-                />
-                <input
-                    type='text'
-                    name='sifra'
-                    value={noviArtikl.sifra}
-                    onChange={handleArtiklChange}
-                    className='w-full p-2 border border-gray-300 rounded mb-2'
-                    placeholder='Šifra artikla'
-                />
-                <input
-                    type='text'
-                    name='jedinicaMjere'
-                    value={noviArtikl.jedinicaMjere}
-                    onChange={handleArtiklChange}
-                    className='w-full p-2 border border-gray-300 rounded mb-2'
-                    placeholder='Jedinica mjere'
-                />
-                <input
-                    type='number'
-                    name='kolicina'
-                    value={noviArtikl.kolicina}
-                    onChange={handleArtiklChange}
-                    className='w-full p-2 border border-gray-300 rounded mb-2'
-                    placeholder='Količina'
-                />
-                <input
-                    type='number'
-                    name='cijena'
-                    value={noviArtikl.cijena}
-                    onChange={handleArtiklChange}
-                    className='w-full p-2 border border-gray-300 rounded mb-2'
-                    placeholder='Cijena'
-                />
-                <button type='button' onClick={handleAddArtikl} className='w-full p-2 bg-blue-500 text-white rounded'>
-                    Dodaj Artikl
-                </button>
-            </div>
-
-            {/* Prikaz unesenih artikala */}
-            {artikli.length > 0 && (
-                <div className='mb-4'>
-                    <h3 className='text-xl font-bold mb-2'>Uneseni Artikli</h3>
-                    {artikli.map((artikl, index) => (
-                        <div key={index} className='border-b border-gray-300 py-2'>
-                            {artikl.naziv} - {artikl.kolicina} {artikl.jedinicaMjere}
-                        </div>
-                    ))}
+                <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-medium mb-2">Naziv</label>
+                    <input
+                        type="text"
+                        value={naziv}
+                        onChange={(e) => setNaziv(e.target.value)}
+                        className="w-full p-3 border border-gray-300 rounded-lg"
+                        placeholder="Unesite naziv"
+                        required
+                    />
                 </div>
-            )}
 
-            <button type='submit' className='w-full p-2 text-black border-2 rounded'>
-                Create
-            </button>
-        </form>
+                <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-medium mb-2">Broj dokumenta</label>
+                    <input
+                        type="number"
+                        value={redniBroj}
+                        onChange={(e) => setRedniBroj(e.target.value)}
+                        className="w-full p-3 border border-gray-300 rounded-lg"
+                        placeholder="Unesite broj dokumenta"
+                        required
+                    />
+                </div>
+
+                <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-medium mb-2">Vrsta Dokumenta</label>
+                    <select
+                        value={vrstaDokumentaId}
+                        onChange={(e) => setVrstaDokumentaId(e.target.value)}
+                        className="w-full p-3 border border-gray-300 rounded-lg"
+                        required
+                    >
+                        <option value="">Odaberite vrstu dokumenta</option>
+                        {vrstaDokumenta.map((vrsta) => (
+                            <option key={vrsta.id} value={vrsta.id}>
+                                {vrsta.naziv}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-medium mb-2">Poslovnica</label>
+                    <select
+                        value={poslovniceId}
+                        onChange={(e) => setPoslovnicaId(e.target.value)}
+                        className="w-full p-3 border border-gray-300 rounded-lg"
+                        required
+                    >
+                        <option value="">Odaberite poslovnicu</option>
+                        {poslovnice.map((poslovnica) => (
+                            <option key={poslovnica.id} value={poslovnica.id}>
+                                {poslovnica.naziv}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="mb-6">
+                    <label className="block text-gray-700 text-sm font-medium mb-2">Skladište</label>
+                    <select
+                        value={skladisteId}
+                        onChange={(e) => setSkladisteId(e.target.value)}
+                        className="w-full p-3 border border-gray-300 rounded-lg"
+                        required
+                    >
+                        <option value="">Odaberite skladište</option>
+                        {filteredSkladista.map((skladiste) => (
+                            <option key={skladiste.id} value={skladiste.id}>
+                                {skladiste.naziv}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="mb-6">
+                    <h3 className="text-xl font-semibold mb-4">Dodaj Artikl</h3>
+
+                    <div className="flex items-center mb-4">
+                        <select
+                            value={odabraniArtikl?.id || ""}
+                            onChange={handleOdabraniArtiklChange}
+                            className="w-full p-3 border border-gray-300 rounded-lg"
+                        >
+                            <option value="">Odaberite artikl</option>
+                            {artikliList.map((artikl) => (
+                                <option key={artikl.id} value={artikl.id}>
+                                    {artikl.naziv}
+                                </option>
+                            ))}
+                        </select>
+
+                        <button
+                            type="button"
+                            onClick={() => openDrawer("artikli")}
+                            className="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+                        >
+                            +
+                        </button>
+                    </div>
+
+                    {odabraniArtikl && (
+                        <div className="flex items-center mb-4">
+                            <input
+                                type="number"
+                                value={kolicina}
+                                onChange={(e) => setKolicina(e.target.value)}
+                                placeholder="Količina"
+                                className="w-full p-3 border border-gray-300 rounded-lg"
+                            />
+                            <input
+                                type="number"
+                                value={cijena}
+                                onChange={(e) => setCijena(e.target.value)}
+                                placeholder="Cijena"
+                                className="w-full p-3 border border-gray-300 rounded-lg ml-4"
+                            />
+                            <button
+                                type="button"
+                                onClick={handleAddArtikl}
+                                className="ml-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg"
+                            >
+                                Dodaj
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                <div className="mb-6">
+                    <h3 className="text-xl font-semibold mb-4">Uneseni Artikli</h3>
+                    {artikli.length > 0 ? (
+                        <table className="w-full border-collapse border border-gray-300">
+                            <thead>
+                            <tr>
+                                <th className="border border-gray-300 p-3">Naziv</th>
+                                <th className="border border-gray-300 p-3">Količina</th>
+                                <th className="border border-gray-300 p-3">Cijena</th>
+                                <th className="border border-gray-300 p-3">Ukupno</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {artikli.map((artikl, index) => (
+                                <tr key={index}>
+                                    <td className="border border-gray-300 p-3">{artikl.naziv}</td>
+                                    <td className="border border-gray-300 p-3">{artikl.kolicina}</td>
+                                    <td className="border border-gray-300 p-3">{artikl.cijena}</td>
+                                    <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p className="text-gray-500">Nema unesenih artikala.</p>
+                    )}
+                </div>
+
+                <div className="flex justify-end">
+                    <button
+                        type="submit"
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg"
+                    >
+                        Sačuvaj
+                    </button>
+                </div>
+            </form>
+
+            <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+                {drawerContent === "artikli" && <ArtikliForm />}
+            </Drawer>
+        </div>
     );
 };

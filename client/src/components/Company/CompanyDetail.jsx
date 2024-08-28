@@ -36,9 +36,9 @@ const CompanyDetail = () => {
 
   return (
     <div>
-      <h1>{company.name}</h1>
-      <p>Service ID: {company.serviceId}</p>
-      <button onClick={handleLogout}>Logout</button>
+      {/*<h1>{company.name}</h1>*/}
+      {/*<p>Service ID: {company.serviceId}</p>*/}
+      {/*<button onClick={handleLogout}>Logout</button>*/}
     </div>
   );
 };

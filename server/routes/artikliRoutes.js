@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const {
     createArtikl,
-    updateArtikala,
+    getArtikli,
 } = require("../controllers/ArtikliController");
 
 router.post("/", createArtikl);
-router.put("/:id", updateArtikala);
+router.get("/", getArtikli);
 
 module.exports = router;
