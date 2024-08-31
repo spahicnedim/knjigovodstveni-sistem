@@ -10,6 +10,7 @@ const createDokumenti = async (req, res) => {
         vrstaDokumentaId,
         companyId,
         kupacDobavljacId,
+        pDVId,
         artikli, // Lista objekata sa {id, kolicina, cijena}
     } = req.body;
 
@@ -27,7 +28,8 @@ const createDokumenti = async (req, res) => {
                     skladisteId: parseInt(skladisteId, 10),
                     vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
                     companyId: parseInt(companyId, 10),
-                    kupacDobavljacId: parseInt(kupacDobavljacId, 10)
+                    kupacDobavljacId: parseInt(kupacDobavljacId, 10),
+                    pDVId: parseInt(pDVId, 10)
                 }
             });
 
@@ -59,7 +61,8 @@ const createDokumenti = async (req, res) => {
                     await prisma.artikliCijene.create({
                         data: {
                             artikliId: parseInt(artikl.id, 10),
-                            cijena: parseFloat(artikl.cijena)
+                            cijena: parseFloat(artikl.cijena),
+                            mpcijena: parseFloat(artikl.mpcijena)
                         }
                     });
                 } else {
@@ -78,7 +81,8 @@ const createDokumenti = async (req, res) => {
                     await prisma.artikliCijene.create({
                         data: {
                             artikliId: parseInt(artikl.id, 10),
-                            cijena: parseFloat(artikl.cijena)
+                            cijena: parseFloat(artikl.cijena),
+                            mpcijena: parseFloat(artikl.mpcijena)
                         }
                     });
                 }

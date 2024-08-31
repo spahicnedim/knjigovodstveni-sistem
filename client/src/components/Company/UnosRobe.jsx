@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {createDokument} from "../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";
@@ -7,10 +7,14 @@ import {fetchPoslovnice} from "../../features/poslovnice/poslovnicaThunks.js";
 import {fetchVrstaDokumenta} from "../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 import {fetchArtikli} from "../../features/artikli/artikliThunks.js";
 import {fetchKupciDobavljaci} from "../../features/kupacDobavljac/kupacDobavljacThunk.js";
+import {fetchPdv} from "../../features/dokumenti/dokumentThunks.js";
 import Drawer from "../Drawer";
 import {ArtikliForm} from "./ArtikliForm.jsx";
+import html2pdf from 'html2pdf.js';
+import { useReactToPrint } from 'react-to-print';
 
 export const UnosRobe = () => {
+    const contentRef = useRef();
     const dispatch = useDispatch()
     const [naziv, setNaziv] = useState("");
     const [redniBroj, setRedniBroj] = useState(0);
@@ -24,6 +28,7 @@ export const UnosRobe = () => {
     const [cijena, setCijena] = useState(0);
     const [mpcijena, setMpCijena] = useState(0);
     const [dobavljacId, setDobavljacId] = useState(null);
+    const [aktivniPdv, setAktivniPdv] = useState(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerContent, setDrawerContent] = useState("");
 
@@ -33,6 +38,7 @@ export const UnosRobe = () => {
     const vrstaDokumenta = useSelector((state) => state.vrstaDokumenta.vrsteDokumenata);
     const artikliList = useSelector((state) => state.artikl.artikli);
     const kupciDobavljaci = useSelector((state) => state.kupacDobavljac.kupciDobavljaci);
+    const pdv = useSelector((state)=> state.dokument.pdv)
 
     const { companyId } = useParams();
 
@@ -52,6 +58,7 @@ export const UnosRobe = () => {
         dispatch(fetchVrstaDokumenta())
         dispatch(fetchArtikli());
         dispatch(fetchKupciDobavljaci(companyId))
+        dispatch(fetchPdv())
     }, [dispatch]);
 
     useEffect(() => {
@@ -66,6 +73,11 @@ export const UnosRobe = () => {
         }
     }, [poslovniceId, skladista]);
 
+    useEffect(() => {
+        const aktivni = pdv.find(p => p.Aktivan);
+        setAktivniPdv(aktivni);
+    }, [pdv]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // Provjerite da li su svi podaci ispravni prije slanja
@@ -77,7 +89,8 @@ export const UnosRobe = () => {
             vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
             artikli, // Provjerite da li je ovo lista artikala sa validnim ID-evima
             companyId,
-            kupacDobavljacId: parseInt(dobavljacId, 10)
+            kupacDobavljacId: parseInt(dobavljacId, 10),
+            pDVId: parseInt(aktivniPdv.id, 10)
         }));
     };
 
@@ -125,6 +138,25 @@ export const UnosRobe = () => {
         const factor = Math.pow(10, precision)
         return Math.round(num * factor) / factor
     }
+
+
+    // Funkcija za generisanje PDF-a
+    const handleGeneratePDF = () => {
+        const content = contentRef.current;
+        const opt = {
+            margin: 0.5,
+            filename: 'dokument.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+        html2pdf().from(content).set(opt).save();
+    };
+
+    // Funkcija za pregled PDF-a
+    const handlePrint = useReactToPrint({
+        content: () => contentRef.current,
+    });
 
 
     return (
@@ -287,58 +319,62 @@ export const UnosRobe = () => {
                         </div>
                     )}
                 </div>
-
-                <div className="mb-6">
-                    <h3 className="text-xl font-semibold mb-4">Uneseni Artikli</h3>
-                    {artikli.length > 0 ? (
-                        <table className="w-full border-collapse border border-gray-300">
-                            <thead>
-                            <tr>
-                                <th className="border border-gray-300 p-3">Redni broj</th>
-                                <th className="border border-gray-300 p-3">Naziv</th>
-                                <th className="border border-gray-300 p-3">Jedinica mjere</th>
-                                <th className="border border-gray-300 p-3">Količina</th>
-                                <th className="border border-gray-300 p-3">Fakturna cijena bez PDV-a</th>
-                                <th className="border border-gray-300 p-3">Fakturna vrijednost bez PDV-a</th>
-                                <th className="border border-gray-300 p-3">Zavisni troskovi bez PDV-a</th>
-                                <th className="border border-gray-300 p-3">Nabavna cijena po jedinici mjere</th>
-                                <th className="border border-gray-300 p-3">Nabavna vrijednost bez PDV-a</th>
-                                <th className="border border-gray-300 p-3">Stopa razlike u cijeni</th>
-                                <th className="border border-gray-300 p-3">Iznos razlike u cijeni</th>
-                                <th className="border border-gray-300 p-3">Prodajna vrijednost proizvoda bez PDV-a</th>
-                                <th className="border border-gray-300 p-3">Stopa PDV-a</th>
-                                <th className="border border-gray-300 p-3">Iznos PDV-a</th>
-                                <th className="border border-gray-300 p-3">Maloprodajna vrijednost sa PDV-om</th>
-                                <th className="border border-gray-300 p-3">Maloprodajna cijena sa PDV-om</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {artikli.map((artikl, index) => (
-                                <tr key={index}>
-                                    <td className="border border-gray-300 p-3">{index + 1}</td>
-                                    <td className="border border-gray-300 p-3">{artikl.naziv}</td>
-                                    <td className="border border-gray-300 p-3">{artikl.jedinicaMjere}</td>
-                                    <td className="border border-gray-300 p-3">{artikl.kolicina}</td>
-                                    <td className="border border-gray-300 p-3">{artikl.cijena}</td>
-                                    <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
-                                    <td className="border border-gray-300 p-3">0</td>
-                                    <td className="border border-gray-300 p-3">{artikl.cijena}</td>
-                                    <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
-                                    <td className="border border-gray-300 p-3">{roundTo(((artikl.kolicina * artikl.mpcijena)-(artikl.kolicina * artikl.cijena))/(artikl.kolicina * artikl.mpcijena)*100, 2)}%</td>
-                                    <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena)-(artikl.kolicina * artikl.cijena)}</td>
-                                    <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena)-((artikl.kolicina * artikl.mpcijena)*17)/100}</td>
-                                    <td className="border border-gray-300 p-3">17%</td>
-                                    <td className="border border-gray-300 p-3">{((artikl.kolicina * artikl.mpcijena)*17)/100}</td>
-                                    <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.mpcijena}</td>
-                                    <td className="border border-gray-300 p-3">{artikl.mpcijena}</td>
+                <div ref={contentRef}>
+                    <h1>Naslov Dokumenta</h1>
+                    <div className="mb-6">
+                        <h3 className="text-xl font-semibold mb-4">Uneseni Artikli</h3>
+                        {artikli.length > 0 ? (
+                            <table className="w-full border-collapse border border-gray-300">
+                                <thead>
+                                <tr>
+                                    <th className="border border-gray-300 p-3">Redni broj</th>
+                                    <th className="border border-gray-300 p-3">Naziv</th>
+                                    <th className="border border-gray-300 p-3">Jedinica mjere</th>
+                                    <th className="border border-gray-300 p-3">Količina</th>
+                                    <th className="border border-gray-300 p-3">Fakturna cijena bez PDV-a</th>
+                                    <th className="border border-gray-300 p-3">Fakturna vrijednost bez PDV-a</th>
+                                    <th className="border border-gray-300 p-3">Zavisni troskovi bez PDV-a</th>
+                                    <th className="border border-gray-300 p-3">Nabavna cijena po jedinici mjere</th>
+                                    <th className="border border-gray-300 p-3">Nabavna vrijednost bez PDV-a</th>
+                                    <th className="border border-gray-300 p-3">Stopa razlike u cijeni</th>
+                                    <th className="border border-gray-300 p-3">Iznos razlike u cijeni</th>
+                                    <th className="border border-gray-300 p-3">Prodajna vrijednost proizvoda bez PDV-a
+                                    </th>
+                                    <th className="border border-gray-300 p-3">Stopa PDV-a</th>
+                                    <th className="border border-gray-300 p-3">Iznos PDV-a</th>
+                                    <th className="border border-gray-300 p-3">Maloprodajna vrijednost sa PDV-om</th>
+                                    <th className="border border-gray-300 p-3">Maloprodajna cijena sa PDV-om</th>
                                 </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p className="text-gray-500">Nema unesenih artikala.</p>
-                    )}
+                                </thead>
+                                <tbody>
+                                {artikli.map((artikl, index) => (
+                                    <tr key={index}>
+                                        <td className="border border-gray-300 p-3">{index + 1}</td>
+                                        <td className="border border-gray-300 p-3">{artikl.naziv}</td>
+                                        <td className="border border-gray-300 p-3">{artikl.jedinicaMjere}</td>
+                                        <td className="border border-gray-300 p-3">{artikl.kolicina}</td>
+                                        <td className="border border-gray-300 p-3">{artikl.cijena}</td>
+                                        <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
+                                        <td className="border border-gray-300 p-3">0</td>
+                                        <td className="border border-gray-300 p-3">{artikl.cijena}</td>
+                                        <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
+                                        <td className="border border-gray-300 p-3">{roundTo(((artikl.kolicina * artikl.mpcijena) - (artikl.kolicina * artikl.cijena)) / (artikl.kolicina * artikl.mpcijena) * 100, 2)}%</td>
+                                        <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena) - (artikl.kolicina * artikl.cijena)}</td>
+                                        <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena) - ((artikl.kolicina * artikl.mpcijena) * 17) / 100}</td>
+                                        <td className="border border-gray-300 p-3">{aktivniPdv.stopaPDV}%</td>
+                                        <td className="border border-gray-300 p-3">{((artikl.kolicina * artikl.mpcijena) * 17) / 100}</td>
+                                        <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.mpcijena}</td>
+                                        <td className="border border-gray-300 p-3">{artikl.mpcijena}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p className="text-gray-500">Nema unesenih artikala.</p>
+                        )}
+                    </div>
                 </div>
+
 
                 <div className="flex justify-end">
                     <button
@@ -347,8 +383,17 @@ export const UnosRobe = () => {
                     >
                         Sačuvaj
                     </button>
+                    <button onClick={handleGeneratePDF}
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Generiši
+                        PDF
+                    </button>
+                    <button onClick={handlePrint}
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Pregledaj
+                        PDF
+                    </button>
                 </div>
             </form>
+
 
             <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
                 {drawerContent === "artikli" && <ArtikliForm/>}

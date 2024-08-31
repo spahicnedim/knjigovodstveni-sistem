@@ -4,18 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodani artikli u unosu robe">
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240828114604_povezan_dokument_sa_dobavljacem/migration.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240828155027_dodana_maloprodajnacijena/migration.sql" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="prosirena tabela i dodani dobavljaci u unosu dokumenta">
+      <change afterPath="$PROJECT_DIR$/server/controllers/pdvController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240828183623_dodan_pdv_tabela/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240828183719_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240828183839_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240828190824_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/pdvRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/kupacDobavljac/kupacDobavljacSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/kupacDobavljac/kupacDobavljacSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/kupacDobavljac/kupacDobavljacThunk.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/kupacDobavljac/kupacDobavljacThunk.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/artikliController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/kupacDobavljacController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/kupacDobavljacController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/kupacDobavljacRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/kupacDobavljacRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +113,9 @@
       <workItem from="1724508115409" duration="5247000" />
       <workItem from="1724680397274" duration="12259000" />
       <workItem from="1724778170957" duration="2110000" />
-      <workItem from="1724845019964" duration="9312000" />
+      <workItem from="1724845019964" duration="12843000" />
+      <workItem from="1725027477656" duration="4600000" />
+      <workItem from="1725115282483" duration="337000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -253,7 +261,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724845165512</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="prosirena tabela i dodani dobavljaci u unosu dokumenta">
+      <option name="closed" value="true" />
+      <created>1724869990097</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1724869990097</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,6 +303,7 @@
     <MESSAGE value="dodan unos artikala dinamicki" />
     <MESSAGE value="fix" />
     <MESSAGE value="dodani artikli u unosu robe" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodani artikli u unosu robe" />
+    <MESSAGE value="prosirena tabela i dodani dobavljaci u unosu dokumenta" />
+    <option name="LAST_COMMIT_MESSAGE" value="prosirena tabela i dodani dobavljaci u unosu dokumenta" />
   </component>
 </project>

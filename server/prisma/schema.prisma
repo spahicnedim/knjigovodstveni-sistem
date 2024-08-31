@@ -271,8 +271,17 @@ model Dokumenti {
   artikli          Artikli[]       @relation("ArtikliDokumenti")
   kupacDobavljacId Int?
   kupacDobavljac   KupacDobavljac? @relation(fields: [kupacDobavljacId], references: [id])
+  PDV              PDV?            @relation(fields: [pDVId], references: [id])
+  pDVId            Int?
 
   @@unique([redniBroj])
+}
+
+model PDV {
+  id        Int         @id @default(autoincrement())
+  stopaPDV  Int
+  Aktivan   Boolean
+  dokumenti Dokumenti[]
 }
 
 model Knjige {

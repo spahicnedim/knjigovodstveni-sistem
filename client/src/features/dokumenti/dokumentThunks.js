@@ -12,3 +12,15 @@ export const createDokument = createAsyncThunk(
         }
     }
 );
+
+export const fetchPdv = createAsyncThunk(
+    "pdv/fetchPdv",
+    async (_, thunkAPI) => {
+        try {
+            const response = await api.get("/pdv");
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
