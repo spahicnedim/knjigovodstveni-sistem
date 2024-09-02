@@ -1,0 +1,12 @@
+@media print {
+    body {
+        margin: 0;
+        overflow: hidden;
+    }
+
+    .printable-area {
+        width: 100%;
+        box-sizing: border-box;
+        page-break-inside: avoid;
+    }
+}
