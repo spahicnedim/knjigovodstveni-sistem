@@ -8,11 +8,8 @@ import {fetchVrstaDokumenta} from "../../../features/vrstaDokumenta/vrstaDokumen
 import {fetchArtikli} from "../../../features/artikli/artikliThunks.js";
 import {fetchKupciDobavljaci} from "../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import {fetchPdv} from "../../../features/dokumenti/dokumentThunks.js";
-import Drawer from "../../Drawer.jsx";
-import {ArtikliForm} from "../Forme/ArtikliForm.jsx";
 import html2pdf from 'html2pdf.js';
 import { useReactToPrint } from 'react-to-print';
-import PdfContent from "../PDFLayout/PDFDokument.jsx";
 import UlaznaKalkulacija from "../VrsteDokumenata/UlaznaKalkulacija.jsx";
 
 export const UnosRobe = () => {
@@ -31,6 +28,11 @@ export const UnosRobe = () => {
     const [mpcijena, setMpCijena] = useState(0);
     const [dobavljacId, setDobavljacId] = useState(null);
     const [aktivniPdv, setAktivniPdv] = useState(null);
+    const [datumIzdavanjaDokumenta, setDatumIzdavanjaDokumenta] = useState('')
+    const [datumKreiranjaKalkulacije, setDatumKreiranjaKalkulacije] = useState('')
+
+
+
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerContent, setDrawerContent] = useState("");
     const [isContentVisible, setIsContentVisible] = useState(false);
@@ -91,7 +93,9 @@ export const UnosRobe = () => {
             artikli, // Provjerite da li je ovo lista artikala sa validnim ID-evima
             companyId,
             kupacDobavljacId: parseInt(dobavljacId, 10),
-            pDVId: parseInt(aktivniPdv.id, 10)
+            pDVId: parseInt(aktivniPdv.id, 10),
+            datumIzdavanjaDokumenta,
+            datumKreiranjaKalkulacije,
         }));
     };
 
@@ -249,6 +253,10 @@ export const UnosRobe = () => {
                             isContentVisible={isContentVisible}
                             contentRef={contentRef}
                             aktivniPdv={aktivniPdv}
+                            datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
+                            setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
+                            datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
+                            setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
                             handleGeneratePDF={handleGeneratePDF}
                             handlePrint={handlePrint}
                             handleToggleContent={handleToggleContent}

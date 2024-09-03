@@ -11,6 +11,8 @@ const createDokumenti = async (req, res) => {
         companyId,
         kupacDobavljacId,
         pDVId,
+        datumIzdavanjaDokumenta,
+        datumKreiranjaKalkulacije,
         artikli, // Lista objekata sa {id, kolicina, cijena}
     } = req.body;
 
@@ -18,6 +20,10 @@ const createDokumenti = async (req, res) => {
         if (!naziv || !redniBroj || !poslovniceId || !skladisteId || !vrstaDokumentaId || !companyId || !Array.isArray(artikli)) {
             return res.status(400).json({ error: "Missing or invalid required fields" });
         }
+
+        
+        const validDatumIzdavanja = new Date(datumIzdavanjaDokumenta);
+        const validDatumKreiranja = new Date(datumKreiranjaKalkulacije);
 
         const dokument = await prisma.$transaction(async (prisma) => {
             const createdDokument = await prisma.dokumenti.create({
@@ -29,7 +35,9 @@ const createDokumenti = async (req, res) => {
                     vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
                     companyId: parseInt(companyId, 10),
                     kupacDobavljacId: parseInt(kupacDobavljacId, 10),
-                    pDVId: parseInt(pDVId, 10)
+                    pDVId: parseInt(pDVId, 10),
+                    datumIzdavanjaDokumenta: validDatumIzdavanja,
+                    datumKreiranjaKalkulacije: validDatumKreiranja
                 }
             });
 
@@ -104,18 +112,28 @@ const updateDokumenta = async (req, res) => {
     const {
         naziv,
         redniBroj,
-        vrstaDokumentaId
+        vrstaDokumentaId,
+        datumIzdavanjaDokumenta,
+        datumKreiranjaKalkulacije
     } = req.body;
 
     try {
+
+        const validDatumIzdavanja = new Date(datumIzdavanjaDokumenta);
+        const validDatumKreiranja = new Date(datumKreiranjaKalkulacije);
+
+
         const dokument = await prisma.dokumenti.update({
+
             where: {
                 id: parseInt(id, 10), // Ensure id is correctly parsed to an integer
             },
             data: {
                 naziv,
                 redniBroj,
-                vrstaDokumentaId
+                vrstaDokumentaId,
+                datumIzdavanjaDokumenta:validDatumIzdavanja,
+                datumKreiranjaKalkulacije: datumKreiranjaKalkulacije
             },
         });
 

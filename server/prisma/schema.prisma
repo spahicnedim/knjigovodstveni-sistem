@@ -252,27 +252,28 @@ model SjedisteFirme {
 // Knjige i dokumenti
 
 model Dokumenti {
-  id               Int             @id @default(autoincrement())
-  naziv            String
-  datum            DateTime        @default(now())
-  Godine           Godine?         @relation(fields: [godineId], references: [id])
-  godineId         Int?
-  Company          Company?        @relation(fields: [companyId], references: [id])
-  companyId        Int?
-  Poslovnice       Poslovnice?     @relation(fields: [poslovniceId], references: [id])
-  poslovniceId     Int?
-  Skladiste        Skladiste?      @relation(fields: [skladisteId], references: [id])
-  skladisteId      Int?
-  VrstaDokumenta   VrstaDokumenta? @relation(fields: [vrstaDokumentaId], references: [id])
-  vrstaDokumentaId Int?
-  redniBroj        Int
-  Knjige           Knjige?         @relation(fields: [knjigeId], references: [id])
-  knjigeId         Int?
-  artikli          Artikli[]       @relation("ArtikliDokumenti")
-  kupacDobavljacId Int?
-  kupacDobavljac   KupacDobavljac? @relation(fields: [kupacDobavljacId], references: [id])
-  PDV              PDV?            @relation(fields: [pDVId], references: [id])
-  pDVId            Int?
+  id                        Int             @id @default(autoincrement())
+  naziv                     String
+  datumIzdavanjaDokumenta   DateTime
+  datumKreiranjaKalkulacije DateTime
+  Godine                    Godine?         @relation(fields: [godineId], references: [id])
+  godineId                  Int?
+  Company                   Company?        @relation(fields: [companyId], references: [id])
+  companyId                 Int?
+  Poslovnice                Poslovnice?     @relation(fields: [poslovniceId], references: [id])
+  poslovniceId              Int?
+  Skladiste                 Skladiste?      @relation(fields: [skladisteId], references: [id])
+  skladisteId               Int?
+  VrstaDokumenta            VrstaDokumenta? @relation(fields: [vrstaDokumentaId], references: [id])
+  vrstaDokumentaId          Int?
+  redniBroj                 Int
+  Knjige                    Knjige?         @relation(fields: [knjigeId], references: [id])
+  knjigeId                  Int?
+  artikli                   Artikli[]       @relation("ArtikliDokumenti")
+  kupacDobavljacId          Int?
+  kupacDobavljac            KupacDobavljac? @relation(fields: [kupacDobavljacId], references: [id])
+  PDV                       PDV?            @relation(fields: [pDVId], references: [id])
+  pDVId                     Int?
 
   @@unique([redniBroj])
 }

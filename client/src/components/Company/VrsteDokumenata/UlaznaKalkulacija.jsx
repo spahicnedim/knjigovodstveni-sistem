@@ -33,6 +33,10 @@ const UlaznaKalkulacija = ({
                                isContentVisible,
                                contentRef,
                                aktivniPdv,
+                               datumIzdavanjaDokumenta,
+                               setDatumIzdavanjaDokumenta,
+                               datumKreiranjaKalkulacije,
+                               setDatumKreiranjaKalkulacije,
                                handleGeneratePDF,
                                handlePrint,
                                handleToggleContent,
@@ -62,6 +66,26 @@ const UlaznaKalkulacija = ({
                 onChange={(e) => setRedniBroj(e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg"
                 placeholder="Unesite broj dokumenta"
+                required
+            />
+        </div>
+        <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-medium mb-2">Datum izdavanja dokumenta</label>
+            <input
+                type="date"
+                value={datumIzdavanjaDokumenta}
+                onChange={(e) => setDatumIzdavanjaDokumenta(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg"
+                required
+            />
+        </div>
+        <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-medium mb-2">Datum kreiranja kalkulacije</label>
+            <input
+                type="date"
+                value={datumKreiranjaKalkulacije}
+                onChange={(e) => setDatumKreiranjaKalkulacije(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg"
                 required
             />
         </div>
@@ -122,18 +146,6 @@ const UlaznaKalkulacija = ({
             <h3 className="text-xl font-semibold mb-4">Dodaj Artikl</h3>
 
             <div className="flex items-center mb-4">
-                {/*<select*/}
-                {/*    value={odabraniArtikl?.id || ""}*/}
-                {/*    onChange={handleOdabraniArtiklChange}*/}
-                {/*    className="w-full p-3 border border-gray-300 rounded-lg"*/}
-                {/*>*/}
-                {/*    <option value="">Odaberite artikl</option>*/}
-                {/*    {artikliList.map((artikl) => (*/}
-                {/*        <option key={artikl.id} value={artikl.id}>*/}
-                {/*            {artikl.naziv}*/}
-                {/*        </option>*/}
-                {/*    ))}*/}
-                {/*</select>*/}
                 <Select
                     options={artikliList.map((artikl) => ({
                         value: artikl.id,
@@ -227,22 +239,22 @@ const UlaznaKalkulacija = ({
                     <tbody>
                     {artikli.map((artikl, index) => (
                         <tr key={index}>
-                                                <td className="border border-gray-300 p-3">{index + 1}</td>
-                                                <td className="border border-gray-300 p-3">{artikl.naziv}</td>
-                                                <td className="border border-gray-300 p-3">{artikl.jedinicaMjere}</td>
-                                                <td className="border border-gray-300 p-3">{artikl.kolicina}</td>
-                                                <td className="border border-gray-300 p-3">{artikl.cijena}</td>
-                                                <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
-                                                <td className="border border-gray-300 p-3">0</td>
-                                                <td className="border border-gray-300 p-3">{artikl.cijena}</td>
-                                                <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
-                                                <td className="border border-gray-300 p-3">{roundTo(((artikl.kolicina * artikl.mpcijena) - (artikl.kolicina * artikl.cijena)) / (artikl.kolicina * artikl.mpcijena) * 100, 2)}%</td>
-                                                <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena) - (artikl.kolicina * artikl.cijena)}</td>
-                                                <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena) - ((artikl.kolicina * artikl.mpcijena) * 17) / 100}</td>
-                                                <td className="border border-gray-300 p-3">{aktivniPdv.stopaPDV}%</td>
-                                                <td className="border border-gray-300 p-3">{((artikl.kolicina * artikl.mpcijena) * 17) / 100}</td>
-                                                <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.mpcijena}</td>
-                                                <td className="border border-gray-300 p-3">{artikl.mpcijena}</td>
+                            <td className="border border-gray-300 p-3">{index + 1}</td>
+                            <td className="border border-gray-300 p-3">{artikl.naziv}</td>
+                            <td className="border border-gray-300 p-3">{artikl.jedinicaMjere}</td>
+                            <td className="border border-gray-300 p-3">{artikl.kolicina}</td>
+                            <td className="border border-gray-300 p-3">{artikl.cijena}</td>
+                            <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
+                            <td className="border border-gray-300 p-3">0</td>
+                            <td className="border border-gray-300 p-3">{artikl.cijena}</td>
+                            <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.cijena}</td>
+                            <td className="border border-gray-300 p-3">{roundTo(((artikl.kolicina * artikl.mpcijena) - (artikl.kolicina * artikl.cijena)) / (artikl.kolicina * artikl.mpcijena) * 100, 2)}%</td>
+                            <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena) - (artikl.kolicina * artikl.cijena)}</td>
+                            <td className="border border-gray-300 p-3">{(artikl.kolicina * artikl.mpcijena) - ((artikl.kolicina * artikl.mpcijena) * 17) / 100}</td>
+                            <td className="border border-gray-300 p-3">{aktivniPdv.stopaPDV}%</td>
+                            <td className="border border-gray-300 p-3">{((artikl.kolicina * artikl.mpcijena) * 17) / 100}</td>
+                            <td className="border border-gray-300 p-3">{artikl.kolicina * artikl.mpcijena}</td>
+                            <td className="border border-gray-300 p-3">{artikl.mpcijena}</td>
                         </tr>
                     ))}
                     </tbody>
@@ -273,13 +285,13 @@ const UlaznaKalkulacija = ({
         <button
             type="button"
             onClick={handleGeneratePDF}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Generiši
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Generiši
             PDF
         </button>
         <button
             type="button"
             onClick={handlePrint}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Pregledaj
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Pregledaj
             PDF
         </button>
         <button
@@ -294,14 +306,6 @@ const UlaznaKalkulacija = ({
             {drawerContent === "artikli" && <ArtikliForm/>}
         </Drawer>
 
-        {/*{isContentVisible && (*/}
-        {/*    <div ref={contentRef} className="pdf-content">*/}
-        {/*        <PdfContent*/}
-        {/*            aktivniPdv={aktivniPdv}*/}
-        {/*            roundTo={roundTo}*/}
-        {/*        />*/}
-        {/*    </div>*/}
-        {/*)}*/}
     </>
 );
 
