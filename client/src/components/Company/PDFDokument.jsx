@@ -8,7 +8,7 @@ const PdfContent = React.forwardRef(({ artikli, aktivniPdv, roundTo, naziv, broj
             <div className="mx-auto bg-white p-8 mt-8">
                 <div className="flex justify-between items-center mb-4">
                     <span className="text-lg">KALKULACIJA CIJENA BROJ {brojDokumenta}</span>
-                    <span className="text-sm">Obrazac KCV</span>
+                    <span className="text-sm">Obrazac KCM</span>
                 </div>
                 <div className="flex justify-between mb-4">
                     <div className="w-1/2 pr-2">

@@ -2,6 +2,7 @@ import {ArtikliForm} from './ArtikliForm';
 import Drawer from '../Drawer.jsx';
 import PdfContent from './PDFDokument.jsx';
 import {roundTo} from "../../utils/RoundTo.jsx";
+import Select from "react-select";
 
 const UlaznaKalkulacija = ({
                                naziv,
@@ -19,6 +20,7 @@ const UlaznaKalkulacija = ({
                                kupciDobavljaci,
                                artikliList,
                                odabraniArtikl,
+                               setOdabraniArtikl,
                                handleOdabraniArtiklChange,
                                kolicina,
                                setKolicina,
@@ -120,19 +122,37 @@ const UlaznaKalkulacija = ({
             <h3 className="text-xl font-semibold mb-4">Dodaj Artikl</h3>
 
             <div className="flex items-center mb-4">
-                <select
-                    value={odabraniArtikl?.id || ""}
-                    onChange={handleOdabraniArtiklChange}
+                {/*<select*/}
+                {/*    value={odabraniArtikl?.id || ""}*/}
+                {/*    onChange={handleOdabraniArtiklChange}*/}
+                {/*    className="w-full p-3 border border-gray-300 rounded-lg"*/}
+                {/*>*/}
+                {/*    <option value="">Odaberite artikl</option>*/}
+                {/*    {artikliList.map((artikl) => (*/}
+                {/*        <option key={artikl.id} value={artikl.id}>*/}
+                {/*            {artikl.naziv}*/}
+                {/*        </option>*/}
+                {/*    ))}*/}
+                {/*</select>*/}
+                <Select
+                    options={artikliList.map((artikl) => ({
+                        value: artikl.id,
+                        label: artikl.naziv,
+                    }))}
+                    value={
+                        artikliList.find((artikl) => artikl.id === odabraniArtikl?.id)
+                            ? {
+                                value: odabraniArtikl.id,
+                                label: artikliList.find((artikl) => artikl.id === odabraniArtikl.id).naziv,
+                            }
+                            : null
+                    }
+                    onChange={(selectedOption) =>
+                        setOdabraniArtikl(selectedOption ? artikliList.find((artikl) => artikl.id === selectedOption.value) : null)
+                    }
+                    placeholder="Odaberite artikl"
                     className="w-full p-3 border border-gray-300 rounded-lg"
-                >
-                    <option value="">Odaberite artikl</option>
-                    {artikliList.map((artikl) => (
-                        <option key={artikl.id} value={artikl.id}>
-                            {artikl.naziv}
-                        </option>
-                    ))}
-                </select>
-
+                />
                 <button
                     type="button"
                     onClick={() => openDrawer("artikli")}
@@ -144,6 +164,7 @@ const UlaznaKalkulacija = ({
 
             {odabraniArtikl && (
                 <div className="flex items-center mb-4">
+                    <label>Kolicina:</label>
                     <input
                         type="number"
                         value={kolicina}
@@ -151,6 +172,7 @@ const UlaznaKalkulacija = ({
                         placeholder="Količina"
                         className="w-full p-3 border border-gray-300 rounded-lg"
                     />
+                    <label>Nabavna cijena:</label>
                     <input
                         type="number"
                         value={cijena}
@@ -158,6 +180,7 @@ const UlaznaKalkulacija = ({
                         placeholder="Cijena"
                         className="w-full p-3 border border-gray-300 rounded-lg ml-4"
                     />
+                    <label>Maloprodajna cijena:</label>
                     <input
                         type="number"
                         value={mpcijena}

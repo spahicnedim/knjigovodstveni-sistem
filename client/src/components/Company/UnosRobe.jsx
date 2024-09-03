@@ -146,10 +146,6 @@ export const UnosRobe = () => {
         }
     }, [odabraniArtikl]);
 
-    // function roundTo(num, precision) {
-    //     const factor = Math.pow(10, precision)
-    //     return Math.round(num * factor) / factor
-    // }
 
 
     const handleGeneratePDF = () => {
@@ -478,6 +474,7 @@ export const UnosRobe = () => {
                             kupciDobavljaci={kupciDobavljaci}
                             artikliList={artikliList}
                             odabraniArtikl={odabraniArtikl}
+                            setOdabraniArtikl={setOdabraniArtikl}
                             handleOdabraniArtiklChange={handleOdabraniArtiklChange}
                             kolicina={kolicina}
                             setKolicina={setKolicina}
