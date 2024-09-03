@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../styles/pdf.css"
+import "../../../styles/pdf.css"
 
 // eslint-disable-next-line react/display-name,react/prop-types
 const PdfContent = React.forwardRef(({ artikli, aktivniPdv, roundTo, naziv, brojDokumenta, dobavljac }, ref) => {

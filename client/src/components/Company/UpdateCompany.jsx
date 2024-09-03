@@ -21,9 +21,9 @@ import {
 import io from "socket.io-client";
 import { fetchDjelatnosti } from "../../features/djelatnost/djelatnostThunk";
 import Drawer from "../Drawer";
-import GradForm from "./CityForm";
-import DrzavaForm from "./DrzavaForm";
-import DjelatnostForm from "./DjelatnostForm";
+import GradForm from "./Forme/CityForm.jsx";
+import DrzavaForm from "./Forme/DrzavaForm.jsx";
+import DjelatnostForm from "./Forme/DjelatnostForm.jsx";
 
 const socket = io("http://localhost:3001");
 

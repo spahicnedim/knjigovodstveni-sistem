@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { createArtikli, fetchArtikli } from "../../features/artikli/artikliThunks";
+import { createArtikli, fetchArtikli } from "../../../features/artikli/artikliThunks.js";
 
 export const ArtikliForm = () => {
 

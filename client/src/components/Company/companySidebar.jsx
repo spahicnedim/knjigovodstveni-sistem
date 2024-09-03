@@ -37,8 +37,34 @@ const CompanySidebar = () => {
             icon={<FaHome />}
             className='text-white hover:text-black'
         >
-          Unos robe
+          Kreiraj dokumente
         </MenuItem>
+        <SubMenu
+            label='Lista Dokumenata'
+            className='text-white'
+            icon={<FaBuilding />}
+            rootStyles={{
+              ["& > ." + menuClasses.button]: {
+                backgroundColor: "#023E8A",
+                color: "white",
+                "&:hover": {
+                  color: "black",
+                },
+              },
+              ["." + menuClasses.subMenuContent]: {
+                backgroundColor: "#023E8A",
+                color: "white",
+              },
+            }}
+        >
+          <MenuItem
+              component={<Link to='listaDokumenata/maloprodajna-kalkulacija' />}
+              icon={<FaHome />}
+              className='text-white hover:text-black'
+          >
+            Maloprodajna Kalkulacija
+          </MenuItem>
+        </SubMenu>
         <SubMenu
             label='Sifrarnik'
             className='text-white'

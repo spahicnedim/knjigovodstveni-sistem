@@ -3,8 +3,9 @@ import CompanyDetail from "../components/Company/CompanyDetail";
 import CompanySidebar from "../components/Company/companySidebar";
 import CompanyHome from "../components/Company/CompanyHome";
 import Dashboard from "../components/Company/Dashboard";
-import {UnosRobe} from "../components/Company/UnosRobe.jsx";
+import {UnosRobe} from "../components/Company/KreirajDokumente/UnosRobe.jsx";
 import {Sifrarnik} from "../components/Company/Sifrarnik.jsx";
+import {ListaDokumenata} from "../components/Company/ListaDokumenata.jsx";
 
 const Companies = () => {
   return (
@@ -23,6 +24,10 @@ const Companies = () => {
             <Route
                 path='sifrarnik/*'
                 element={<Sifrarnik />}
+            />
+            <Route
+                path='listaDokumenata/*'
+                element={<ListaDokumenata />}
             />
         </Routes>
       </div>

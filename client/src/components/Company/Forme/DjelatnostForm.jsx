@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createDjelatnost } from "../../features/djelatnost/djelatnostThunk";
+import { createDjelatnost } from "../../../features/djelatnost/djelatnostThunk.js";
 import { useParams } from "react-router-dom";
 
 const DjelatnostForm = () => {

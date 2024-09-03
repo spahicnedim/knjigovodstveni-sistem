@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="doradjen pdf i osnovne neke izmjene dokumenta">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="sitne izmjene u artiklima">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/ListaDokumenata.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/PDFDokument.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/PDFDokument.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UlaznaKalkulacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/ArtikliForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/ArtikliForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/CityForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/CityForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/DjelatnostForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/DjelatnostForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/DrzavaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/DrzavaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KupacDobavljac.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KupacDobavljac.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/PDFDokument.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/PDFLayout/PDFDokument.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +75,14 @@
       </map>
     </option>
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\Forme" />
+      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\KreirajDokumente" />
+      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\PDFLayout" />
+      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\VrsteDokumenata" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -107,7 +125,7 @@
       <workItem from="1725115282483" duration="3049000" />
       <workItem from="1725206421433" duration="6095000" />
       <workItem from="1725295281131" duration="10844000" />
-      <workItem from="1725374376171" duration="1377000" />
+      <workItem from="1725374376171" duration="6363000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -277,7 +295,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725307924324</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="sitne izmjene u artiklima">
+      <option name="closed" value="true" />
+      <created>1725377319170</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1725377319170</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -314,6 +340,7 @@
     <MESSAGE value="prosirena tabela i dodani dobavljaci u unosu dokumenta" />
     <MESSAGE value="pdf osnovna struktura" />
     <MESSAGE value="doradjen pdf i osnovne neke izmjene dokumenta" />
-    <option name="LAST_COMMIT_MESSAGE" value="doradjen pdf i osnovne neke izmjene dokumenta" />
+    <MESSAGE value="sitne izmjene u artiklima" />
+    <option name="LAST_COMMIT_MESSAGE" value="sitne izmjene u artiklima" />
   </component>
 </project>

@@ -1,7 +1,7 @@
-import {ArtikliForm} from './ArtikliForm';
-import Drawer from '../Drawer.jsx';
-import PdfContent from './PDFDokument.jsx';
-import {roundTo} from "../../utils/RoundTo.jsx";
+import {ArtikliForm} from '../Forme/ArtikliForm.jsx';
+import Drawer from '../../Drawer.jsx';
+import PdfContent from '../PDFLayout/PDFDokument.jsx';
+import {roundTo} from "../../../utils/RoundTo.jsx";
 import Select from "react-select";
 
 const UlaznaKalkulacija = ({
