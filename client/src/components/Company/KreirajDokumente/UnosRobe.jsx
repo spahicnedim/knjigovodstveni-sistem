@@ -8,6 +8,7 @@ import {fetchVrstaDokumenta} from "../../../features/vrstaDokumenta/vrstaDokumen
 import {fetchArtikli} from "../../../features/artikli/artikliThunks.js";
 import {fetchKupciDobavljaci} from "../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import {fetchPdv} from "../../../features/dokumenti/dokumentThunks.js";
+import {fetchValuta} from "../../../features/valute/valuteThunks.js";
 import html2pdf from 'html2pdf.js';
 import { useReactToPrint } from 'react-to-print';
 import UlaznaKalkulacija from "../VrsteDokumenata/UlaznaKalkulacija.jsx";
@@ -30,6 +31,7 @@ export const UnosRobe = () => {
     const [aktivniPdv, setAktivniPdv] = useState(null);
     const [datumIzdavanjaDokumenta, setDatumIzdavanjaDokumenta] = useState('')
     const [datumKreiranjaKalkulacije, setDatumKreiranjaKalkulacije] = useState('')
+    const [valutaId, setValutaId] = useState(null)
 
 
 
@@ -43,7 +45,8 @@ export const UnosRobe = () => {
     const vrstaDokumenta = useSelector((state) => state.vrstaDokumenta.vrsteDokumenata);
     const artikliList = useSelector((state) => state.artikl.artikli);
     const kupciDobavljaci = useSelector((state) => state.kupacDobavljac.kupciDobavljaci);
-    const pdv = useSelector((state)=> state.dokument.pdv)
+    const pdv = useSelector((state)=> state.dokument.pdv);
+    const valute = useSelector((state) => state.valuta.valute)
 
     const { companyId } = useParams();
 
@@ -64,6 +67,7 @@ export const UnosRobe = () => {
         dispatch(fetchArtikli());
         dispatch(fetchKupciDobavljaci(companyId))
         dispatch(fetchPdv())
+        dispatch(fetchValuta())
     }, [dispatch]);
 
     useEffect(() => {
@@ -96,6 +100,7 @@ export const UnosRobe = () => {
             pDVId: parseInt(aktivniPdv.id, 10),
             datumIzdavanjaDokumenta,
             datumKreiranjaKalkulacije,
+            valutaId: parseInt(valutaId, 10)
         }));
     };
 
@@ -257,6 +262,9 @@ export const UnosRobe = () => {
                             setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
                             datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
                             setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
+                            valutaId={valutaId}
+                            setValutaId={setValutaId}
+                            valute={valute}
                             handleGeneratePDF={handleGeneratePDF}
                             handlePrint={handlePrint}
                             handleToggleContent={handleToggleContent}

@@ -13,6 +13,7 @@ const createDokumenti = async (req, res) => {
         pDVId,
         datumIzdavanjaDokumenta,
         datumKreiranjaKalkulacije,
+        valutaId,
         artikli, // Lista objekata sa {id, kolicina, cijena}
     } = req.body;
 
@@ -21,7 +22,7 @@ const createDokumenti = async (req, res) => {
             return res.status(400).json({ error: "Missing or invalid required fields" });
         }
 
-        
+
         const validDatumIzdavanja = new Date(datumIzdavanjaDokumenta);
         const validDatumKreiranja = new Date(datumKreiranjaKalkulacije);
 
@@ -37,7 +38,8 @@ const createDokumenti = async (req, res) => {
                     kupacDobavljacId: parseInt(kupacDobavljacId, 10),
                     pDVId: parseInt(pDVId, 10),
                     datumIzdavanjaDokumenta: validDatumIzdavanja,
-                    datumKreiranjaKalkulacije: validDatumKreiranja
+                    datumKreiranjaKalkulacije: validDatumKreiranja,
+                    valutaId: parseInt(valutaId, 10)
                 }
             });
 

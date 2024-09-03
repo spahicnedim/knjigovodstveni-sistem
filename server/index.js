@@ -22,6 +22,7 @@ const dokumentRoute = require("./routes/dokumentRoutes");
 const vrstaDokumentaRoute = require("./routes/vrstaDokumentaRoutes");
 const vrstaSkladistaRoute = require("./routes/vrstaSkladistaRoutes");
 const pdvRoute = require("./routes/pdvRoutes")
+const valuteRoutes = require("./routes/valuteRoutes")
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use("/api/dokument", dokumentRoute);
 app.use("/api/vrstaDokumenta", vrstaDokumentaRoute);
 app.use("/api/vrstaSkladista", vrstaSkladistaRoute);
 app.use("/api/pdv", pdvRoute)
+app.use("/api/valuta", valuteRoutes)
 
 const PORT = process.env.PORT || 3000;
 

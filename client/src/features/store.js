@@ -17,6 +17,7 @@ import poslovnicaReducer from "./poslovnice/poslovnicaSlice.js";
 import vrstaSkladistaReducer from "./vrstaSkladista/vrstaSkladistaSlice.js";
 import vrstaDokumentaReducer from "./vrstaDokumenta/vrstaDokumentaSlice.js";
 import artikliReducer from "./artikli/artikliSlice.js"
+import valuteReducer from "./valute/valuteSlice.js"
 
 const persistConfig = {
   key: "auth", // Specify a different key for each reducer
@@ -64,7 +65,8 @@ const store = configureStore({
     poslovnica: poslovnicaReducer,
     vrstaSkladista: vrstaSkladistaReducer,
     vrstaDokumenta: vrstaDokumentaReducer,
-    artikl: artikliReducer
+    artikl: artikliReducer,
+    valuta: valuteReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -37,6 +37,9 @@ const UlaznaKalkulacija = ({
                                setDatumIzdavanjaDokumenta,
                                datumKreiranjaKalkulacije,
                                setDatumKreiranjaKalkulacije,
+                               valutaId,
+                               setValutaId,
+                               valute,
                                handleGeneratePDF,
                                handlePrint,
                                handleToggleContent,
@@ -139,6 +142,22 @@ const UlaznaKalkulacija = ({
                             {dobavljac.name}
                         </option>
                     ))}
+            </select>
+        </div>
+        <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-medium mb-2">Valuta</label>
+            <select
+                value={valutaId}
+                onChange={(e) => setValutaId(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg"
+                required
+            >
+                <option value="">Odaberite Valutu</option>
+                {valute.map((valuta) => (
+                    <option key={valuta.id} value={valuta.id}>
+                        {valuta.naziv}
+                    </option>
+                ))}
             </select>
         </div>
 
