@@ -12,6 +12,8 @@ import {fetchValuta} from "../../../features/valute/valuteThunks.js";
 import html2pdf from 'html2pdf.js';
 import { useReactToPrint } from 'react-to-print';
 import UlaznaKalkulacija from "../VrsteDokumenata/UlaznaKalkulacija.jsx";
+import {ArtikliForm} from "../Forme/ArtikliForm.jsx";
+import Drawer from "../../Drawer.jsx";
 
 export const UnosRobe = () => {
     const contentRef = useRef();
@@ -279,7 +281,9 @@ export const UnosRobe = () => {
 
             </form>
 
-
+            <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+                {drawerContent === "artikli" && <ArtikliForm/>}
+            </Drawer>
         </div>
     );
 };

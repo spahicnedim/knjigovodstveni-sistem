@@ -4,21 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="rijeseni datumi za dokumente">
-      <change afterPath="$PROJECT_DIR$/client/src/features/valute/valuteSlice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/valute/valuteThunks.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/controllers/valuteController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240903200200_dodani_datumi_u_dokument/migration.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240903202753_dodane_valute/migration.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240903204436_/migration.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routes/valuteRoutes.js" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana valuta">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/ArtikliForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/ArtikliForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/artikliController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +116,8 @@
       <workItem from="1725115282483" duration="3049000" />
       <workItem from="1725206421433" duration="6095000" />
       <workItem from="1725295281131" duration="10844000" />
-      <workItem from="1725374376171" duration="9381000" />
+      <workItem from="1725374376171" duration="9576000" />
+      <workItem from="1725460709916" duration="5773000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -319,7 +311,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725395179255</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="dodana valuta">
+      <option name="closed" value="true" />
+      <created>1725396578846</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1725396578846</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,6 +359,7 @@
     <MESSAGE value="sitne izmjene u artiklima" />
     <MESSAGE value="osnova za listu dokumenata" />
     <MESSAGE value="rijeseni datumi za dokumente" />
-    <option name="LAST_COMMIT_MESSAGE" value="rijeseni datumi za dokumente" />
+    <MESSAGE value="dodana valuta" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodana valuta" />
   </component>
 </project>

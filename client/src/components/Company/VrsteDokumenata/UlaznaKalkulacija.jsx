@@ -3,6 +3,7 @@ import Drawer from '../../Drawer.jsx';
 import PdfContent from '../PDFLayout/PDFDokument.jsx';
 import {roundTo} from "../../../utils/RoundTo.jsx";
 import Select from "react-select";
+import {useEffect, useState} from "react";
 
 const UlaznaKalkulacija = ({
                                naziv,
@@ -47,7 +48,38 @@ const UlaznaKalkulacija = ({
                                closeDrawer,
                                drawerContent,
                                openDrawer
-                         }) => (
+                         }) => {
+
+    const [inputValue, setInputValue] = useState('');
+    const [options, setOptions] = useState([]);
+
+    useEffect(() => {
+        const artikliOptions = artikliList.map((artikl) => ({
+            value: artikl.id,
+            label: artikl.naziv,
+        }));
+
+        // Dodaj opciju "Create" ako unos ne postoji u opcijama
+        if (inputValue && !artikliOptions.some(option => option.label.toLowerCase() === inputValue.toLowerCase())) {
+            artikliOptions.push({
+                label: `Create "${inputValue}"`,
+                value: 'create',
+                isCreateOption: true
+            });
+        }
+
+        setOptions(artikliOptions);
+    }, [inputValue, artikliList]);
+
+    const handleSelectChange = (selectedOption) => {
+        if (selectedOption?.isCreateOption) {
+            openDrawer("artikli")
+        } else {
+            setOdabraniArtikl(selectedOption ? artikliList.find((artikl) => artikl.id === selectedOption.value) : null);
+        }
+    };
+
+    return (
     <>
         <div className="mb-6">
             <label className="block text-gray-700 text-sm font-medium mb-2">Naziv</label>
@@ -165,25 +197,33 @@ const UlaznaKalkulacija = ({
             <h3 className="text-xl font-semibold mb-4">Dodaj Artikl</h3>
 
             <div className="flex items-center mb-4">
+                {/*<Select*/}
+                {/*    options={artikliList.map((artikl) => ({*/}
+                {/*        value: artikl.id,*/}
+                {/*        label: artikl.naziv,*/}
+                {/*    }))}*/}
+                {/*    value={*/}
+                {/*        artikliList.find((artikl) => artikl.id === odabraniArtikl?.id)*/}
+                {/*            ? {*/}
+                {/*                value: odabraniArtikl.id,*/}
+                {/*                label: artikliList.find((artikl) => artikl.id === odabraniArtikl.id).naziv,*/}
+                {/*            }*/}
+                {/*            : null*/}
+                {/*    }*/}
+                {/*    onChange={(selectedOption) =>*/}
+                {/*        setOdabraniArtikl(selectedOption ? artikliList.find((artikl) => artikl.id === selectedOption.value) : null)*/}
+                {/*    }*/}
+                {/*    placeholder="Odaberite artikl"*/}
+                {/*    className="w-full p-3 border border-gray-300 rounded-lg"*/}
+                {/*/>*/}
                 <Select
-                    options={artikliList.map((artikl) => ({
-                        value: artikl.id,
-                        label: artikl.naziv,
-                    }))}
-                    value={
-                        artikliList.find((artikl) => artikl.id === odabraniArtikl?.id)
-                            ? {
-                                value: odabraniArtikl.id,
-                                label: artikliList.find((artikl) => artikl.id === odabraniArtikl.id).naziv,
-                            }
-                            : null
-                    }
-                    onChange={(selectedOption) =>
-                        setOdabraniArtikl(selectedOption ? artikliList.find((artikl) => artikl.id === selectedOption.value) : null)
-                    }
-                    placeholder="Odaberite artikl"
+                    options={options}
+                    onInputChange={(value) => setInputValue(value)}
+                    onChange={handleSelectChange}
+                    placeholder="Odaberite artikl ili unesite novi"
                     className="w-full p-3 border border-gray-300 rounded-lg"
                 />
+
                 <button
                     type="button"
                     onClick={() => openDrawer("artikli")}
@@ -321,11 +361,10 @@ const UlaznaKalkulacija = ({
             {isContentVisible ? 'Hide PDF Content' : 'Show PDF Content'}
         </button>
 
-        <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-            {drawerContent === "artikli" && <ArtikliForm/>}
-        </Drawer>
+
 
     </>
-);
+    )
+};
 
 export default UlaznaKalkulacija;

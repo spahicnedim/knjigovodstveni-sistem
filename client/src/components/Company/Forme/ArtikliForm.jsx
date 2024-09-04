@@ -1,42 +1,17 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { createArtikli, fetchArtikli } from "../../../features/artikli/artikliThunks.js";
+import {createArtikli} from "../../../features/artikli/artikliThunks.js";
 
 export const ArtikliForm = () => {
 
     const dispatch = useDispatch();
-
     const [naziv, setNaziv] = useState("");
     const [sifra, setSifra] = useState("");
-    const [jedinicaMjere, setJedinicaMjere] = useState("");
-    const [kolicina, setKolicina] = useState("");
-    const [cijena, setCijena] = useState("");
+    const [jedinicaMjere, setJedinicaMjere] = useState("")
+
     const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const artiklData = {
-            naziv,
-            sifra,
-            jedinicaMjere,
-            kolicina,
-            cijena,
-        };
-
-        dispatch(createArtikli(artiklData))
-            .unwrap()
-            .then(() => {
-                // Osvježavanje liste artikala nakon uspješnog unosa
-                dispatch(fetchArtikli());
-                // Reset formi
-                setNaziv("");
-                setSifra("");
-                setJedinicaMjere("");
-                setKolicina("");
-                setCijena("");
-            })
-            .catch((error) => {
-                console.error("Failed to create artikl:", error);
-            });
+        e.preventDefault()
+        dispatch(createArtikli({ naziv, sifra, jedinicaMjere }));
     };
 
     return (
