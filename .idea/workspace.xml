@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana valuta">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="updejtan search">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/ArtikliForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/ArtikliForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/artikliController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/poslovnice/poslovnicaThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/poslovnice/poslovnicaThunks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/poslovniceController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/poslovniceController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +121,7 @@
       <workItem from="1725206421433" duration="6095000" />
       <workItem from="1725295281131" duration="10844000" />
       <workItem from="1725374376171" duration="9576000" />
-      <workItem from="1725460709916" duration="5773000" />
+      <workItem from="1725460709916" duration="8408000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -319,7 +323,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725396578846</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="updejtan search">
+      <option name="closed" value="true" />
+      <created>1725477619732</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1725477619732</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -360,6 +372,7 @@
     <MESSAGE value="osnova za listu dokumenata" />
     <MESSAGE value="rijeseni datumi za dokumente" />
     <MESSAGE value="dodana valuta" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodana valuta" />
+    <MESSAGE value="updejtan search" />
+    <option name="LAST_COMMIT_MESSAGE" value="updejtan search" />
   </component>
 </project>

@@ -62,8 +62,12 @@ const updatePoslovnice = async (req, res) => {
 
 const getAllPoslovnice = async (req, res) => {
     try {
-        const poslovnice = await prisma.poslovnice.findMany();
-        res.status(200).json(poslovnice);
+        const poslovnice = await prisma.poslovnice.findMany({
+            where: {
+                companyId: parseInt(req.query.companyId, 10),
+            }
+        });
+        res.status(200).json({poslovnice});
     } catch (error) {
         console.error("Error fetching poslovnice:", error);
         res.status(500).json({ error: "Error fetching poslovnice", details: error.message });

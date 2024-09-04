@@ -24,3 +24,17 @@ export const fetchPdv = createAsyncThunk(
         }
     }
 );
+
+export const fetchDokumenti = createAsyncThunk(
+    "dokumenti/fetchDokumenti",
+    async (skladisteId, thunkAPI) => {
+        try {
+            const response = await api.get("/dokument", {
+                params: { skladisteId }
+            });
+            return response.data.dokumenti;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);

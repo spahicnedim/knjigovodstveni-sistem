@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-    createDokument,
+    createDokument, fetchDokumenti,
     fetchPdv
 } from "./dokumentThunks.js";
 
@@ -23,6 +23,10 @@ const dokumentSlice = createSlice({
             .addCase(fetchPdv.fulfilled, (state, action) => {
                 state.loading = false;
                 state.pdv = action.payload;
+            })
+            .addCase(fetchDokumenti.fulfilled, (state, action) => {
+                state.dokumenti = action.payload;
+                state.status = "succeeded";
             })
 
     },

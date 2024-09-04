@@ -42,7 +42,7 @@ export const UnosRobe = () => {
     const [isContentVisible, setIsContentVisible] = useState(false);
 
 
-    const poslovnice = useSelector((state) => state.poslovnica.poslovnice);
+    const poslovnice = useSelector((state) => state.poslovnica.poslovnice) || [];
     const skladista = useSelector((state) => state.skladiste.skladista);
     const vrstaDokumenta = useSelector((state) => state.vrstaDokumenta.vrsteDokumenata);
     const artikliList = useSelector((state) => state.artikl.artikli);
@@ -63,14 +63,14 @@ export const UnosRobe = () => {
     };
 
     useEffect(() => {
-        dispatch(fetchPoslovnice());
+        dispatch(fetchPoslovnice(companyId));
         dispatch(fetchSkladista());
         dispatch(fetchVrstaDokumenta())
         dispatch(fetchArtikli());
         dispatch(fetchKupciDobavljaci(companyId))
         dispatch(fetchPdv())
         dispatch(fetchValuta())
-    }, [dispatch]);
+    }, [dispatch, companyId]);
 
     useEffect(() => {
         // Filtriranje skladišta na osnovu odabrane poslovnice

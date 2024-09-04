@@ -15,10 +15,12 @@ export const createPoslovnica = createAsyncThunk(
 
 export const fetchPoslovnice = createAsyncThunk(
     "poslovnice/fetchPoslovnice",
-    async (_, thunkAPI) => {
+    async (companyId, thunkAPI) => {
         try {
-            const response = await api.get("/poslovnice");
-            return response.data;
+            const response = await api.get("/poslovnice", {
+                params: {companyId}
+            });
+            return response.data.poslovnice;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);
         }

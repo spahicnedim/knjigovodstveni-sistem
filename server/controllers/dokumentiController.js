@@ -148,7 +148,32 @@ const updateDokumenta = async (req, res) => {
     }
 };
 
+const getAllDokumenti = async (req, res) => {
+    const { skladisteId } = req.query;
+
+    try {
+        if (!skladisteId) {
+            return res.status(400).json({ error: "Missing skladisteId query parameter" });
+        }
+
+        const dokumenti = await prisma.dokumenti.findMany({
+            where: {
+                skladisteId: parseInt(skladisteId, 10),
+            },
+            include: {
+                artikli: true, // Ovo uključuje povezane artikle za svaki dokument
+            },
+        });
+
+        res.status(200).json({ dokumenti });
+    } catch (error) {
+        console.error("Error fetching dokumenti:", error.message);
+        res.status(400).json({ error: "Error fetching dokumenti", details: error.message });
+    }
+};
+
 module.exports = {
     createDokumenti,
-    updateDokumenta
+    updateDokumenta,
+    getAllDokumenti
 }
