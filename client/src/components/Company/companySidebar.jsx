@@ -18,7 +18,7 @@ const CompanySidebar = () => {
 
   return (
     <Sidebar
-      className='h-screen'
+      className=''
       backgroundColor='#023E8A'
       collapsed={collapsed}
       onMouseEnter={() => setCollapsed(false)}

@@ -9,7 +9,7 @@ import {ListaDokumenata} from "../components/Company/ListaDokumenata.jsx";
 
 const Companies = () => {
   return (
-    <div className='flex'>
+    <div className='flex min-h-screen'>
       <CompanySidebar />
       <div className='flex-1 p-4 '>
         <CompanyDetail />
