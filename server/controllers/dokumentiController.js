@@ -14,14 +14,19 @@ const createDokumenti = async (req, res) => {
         datumIzdavanjaDokumenta,
         datumKreiranjaKalkulacije,
         valutaId,
-        artikli, // Lista objekata sa {id, kolicina, cijena}
+        artikli, // JSON string koji treba parsirati
     } = req.body;
 
-    try {
-        if (!naziv || !redniBroj || !poslovniceId || !skladisteId || !vrstaDokumentaId || !companyId || !Array.isArray(artikli)) {
-            return res.status(400).json({ error: "Missing or invalid required fields" });
-        }
+    // Pretvaranje JSON stringa u objekt
+    const parsedArtikli = JSON.parse(artikli);
 
+    try {
+        // Provjeravamo je li fajl uploadovan
+        const file = req.file;
+        let filePath = null;
+        if (file) {
+            filePath = file.path; // Putanja fajla
+        }
 
         const validDatumIzdavanja = new Date(datumIzdavanjaDokumenta);
         const validDatumKreiranja = new Date(datumKreiranjaKalkulacije);
@@ -39,11 +44,12 @@ const createDokumenti = async (req, res) => {
                     pDVId: parseInt(pDVId, 10),
                     datumIzdavanjaDokumenta: validDatumIzdavanja,
                     datumKreiranjaKalkulacije: validDatumKreiranja,
-                    valutaId: parseInt(valutaId, 10)
+                    valutaId: parseInt(valutaId, 10),
+                    filePath: filePath, // Putanja do fajla
                 }
             });
 
-            for (const artikl of artikli) {
+            for (const artikl of parsedArtikli) {
                 const existingArtiklInStock = await prisma.skladisteArtikli.findUnique({
                     where: {
                         skladisteId_artikliId: {
@@ -107,7 +113,6 @@ const createDokumenti = async (req, res) => {
         res.status(400).json({ error: "Error creating dokument and connecting artikli", details: error.message });
     }
 };
-
 
 const updateDokumenta = async (req, res) => {
     const { id } = req.params;

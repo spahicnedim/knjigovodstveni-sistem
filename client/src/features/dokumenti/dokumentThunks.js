@@ -5,7 +5,9 @@ export const createDokument = createAsyncThunk(
     "dokumenti/createDokument",
     async (dokumentData, thunkAPI) => {
         try {
-            const response = await api.post("/dokument", dokumentData);
+            const response = await api.post("/dokument", dokumentData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
             return response.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);

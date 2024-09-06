@@ -5,8 +5,9 @@ const {
     updateDokumenta,
     getAllDokumenti
 } = require("../controllers/dokumentiController");
+const upload = require('../utils/multerConfig');
 
-router.post("/", createDokumenti);
+router.post("/", upload.single('file'), createDokumenti);
 router.put("/:id", updateDokumenta);
 router.get('/', getAllDokumenti);
 

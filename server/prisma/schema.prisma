@@ -267,6 +267,7 @@ model Dokumenti {
   VrstaDokumenta            VrstaDokumenta? @relation(fields: [vrstaDokumentaId], references: [id])
   vrstaDokumentaId          Int?
   redniBroj                 Int
+  filePath                  String?
   Knjige                    Knjige?         @relation(fields: [knjigeId], references: [id])
   knjigeId                  Int?
   artikli                   Artikli[]       @relation("ArtikliDokumenti")

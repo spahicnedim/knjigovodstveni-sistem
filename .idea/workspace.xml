@@ -4,15 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="updejtan search">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana pretraga dokumenata po skladistu">
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240905175846_dodana_putanja_za_fajl/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/uploads/file-1725560328144.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/uploads/file-1725560342473.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/uploads/file-1725560383943.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/uploads/file-1725560437373.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/uploads/file-1725560490713.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/uploads/file-1725560535434.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/uploads/file-1725561017782.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/uploads/maloprodajnaKalkulacija1725561267646.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/utils/multerConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Skladiste.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Skladiste.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/poslovnice/poslovnicaThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/poslovnice/poslovnicaThunks.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/poslovniceController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/poslovniceController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +133,8 @@
       <workItem from="1725206421433" duration="6095000" />
       <workItem from="1725295281131" duration="10844000" />
       <workItem from="1725374376171" duration="9576000" />
-      <workItem from="1725460709916" duration="8408000" />
+      <workItem from="1725460709916" duration="8661000" />
+      <workItem from="1725557152519" duration="6636000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -331,7 +344,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725477619732</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="dodana pretraga dokumenata po skladistu">
+      <option name="closed" value="true" />
+      <created>1725480350741</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1725480350741</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,6 +394,7 @@
     <MESSAGE value="rijeseni datumi za dokumente" />
     <MESSAGE value="dodana valuta" />
     <MESSAGE value="updejtan search" />
-    <option name="LAST_COMMIT_MESSAGE" value="updejtan search" />
+    <MESSAGE value="dodana pretraga dokumenata po skladistu" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodana pretraga dokumenata po skladistu" />
   </component>
 </project>

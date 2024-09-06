@@ -33,7 +33,8 @@ export const UnosRobe = () => {
     const [aktivniPdv, setAktivniPdv] = useState(null);
     const [datumIzdavanjaDokumenta, setDatumIzdavanjaDokumenta] = useState('')
     const [datumKreiranjaKalkulacije, setDatumKreiranjaKalkulacije] = useState('')
-    const [valutaId, setValutaId] = useState(null)
+    const [valutaId, setValutaId] = useState(null);
+    const [file, setFile] = useState(null);
 
 
 
@@ -89,21 +90,30 @@ export const UnosRobe = () => {
         setAktivniPdv(aktivni);
     }, [pdv]);
 
+    // Funkcija za rukovanje promjenom fajla
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
     const handleSubmitVrsta1 = () => {
-        dispatch(createDokument({
-            naziv,
-            redniBroj: parseInt(redniBroj, 10),
-            poslovniceId: parseInt(poslovniceId, 10),
-            skladisteId: parseInt(skladisteId, 10),
-            vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
-            artikli, // Provjerite da li je ovo lista artikala sa validnim ID-evima
-            companyId,
-            kupacDobavljacId: parseInt(dobavljacId, 10),
-            pDVId: parseInt(aktivniPdv.id, 10),
-            datumIzdavanjaDokumenta,
-            datumKreiranjaKalkulacije,
-            valutaId: parseInt(valutaId, 10)
-        }));
+        const formData = new FormData();
+        formData.append("naziv", naziv);
+        formData.append("redniBroj", parseInt(redniBroj, 10));
+        formData.append("poslovniceId", parseInt(poslovniceId, 10));
+        formData.append("skladisteId", parseInt(skladisteId, 10));
+        formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
+        formData.append("artikli", JSON.stringify(artikli));
+        formData.append("companyId", companyId);
+        formData.append("kupacDobavljacId", parseInt(dobavljacId, 10));
+        formData.append("pDVId", parseInt(aktivniPdv.id, 10));
+        formData.append("datumIzdavanjaDokumenta", datumIzdavanjaDokumenta);
+        formData.append("datumKreiranjaKalkulacije", datumKreiranjaKalkulacije);
+        formData.append("valutaId", parseInt(valutaId, 10));
+        if (file) {
+            formData.append("file", file);
+        }
+
+        dispatch(createDokument(formData));
     };
 
     const handleSubmit = (e) => {
@@ -274,6 +284,7 @@ export const UnosRobe = () => {
                             closeDrawer={closeDrawer}
                             drawerContent={drawerContent}
                             openDrawer={openDrawer}
+                            handleFileChange={handleFileChange}
                         />
                     </>
                 )}

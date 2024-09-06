@@ -18,7 +18,7 @@ export const Skladiste = () => {
     const vrstaSkladista = useSelector((state) => state.vrstaSkladista.vrsteSkladista);
 
     useEffect(() => {
-        dispatch(fetchPoslovnice());
+        dispatch(fetchPoslovnice(companyId));
         dispatch(fetchvrstaSkladista())
     }, [dispatch]);
 

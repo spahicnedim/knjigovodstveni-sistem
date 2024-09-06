@@ -54,6 +54,8 @@ app.use("/api/vrstaSkladista", vrstaSkladistaRoute);
 app.use("/api/pdv", pdvRoute)
 app.use("/api/valuta", valuteRoutes)
 
+
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
