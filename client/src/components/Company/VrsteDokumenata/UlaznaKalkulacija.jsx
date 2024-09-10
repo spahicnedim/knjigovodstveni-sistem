@@ -7,7 +7,11 @@ import { useEffect, useState } from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalendarAlt } from 'react-icons/fa';
-
+import SelectArtikli from "../SelectSearch/SelectArtikli.jsx";
+import SelectDobavljaci from "../SelectSearch/SelectDobavljaci.jsx";
+import SelectSkladista from "../SelectSearch/SelectSkladista.jsx";
+import SelectPoslovnice from "../SelectSearch/SelectPoslovnice.jsx";
+import SelectValuta from "../SelectSearch/SelectValuta.jsx";
 
 const UlaznaKalkulacija = ({
   naziv,
@@ -159,37 +163,47 @@ const UlaznaKalkulacija = ({
             <label className='block text-gray-700 text-sm font-medium'>
               Poslovnica
             </label>
-            <select
-                value={poslovniceId}
-                onChange={(e) => setPoslovnicaId(e.target.value)}
-                className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
-                required
-            >
-              <option value=''>Odaberite poslovnicu</option>
-              {poslovnice.map((poslovnica) => (
-                  <option key={poslovnica.id} value={poslovnica.id}>
-                    {poslovnica.naziv}
-                  </option>
-              ))}
-            </select>
+            {/*<select*/}
+            {/*    value={poslovniceId}*/}
+            {/*    onChange={(e) => setPoslovnicaId(e.target.value)}*/}
+            {/*    className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'*/}
+            {/*    required*/}
+            {/*>*/}
+            {/*  <option value=''>Odaberite poslovnicu</option>*/}
+            {/*  {poslovnice.map((poslovnica) => (*/}
+            {/*      <option key={poslovnica.id} value={poslovnica.id}>*/}
+            {/*        {poslovnica.naziv}*/}
+            {/*      </option>*/}
+            {/*  ))}*/}
+            {/*</select>*/}
+            <SelectPoslovnice
+                poslovnice={poslovnice}
+                setPoslovnicaId={setPoslovnicaId}
+                openDrawer={openDrawer}
+            />
           </div>
           <div className='flex items-center space-x-5'>
             <label className='block text-gray-700 text-sm font-medium'>
               Skladište
             </label>
-            <select
-                value={skladisteId}
-                onChange={(e) => setSkladisteId(e.target.value)}
-                className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
-                required
-            >
-              <option value=''>Odaberite skladište</option>
-              {filteredSkladista.map((skladiste) => (
-                  <option key={skladiste.id} value={skladiste.id}>
-                    {skladiste.naziv}
-                  </option>
-              ))}
-            </select>
+            {/*<select*/}
+            {/*    value={skladisteId}*/}
+            {/*    onChange={(e) => setSkladisteId(e.target.value)}*/}
+            {/*    className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'*/}
+            {/*    required*/}
+            {/*>*/}
+            {/*  <option value=''>Odaberite skladište</option>*/}
+            {/*  {filteredSkladista.map((skladiste) => (*/}
+            {/*      <option key={skladiste.id} value={skladiste.id}>*/}
+            {/*        {skladiste.naziv}*/}
+            {/*      </option>*/}
+            {/*  ))*/}
+            {/*</select>*/}
+            <SelectSkladista
+                filteredSkladista={filteredSkladista}
+                setSkladisteId={setSkladisteId}
+                openDrawer={openDrawer}
+            />
           </div>
         </div>
 
@@ -198,38 +212,36 @@ const UlaznaKalkulacija = ({
             <label className='block text-gray-700 text-sm font-medium'>
               Dobavljač
             </label>
-            <select
-                value={dobavljacId}
-                onChange={(e) => setDobavljacId(e.target.value)}
-                className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
-            >
-              <option value=''>Odaberite dobavljača</option>
-              {kupciDobavljaci
-                  .filter((dobavljac) => dobavljac.dobavljac === true)
-                  .map((dobavljac) => (
-                      <option key={dobavljac.id} value={dobavljac.id}>
-                        {dobavljac.name}
-                      </option>
-                  ))}
-            </select>
+            <SelectDobavljaci
+                kupciDobavljaci={kupciDobavljaci}
+                openDrawer={openDrawer}
+                setDobavljacId={setDobavljacId}
+                placeholder='Odaberite dobavljaca'
+                className='w-80 h-9 p-2 rounded-sm mb-3.5'
+            />
           </div>
           <div className='flex items-center space-x-5'>
             <label className='block text-gray-700 text-sm font-medium'>
               Valuta
             </label>
-            <select
-                value={valutaId}
-                onChange={(e) => setValutaId(e.target.value)}
-                className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
-                required
-            >
-              <option value=''>Odaberite Valutu</option>
-              {valute.map((valuta) => (
-                  <option key={valuta.id} value={valuta.id}>
-                    {valuta.naziv}
-                  </option>
-              ))}
-            </select>
+            {/*<select*/}
+            {/*    value={valutaId}*/}
+            {/*    onChange={(e) => setValutaId(e.target.value)}*/}
+            {/*    className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'*/}
+            {/*    required*/}
+            {/*>*/}
+            {/*  <option value=''>Odaberite Valutu</option>*/}
+            {/*  {valute.map((valuta) => (*/}
+            {/*      <option key={valuta.id} value={valuta.id}>*/}
+            {/*        {valuta.naziv}*/}
+            {/*      </option>*/}
+            {/*  ))}*/}
+            {/*</select>*/}
+            <SelectValuta
+              valute={valute}
+              setValutaId={setValutaId}
+              openDrawer={openDrawer}
+            />
           </div>
         </div>
 
@@ -260,20 +272,13 @@ const UlaznaKalkulacija = ({
         <div className='mb-6'>
           <h3 className='text-xl font-semibold mb-4'>Dodaj Artikl</h3>
           <div className='flex items-center space-x-4 mb-4'>
-            <Select
-                options={options}
-                onInputChange={(value) => setInputValue(value)}
-                onChange={handleSelectChange}
+            <SelectArtikli
+                artikliList={artikliList}
+                openDrawer={openDrawer}
+                setOdabraniArtikl={setOdabraniArtikl}
                 placeholder='Odaberite artikl ili unesite novi'
                 className='w-80 h-9 p-2 rounded-sm mb-3.5'
             />
-            <button
-                type='button'
-                onClick={() => openDrawer("artikli")}
-                className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg'
-            >
-              +
-            </button>
           </div>
           {odabraniArtikl && (
               <div className='flex flex-col md:flex-row gap-6 mb-4'>

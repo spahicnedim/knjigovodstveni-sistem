@@ -14,6 +14,7 @@ import { useReactToPrint } from 'react-to-print';
 import UlaznaKalkulacija from "../VrsteDokumenata/UlaznaKalkulacija.jsx";
 import {ArtikliForm} from "../Forme/ArtikliForm.jsx";
 import Drawer from "../../Drawer.jsx";
+import KupciDobavljaciForm from "../Forme/KupciDobavljaci.jsx";
 
 export const UnosRobe = () => {
     const contentRef = useRef();
@@ -293,6 +294,7 @@ export const UnosRobe = () => {
 
             <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
                 {drawerContent === "artikli" && <ArtikliForm/>}
+                {drawerContent === "dobavljaci" && <KupciDobavljaciForm />}
             </Drawer>
         </div>
     );

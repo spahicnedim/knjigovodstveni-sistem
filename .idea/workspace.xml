@@ -4,23 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="fix na sidebaru">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/EditMaloprodajnaKalkulacija.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Navbar.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/uploads/maloprodajnaKalkulacija-1725651525618.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/uploads/maloprodajnaKalkulacija-1725651556658.png" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodan navbar i rijesene neke sitnice">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/KupciDobavljaci.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectDobavljaci.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladista.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectValuta.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/EditMaloprodajnaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/EditMaloprodajnaKalkulacija.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/PDFLayout/PDFDokument.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/PDFLayout/PDFDokument.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Drawer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Drawer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/utils/RoundTo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/utils/RoundTo.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +75,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\SelectSearch" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\Forme" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\KreirajDokumente" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\PDFLayout" />
@@ -131,7 +129,7 @@
       <workItem from="1725557152519" duration="6636000" />
       <workItem from="1725611336485" duration="53000" />
       <workItem from="1725636726171" duration="12575000" />
-      <workItem from="1725980045748" duration="5423000" />
+      <workItem from="1725980045748" duration="11051000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -365,7 +363,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725637378752</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="dodan navbar i rijesene neke sitnice">
+      <option name="closed" value="true" />
+      <created>1725986137505</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1725986137505</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -384,7 +390,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="artikli controller and routes" />
     <MESSAGE value="transfer controller and routes" />
     <MESSAGE value="added kupacDobavljac form and gradovi redux" />
     <MESSAGE value="redux organized" />
@@ -409,6 +414,7 @@
     <MESSAGE value="dodana pretraga dokumenata po skladistu" />
     <MESSAGE value="dodan upload fajla" />
     <MESSAGE value="fix na sidebaru" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix na sidebaru" />
+    <MESSAGE value="dodan navbar i rijesene neke sitnice" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodan navbar i rijesene neke sitnice" />
   </component>
 </project>

@@ -5,10 +5,11 @@ import { useParams } from "react-router-dom";
 import { fetchSkladista } from "../../features/skladista/skladisteThunks.js";
 import { fetchDokumenti } from "../../features/dokumenti/dokumentThunks.js";
 import {fetchKupciDobavljaci} from "../../features/kupacDobavljac/kupacDobavljacThunk.js";
-import { useTable, usePagination, useGlobalFilter } from 'react-table';
+import { useTable, usePagination, useGlobalFilter, useSortBy  } from 'react-table';
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import Drawer from "../Drawer.jsx";
 import {EditMaloprodajnaKalkulacija} from "./Forme/EditMaloprodajnaKalkulacija.jsx";
+import { parseISO, compareAsc, format } from 'date-fns';
 
 export function MaloprodajnaKalukacija() {
     const dispatch = useDispatch();
@@ -59,14 +60,28 @@ export function MaloprodajnaKalukacija() {
         setDrawerContent(null);
     };
 
+    const handleRowClick = (id) => {
+        openDrawer(id);
+    };
+
     const columns = useMemo(() => [
         {
             Header: 'Naziv Dokumenta',
             accessor: 'naziv',
+            sortType: 'alphanumeric'
         },
         {
             Header: 'Datum',
             accessor: 'datumIzdavanjaDokumenta',
+            Cell: ({ value }) => {
+                // Formatiraj datum u "mjesec.dan.godina"
+                return format(new Date(value), 'MM.dd.yyyy');
+            },
+            sortType: (rowA, rowB, columnId) => {
+                const dateA = parseISO(rowA.original[columnId]);
+                const dateB = parseISO(rowB.original[columnId]);
+                return compareAsc(dateA, dateB);
+            }
         },
         {
             Header: 'Dobavljac',
@@ -76,19 +91,7 @@ export function MaloprodajnaKalukacija() {
                 return kupacDobavljac ? kupacDobavljac.name : 'N/A';
             }
         },
-        {
-            Header: 'Akcije',
-            accessor: 'id',
-            Cell: ({ value }) => (
-                <button
-                    type='button'
-                    onClick={() => openDrawer(value)}
-                    className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg'
-                >
-                    Edit
-                </button>
-            )
-        }
+
     ], [dobavljaci]);
 
     const data = useMemo(() => dokumenti, [dokumenti]);
@@ -115,6 +118,7 @@ export function MaloprodajnaKalukacija() {
             initialState: { pageIndex: 0 }
         },
         useGlobalFilter,
+        useSortBy,
         usePagination
     );
 
@@ -126,7 +130,7 @@ export function MaloprodajnaKalukacija() {
                     <select
                         value={poslovniceId}
                         onChange={(e) => setPoslovnicaId(e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-lg"
+                        className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
                         required
                     >
                         <option value="">Odaberite poslovnicu</option>
@@ -143,7 +147,7 @@ export function MaloprodajnaKalukacija() {
                     <select
                         value={skladisteId}
                         onChange={(e) => setSkladisteId(e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-lg"
+                        className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
                         required
                     >
                         <option value="">Odaberite skladište</option>
@@ -171,10 +175,13 @@ export function MaloprodajnaKalukacija() {
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map(column => (
                                     <th
-                                        {...column.getHeaderProps()}
-                                        className="border border-gray-300 p-3 bg-gray-100 font-normal text-sm"
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                        className="border border-gray-300 p-3 bg-gray-100 font-normal text-sm cursor-pointer"
                                     >
                                         {column.render('Header')}
+                                        <span>
+                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                    </span>
                                     </th>
                                 ))}
                             </tr>
@@ -184,7 +191,11 @@ export function MaloprodajnaKalukacija() {
                         {page.map(row => {
                             prepareRow(row);
                             return (
-                                <tr {...row.getRowProps()}>
+                                <tr
+                                    {...row.getRowProps()}
+                                    onClick={() => handleRowClick(row.original.id)} // Dodaj klik handler
+                                    className="cursor-pointer hover:bg-gray-100" // Dodaj stilove za hover
+                                >
                                     {row.cells.map(cell => (
                                         <td
                                             {...cell.getCellProps()}
@@ -211,7 +222,7 @@ export function MaloprodajnaKalukacija() {
                             disabled={!canPreviousPage}
                             className="p-2 cursor-pointer"
                         >
-                            <FaAngleLeft/>
+                        <FaAngleLeft/>
                         </button>
                         <button
                             onClick={() => nextPage()}
@@ -245,7 +256,7 @@ export function MaloprodajnaKalukacija() {
                 </div>
             </div>
             <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-                {drawerContent && <EditMaloprodajnaKalkulacija/>
+                {drawerContent && <EditMaloprodajnaKalkulacija dokumentId={drawerContent} />
 
                 }
             </Drawer>
