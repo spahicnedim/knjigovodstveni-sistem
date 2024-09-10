@@ -133,7 +133,7 @@ const UlaznaKalkulacija = ({
               <DatePicker
                   selected={datumIzdavanjaDokumenta}
                   onChange={(date) => setDatumIzdavanjaDokumenta(date)}
-                  dateFormat='dd/MM/yyyy'
+                  dateFormat='dd.MM.yyyy'
                   placeholderText='Odaberi datum'
                   className='w-72 h-9 p-2 pl-10 border border-gray-300 rounded-sm bg-white'
               />
@@ -149,7 +149,7 @@ const UlaznaKalkulacija = ({
               <DatePicker
                   selected={datumKreiranjaKalkulacije}
                   onChange={(date) => setDatumKreiranjaKalkulacije(date)}
-                  dateFormat='dd/MM/yyyy'
+                  dateFormat='dd.MM.yyyy'
                   placeholderText='Odaberi datum'
                   className='w-72 h-9 p-2 pl-10 border border-gray-300 rounded-sm bg-white'
               />
@@ -163,19 +163,6 @@ const UlaznaKalkulacija = ({
             <label className='block text-gray-700 text-sm font-medium'>
               Poslovnica
             </label>
-            {/*<select*/}
-            {/*    value={poslovniceId}*/}
-            {/*    onChange={(e) => setPoslovnicaId(e.target.value)}*/}
-            {/*    className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'*/}
-            {/*    required*/}
-            {/*>*/}
-            {/*  <option value=''>Odaberite poslovnicu</option>*/}
-            {/*  {poslovnice.map((poslovnica) => (*/}
-            {/*      <option key={poslovnica.id} value={poslovnica.id}>*/}
-            {/*        {poslovnica.naziv}*/}
-            {/*      </option>*/}
-            {/*  ))}*/}
-            {/*</select>*/}
             <SelectPoslovnice
                 poslovnice={poslovnice}
                 setPoslovnicaId={setPoslovnicaId}
@@ -186,19 +173,6 @@ const UlaznaKalkulacija = ({
             <label className='block text-gray-700 text-sm font-medium'>
               Skladište
             </label>
-            {/*<select*/}
-            {/*    value={skladisteId}*/}
-            {/*    onChange={(e) => setSkladisteId(e.target.value)}*/}
-            {/*    className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'*/}
-            {/*    required*/}
-            {/*>*/}
-            {/*  <option value=''>Odaberite skladište</option>*/}
-            {/*  {filteredSkladista.map((skladiste) => (*/}
-            {/*      <option key={skladiste.id} value={skladiste.id}>*/}
-            {/*        {skladiste.naziv}*/}
-            {/*      </option>*/}
-            {/*  ))*/}
-            {/*</select>*/}
             <SelectSkladista
                 filteredSkladista={filteredSkladista}
                 setSkladisteId={setSkladisteId}
@@ -224,19 +198,6 @@ const UlaznaKalkulacija = ({
             <label className='block text-gray-700 text-sm font-medium'>
               Valuta
             </label>
-            {/*<select*/}
-            {/*    value={valutaId}*/}
-            {/*    onChange={(e) => setValutaId(e.target.value)}*/}
-            {/*    className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'*/}
-            {/*    required*/}
-            {/*>*/}
-            {/*  <option value=''>Odaberite Valutu</option>*/}
-            {/*  {valute.map((valuta) => (*/}
-            {/*      <option key={valuta.id} value={valuta.id}>*/}
-            {/*        {valuta.naziv}*/}
-            {/*      </option>*/}
-            {/*  ))}*/}
-            {/*</select>*/}
             <SelectValuta
               valute={valute}
               setValutaId={setValutaId}

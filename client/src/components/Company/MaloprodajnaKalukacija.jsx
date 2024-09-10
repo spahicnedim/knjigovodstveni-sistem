@@ -4,12 +4,46 @@ import { fetchPoslovnice } from "../../features/poslovnice/poslovnicaThunks.js";
 import { useParams } from "react-router-dom";
 import { fetchSkladista } from "../../features/skladista/skladisteThunks.js";
 import { fetchDokumenti } from "../../features/dokumenti/dokumentThunks.js";
-import {fetchKupciDobavljaci} from "../../features/kupacDobavljac/kupacDobavljacThunk.js";
-import { useTable, usePagination, useGlobalFilter, useSortBy  } from 'react-table';
+import { fetchKupciDobavljaci } from "../../features/kupacDobavljac/kupacDobavljacThunk.js";
+import { useTable, usePagination, useGlobalFilter, useFilters, useSortBy } from "react-table";
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import Drawer from "../Drawer.jsx";
-import {EditMaloprodajnaKalkulacija} from "./Forme/EditMaloprodajnaKalkulacija.jsx";
-import { parseISO, compareAsc, format } from 'date-fns';
+import { EditMaloprodajnaKalkulacija } from "./Forme/EditMaloprodajnaKalkulacija.jsx";
+import { parseISO, compareAsc, format } from "date-fns";
+
+// Definiši jednostavan text input filter za kolonu
+function DefaultColumnFilter({
+                                 column: { filterValue, preFilteredRows, setFilter },
+                             }) {
+    const count = preFilteredRows.length;
+
+    return (
+        <input
+            value={filterValue || ""}
+            onChange={(e) => {
+                setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+            }}
+            placeholder={`Pretraži (${count})...`}
+            className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
+        />
+    );
+}
+
+function DobavljacColumnFilter({
+                                   column: { filterValue, setFilter, preFilteredRows, id },
+                                   dobavljaci,
+                               }) {
+    return (
+        <input
+            value={filterValue || ""}
+            onChange={(e) => {
+                setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+            }}
+            placeholder="Pretraži dobavljača"
+            className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
+        />
+    );
+}
 
 export function MaloprodajnaKalukacija() {
     const dispatch = useDispatch();
@@ -22,7 +56,7 @@ export function MaloprodajnaKalukacija() {
     const poslovnice = useSelector((state) => state.poslovnica.poslovnice);
     const skladista = useSelector((state) => state.skladiste.skladista);
     const dokumenti = useSelector((state) => state.dokument.dokumenti);
-    const dobavljaci = useSelector((state) => state.kupacDobavljac.kupciDobavljaci)
+    const dobavljaci = useSelector((state) => state.kupacDobavljac.kupciDobavljaci);
 
     const { companyId } = useParams();
 
@@ -32,7 +66,6 @@ export function MaloprodajnaKalukacija() {
     }, [dispatch, companyId]);
 
     useEffect(() => {
-        // Filtriranje skladišta na osnovu odabrane poslovnice
         if (poslovniceId) {
             const relevantSkladista = skladista.filter(
                 (skladiste) => skladiste.poslovnicaId === Number(poslovniceId)
@@ -64,37 +97,62 @@ export function MaloprodajnaKalukacija() {
         openDrawer(id);
     };
 
-    const columns = useMemo(() => [
-        {
-            Header: 'Naziv Dokumenta',
-            accessor: 'naziv',
-            sortType: 'alphanumeric'
-        },
-        {
-            Header: 'Datum',
-            accessor: 'datumIzdavanjaDokumenta',
-            Cell: ({ value }) => {
-                // Formatiraj datum u "mjesec.dan.godina"
-                return format(new Date(value), 'MM.dd.yyyy');
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Naziv Dokumenta",
+                accessor: "naziv",
+                sortType: "alphanumeric",
+                Filter: DefaultColumnFilter,
             },
-            sortType: (rowA, rowB, columnId) => {
-                const dateA = parseISO(rowA.original[columnId]);
-                const dateB = parseISO(rowB.original[columnId]);
-                return compareAsc(dateA, dateB);
-            }
-        },
-        {
-            Header: 'Dobavljac',
-            accessor: 'kupacDobavljacId',
-            Cell: ({value}) => {
-                const kupacDobavljac = dobavljaci.find(kd => kd.id === value);
-                return kupacDobavljac ? kupacDobavljac.name : 'N/A';
-            }
-        },
+            {
+                Header: "Datum",
+                accessor: "datumIzdavanjaDokumenta",
+                Cell: ({ value }) => {
+                    return format(new Date(value), "dd.MM.yyyy");
+                },
+                Filter: DefaultColumnFilter,
+                filter: "dateFilter",
+                sortType: (rowA, rowB, columnId) => {
+                    const dateA = parseISO(rowA.original[columnId]);
+                    const dateB = parseISO(rowB.original[columnId]);
+                    return compareAsc(dateA, dateB);
+                },
+            },
+            {
+                Header: "Dobavljac",
+                accessor: "kupacDobavljacId",
+                Cell: ({ value }) => {
+                    const kupacDobavljac = dobavljaci.find((kd) => kd.id === value);
+                    return kupacDobavljac ? kupacDobavljac.name : "N/A";
+                },
+                Filter: ({ column }) => (
+                    <DobavljacColumnFilter column={column} dobavljaci={dobavljaci} />
+                ), // Prilagođeni filter za ovu kolonu
+                filter: (rows, id, filterValue) => {
+                    return rows.filter((row) => {
+                        const kupacDobavljac = dobavljaci.find(
+                            (kd) => kd.id === row.original[id]
+                        );
+                        return kupacDobavljac
+                            ? kupacDobavljac.name
+                                .toLowerCase()
+                                .includes(filterValue.toLowerCase())
+                            : false;
+                    });
+                },
+            },
+        ],
+        [dobavljaci]
+    );
 
-    ], [dobavljaci]);
+    const data = useMemo(() => {
+        return [...dokumenti].sort((a, b) => new Date(b.datumIzdavanjaDokumenta) - new Date(a.datumIzdavanjaDokumenta));
+    }, [dokumenti]);
 
-    const data = useMemo(() => dokumenti, [dokumenti]);
+    const defaultColumn = useMemo(() => ({
+        Filter: DefaultColumnFilter,
+    }), []);
 
     const {
         getTableProps,
@@ -110,21 +168,23 @@ export function MaloprodajnaKalukacija() {
         nextPage,
         previousPage,
         setPageSize,
-        state: { pageIndex, pageSize, globalFilter }
+        state: { pageIndex, pageSize, globalFilter },
     } = useTable(
         {
             columns,
             data,
-            initialState: { pageIndex: 0 }
+            defaultColumn,
+            initialState: { pageIndex: 0 },
         },
+        useFilters,
         useGlobalFilter,
-        useSortBy,
         usePagination
     );
 
+
     return (
         <div>
-            <div className='p-6 bg-white rounded-lg shadow-md space-y-6'>
+            <div className="p-6 bg-white rounded-lg shadow-md space-y-6">
                 <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-medium mb-2">Poslovnica</label>
                     <select
@@ -163,7 +223,7 @@ export function MaloprodajnaKalukacija() {
                     <div className="mb-6">
                         <input
                             type="text"
-                            value={globalFilter || ''}
+                            value={globalFilter || ""}
                             onChange={(e) => setGlobalFilter(e.target.value || undefined)}
                             placeholder="Pretraži dokumente..."
                             className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
@@ -171,37 +231,38 @@ export function MaloprodajnaKalukacija() {
                     </div>
                     <table {...getTableProps()} className="w-full border-collapse border border-gray-300">
                         <thead>
-                        {headerGroups.map(headerGroup => (
+                        {headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map(column => (
+                                {headerGroup.headers.map((column) => (
                                     <th
-                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                        {...column.getHeaderProps()}
                                         className="border border-gray-300 p-3 bg-gray-100 font-normal text-sm cursor-pointer"
                                     >
-                                        {column.render('Header')}
-                                        <span>
-                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                    </span>
+                                        {column.render("Header")}
+                                        {/*                  <button>*/}
+                                        {/*  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}*/}
+                                        {/*</button>*/}
+                                        <div>{column.canFilter ? column.render("Filter") : null}</div>
                                     </th>
                                 ))}
                             </tr>
                         ))}
                         </thead>
                         <tbody {...getTableBodyProps()}>
-                        {page.map(row => {
+                        {page.map((row) => {
                             prepareRow(row);
+                            const isHighlighted = row.original.naziv.toLowerCase().includes(globalFilter?.toLowerCase());
                             return (
                                 <tr
                                     {...row.getRowProps()}
-                                    onClick={() => handleRowClick(row.original.id)} // Dodaj klik handler
-                                    className="cursor-pointer hover:bg-gray-100" // Dodaj stilove za hover
+                                    onClick={() => handleRowClick(row.original.id)}
+                                    className={`cursor-pointer hover:bg-gray-100 ${
+                                        isHighlighted ? "bg-gray-300" : ""
+                                    }`}
                                 >
-                                    {row.cells.map(cell => (
-                                        <td
-                                            {...cell.getCellProps()}
-                                            className="border border-gray-300 p-3"
-                                        >
-                                            {cell.render('Cell')}
+                                    {row.cells.map((cell) => (
+                                        <td {...cell.getCellProps()} className="border border-gray-300 p-3">
+                                            {cell.render("Cell")}
                                         </td>
                                     ))}
                                 </tr>
@@ -222,7 +283,7 @@ export function MaloprodajnaKalukacija() {
                             disabled={!canPreviousPage}
                             className="p-2 cursor-pointer"
                         >
-                        <FaAngleLeft/>
+                            <FaAngleLeft/>
                         </button>
                         <button
                             onClick={() => nextPage()}
@@ -256,11 +317,10 @@ export function MaloprodajnaKalukacija() {
                 </div>
             </div>
             <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-                {drawerContent && <EditMaloprodajnaKalkulacija dokumentId={drawerContent} />
+                {drawerContent && <EditMaloprodajnaKalkulacija dokumentId={drawerContent}/>
 
                 }
             </Drawer>
         </div>
-
     );
 }
