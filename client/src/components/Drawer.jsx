@@ -30,7 +30,7 @@ const Drawer = ({ isOpen, onClose, children }) => {
         leaveFrom='translate-x-0'
         leaveTo='translate-x-full'
       >
-        <div className='fixed right-0 top-0 h-full w-96 bg-white shadow-lg z-50 overflow-y-auto'>
+        <div className='fixed right-0 top-0 h-full w-1/2 bg-white shadow-lg z-50 overflow-y-auto'>
           <div className='p-4 flex justify-between items-center border-b'>
             <h2 className='text-xl font-semibold'>Add New Item</h2>
             <button

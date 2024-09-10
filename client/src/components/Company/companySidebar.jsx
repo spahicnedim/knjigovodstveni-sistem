@@ -11,7 +11,7 @@ import {
 } from "react-pro-sidebar";
 import "../../styles/sidebar.css";
 
-const CompanySidebar = () => {
+const CompanySidebar = ({setPageTitle}) => {
   const isVlasnik = useAuthorization([1, 3]);
   const isAdmin = useAuthorization([1]);
   const [collapsed, setCollapsed] = useState(true);
@@ -29,6 +29,7 @@ const CompanySidebar = () => {
           component={<Link to='home' />}
           icon={<FaHome />}
           className='text-white hover:text-black'
+          onClick={() => setPageTitle("Home")}
         >
           Home
         </MenuItem>
@@ -36,6 +37,7 @@ const CompanySidebar = () => {
             component={<Link to='unosRobe' />}
             icon={<FaHome />}
             className='text-white hover:text-black'
+            onClick={() => setPageTitle("Kreiraj Dokumente")}
         >
           Kreiraj dokumente
         </MenuItem>
@@ -61,6 +63,7 @@ const CompanySidebar = () => {
               component={<Link to='listaDokumenata/maloprodajna-kalkulacija' />}
               icon={<FaHome />}
               className='text-white hover:text-black'
+              onClick={() => setPageTitle("Maloprodajna Kalkulacija")}
           >
             Maloprodajna Kalkulacija
           </MenuItem>
@@ -87,6 +90,7 @@ const CompanySidebar = () => {
               component={<Link to='sifrarnik/skladiste' />}
               icon={<FaHome />}
               className='text-white hover:text-black'
+              onClick={() => setPageTitle("Skladiste")}
           >
             Skladiste
           </MenuItem>
@@ -94,6 +98,7 @@ const CompanySidebar = () => {
               component={<Link to='sifrarnik/poslovnica' />}
               icon={<FaHome />}
               className='text-white hover:text-black'
+              onClick={() => setPageTitle("Poslovnica")}
           >
             Poslovnica
           </MenuItem>
@@ -121,6 +126,7 @@ const CompanySidebar = () => {
               component={<Link to='dashboard/dodaj-firmu' />}
               icon={<FaBuilding />}
               className='text-white hover:text-black'
+              onClick={() => setPageTitle("Dodaj Firmu")}
             >
               Dodaj Firmu
             </MenuItem>
@@ -128,6 +134,7 @@ const CompanySidebar = () => {
                 component={<Link to='dashboard/dodaj-kupacDobavljac' />}
                 icon={<FaBuilding />}
                 className='text-white hover:text-black'
+                onClick={() => setPageTitle("Dodaj Kupca/Dobavljaca")}
             >
               Dodaj Kupca/Dobavljaca
             </MenuItem>
@@ -135,6 +142,7 @@ const CompanySidebar = () => {
               component={<Link to='dashboard/prava-zaposlenih' />}
               icon={<FaUser />}
               className='text-white hover:text-black'
+              onClick={() => setPageTitle("Prava Zaposlenih")}
             >
               Prava Zaposlenih
             </MenuItem>
@@ -142,6 +150,7 @@ const CompanySidebar = () => {
               component={<Link to='dashboard/dodaj-zaposlenog' />}
               icon={<FaUserPlus />}
               className='text-white hover:text-black'
+              onClick={() => setPageTitle("Dodaj Zaposlenog")}
             >
               Dodaj Zaposlenog
             </MenuItem>
@@ -152,6 +161,7 @@ const CompanySidebar = () => {
             component={<Link to='/admin/services' />}
             icon={<FaLock />}
             className='text-white hover:text-black'
+            onClick={() => setPageTitle("Admin panel")}
           >
             Admin panel
           </MenuItem>

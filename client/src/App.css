@@ -13,3 +13,13 @@ html, body, #root {
     display: flex;
     flex-direction: column;
 }
+
+.navbar {
+    background-color: #023E8A;
+    color: white;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}

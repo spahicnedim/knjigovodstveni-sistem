@@ -216,19 +216,18 @@ export const UnosRobe = () => {
 
 
     return (
-        <div className="min-h-screen bg-gray-50 p-8">
+        <div className="min-h-screen ">
             <form
                 onSubmit={handleSubmit}
                 className=""
             >
-                <h2 className="text-2xl font-semibold mb-6">Kreiraj Dokument</h2>
 
                 <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-medium mb-2">Vrsta Dokumenta</label>
                     <select
                         value={vrstaDokumentaId}
                         onChange={(e) => setVrstaDokumentaId(e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-lg"
+                        className="w-80 p-2 border border-gray-300 rounded-sm"
                         required
                     >
                         <option value="">Odaberite vrstu dokumenta</option>
