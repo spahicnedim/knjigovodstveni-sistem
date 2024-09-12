@@ -2,7 +2,7 @@ import { ArtikliForm } from "../Forme/ArtikliForm.jsx";
 import Drawer from "../../Drawer.jsx";
 import PdfContent from "../PDFLayout/PDFDokument.jsx";
 import { roundTo } from "../../../utils/RoundTo.jsx";
-import Select from "react-select";
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -12,6 +12,8 @@ import SelectDobavljaci from "../SelectSearch/SelectDobavljaci.jsx";
 import SelectSkladista from "../SelectSearch/SelectSkladista.jsx";
 import SelectPoslovnice from "../SelectSearch/SelectPoslovnice.jsx";
 import SelectValuta from "../SelectSearch/SelectValuta.jsx";
+import HandleAddArtikl from "../Assets/HandleAddArtikli.jsx";
+import {setEditMode} from "../../../features/editModeSlice.js"
 
 const UlaznaKalkulacija = ({
   naziv,
@@ -37,8 +39,8 @@ const UlaznaKalkulacija = ({
   setCijena,
   mpcijena,
   setMpCijena,
-  handleAddArtikl,
   artikli,
+  setArtikli,
   isContentVisible,
   contentRef,
   aktivniPdv,
@@ -58,8 +60,10 @@ const UlaznaKalkulacija = ({
   openDrawer,
   handleFileChange,
 }) => {
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
     const artikliOptions = artikliList.map((artikl) => ({
@@ -95,6 +99,24 @@ const UlaznaKalkulacija = ({
       );
     }
   };
+
+  const handleRemoveArtikl = (index) => {
+    // Filtriraj artikle da ukloniš onaj s odgovarajućim indeksom
+    const noviArtikli = artikli.filter((_, i) => i !== index);
+    // Ažuriraj stanje s novom listom artikala
+    setArtikli(noviArtikli);
+  };
+
+  const handleEditArtikl = (index) => {
+    const artikl = artikli[index];
+    setOdabraniArtikl(artikl); // Postavi artikl u formu
+    setKolicina(artikl.kolicina);
+    setCijena(artikl.cijena);
+    setMpCijena(artikl.mpcijena);
+    dispatch(setEditMode(true));
+    setEditIndex(index);
+  };
+
 
 
   return (
@@ -199,9 +221,9 @@ const UlaznaKalkulacija = ({
               Valuta
             </label>
             <SelectValuta
-              valute={valute}
-              setValutaId={setValutaId}
-              openDrawer={openDrawer}
+                valute={valute}
+                setValutaId={setValutaId}
+                openDrawer={openDrawer}
             />
           </div>
         </div>
@@ -279,13 +301,20 @@ const UlaznaKalkulacija = ({
                       className='flex-1 h-9 p-2 border border-gray-300 rounded-sm'
                   />
                 </div>
-                <button
-                    type='button'
-                    onClick={handleAddArtikl}
-                    className='bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg'
-                >
-                  Dodaj
-                </button>
+                <HandleAddArtikl
+                    odabraniArtikl={odabraniArtikl}
+                    kolicina={kolicina}
+                    cijena={cijena}
+                    mpcijena={mpcijena}
+                    artikli={artikli}
+                    setArtikli={setArtikli}
+                    setOdabraniArtikl={setOdabraniArtikl}
+                    setKolicina={setKolicina}
+                    setCijena={setCijena}
+                    setMpCijena={setMpCijena}
+                    editIndex={editIndex}
+                    setEditIndex={setEditIndex}
+                />
               </div>
           )}
         </div>
@@ -294,7 +323,7 @@ const UlaznaKalkulacija = ({
           <h3 className='text-xl font-semibold mb-4'>Uneseni Artikli</h3>
           {artikli.length > 0 ? (
               <table className='w-full border-collapse border border-gray-300'>
-                <thead>
+              <thead>
                 <tr>
                   <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
                     Redni broj
@@ -412,12 +441,16 @@ const UlaznaKalkulacija = ({
                       <td className='border border-gray-300 p-3 text-right'>
                         <button
                             type='button'
-                            // onClick={() => handleRemoveArtikl(index)}
+                            onClick={() => handleRemoveArtikl(index)}
                             className='text-red-500 hover:text-red-600'
                         >
                           Izbriši
                         </button>
+                        <button onClick={() => handleEditArtikl(index)} className='text-blue-500 hover:text-blue-600'>
+                          Uredi
+                        </button>
                       </td>
+
                     </tr>
                 ))}
                 </tbody>
@@ -425,6 +458,21 @@ const UlaznaKalkulacija = ({
           ) : (
               <p className='text-gray-500'>Nemate unesenih artikala.</p>
           )}
+        </div>
+        <div className="flex justify-end">
+          <div className='mt-4 p-5 flex gap-4 w-1/3 h-32 bg-gray-50 drop-shadow-md flex-col'>
+            <div className="flex justify-between">
+              <h4 className='text-lg font-semibold'>Ukupno:</h4>
+              <p className='text-xl'>
+                {roundTo(
+                    artikli.reduce((acc, artikl) => acc + artikl.mpcijena * artikl.kolicina, 0),
+                    2
+                )}
+                KM
+              </p>
+            </div>
+            <div className='border-t border-gray-400'></div>
+          </div>
         </div>
 
         <div className='flex justify-end space-x-4'>

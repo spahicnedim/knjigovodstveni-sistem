@@ -51,6 +51,7 @@ export const UnosRobe = () => {
     const kupciDobavljaci = useSelector((state) => state.kupacDobavljac.kupciDobavljaci);
     const pdv = useSelector((state)=> state.dokument.pdv);
     const valute = useSelector((state) => state.valuta.valute)
+    const editMode = useSelector(state => state.editMode.editMode);
 
     const { companyId } = useParams();
 
@@ -143,30 +144,32 @@ export const UnosRobe = () => {
         }
     };
 
-    const handleAddArtikl = () => {
-        if (odabraniArtikl && kolicina > 0) {
-            const artiklZaDodavanje = {
-                ...odabraniArtikl,
-                kolicina: parseFloat(kolicina),
-                cijena: parseFloat(cijena),
-                mpcijena: parseFloat(mpcijena)
-            };
-            setArtikli([...artikli, artiklZaDodavanje]);
-            setOdabraniArtikl(null);
-            setKolicina(0);
-            setCijena(0);
-        }
-    };
+    // const handleAddArtikl = () => {
+    //     if (odabraniArtikl && kolicina > 0) {
+    //         const artiklZaDodavanje = {
+    //             ...odabraniArtikl,
+    //             kolicina: parseFloat(kolicina),
+    //             cijena: parseFloat(cijena),
+    //             mpcijena: parseFloat(mpcijena)
+    //         };
+    //
+    //         setArtikli([...artikli, artiklZaDodavanje]);
+    //         setOdabraniArtikl(null);
+    //         setKolicina(0);
+    //         setCijena(0);
+    //     }
+    // };
 
+    console.log(editMode)
     useEffect(() => {
-        if (odabraniArtikl) {
+        if (odabraniArtikl && !editMode) {
             // Nađi zadnju cijenu iz liste cijena
             const zadnjaCijena = odabraniArtikl.ArtikliCijene.slice(-1)[0]?.cijena || 0;
             const zadnjaMPCijena = odabraniArtikl.ArtikliCijene.slice(-1)[0]?.mpcijena || 0;
             setCijena(zadnjaCijena);
             setMpCijena(zadnjaMPCijena)
         }
-    }, [odabraniArtikl]);
+    }, [odabraniArtikl, editMode]);
 
 
 
@@ -265,8 +268,8 @@ export const UnosRobe = () => {
                             setCijena={setCijena}
                             mpcijena={mpcijena}
                             setMpCijena={setMpCijena}
-                            handleAddArtikl={handleAddArtikl}
                             artikli={artikli}
+                            setArtikli={setArtikli}
                             isContentVisible={isContentVisible}
                             contentRef={contentRef}
                             aktivniPdv={aktivniPdv}
