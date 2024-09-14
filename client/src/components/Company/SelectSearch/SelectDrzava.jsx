@@ -1,63 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-const SelectValute = ({ valute, setValutaId, valutaId, openDrawer }) => {
+const SelectDrzave = ({ drzaveList, drzavaId, setDrzavaId, openDrawer }) => {
     const [inputValue, setInputValue] = useState("");
     const [options, setOptions] = useState([]);
 
     useEffect(() => {
-        const valuteOptions = valute.map((valuta) => ({
-            value: valuta.id,
-            label: valuta.naziv,
+        // Mapiranje država u odgovarajuće opcije
+        const drzaveOptions = drzaveList.map((drzava) => ({
+            value: drzava.id,
+            label: drzava.naziv,
         }));
 
         // Dodaj opciju "Create" ako unos ne postoji u opcijama
         if (
             inputValue &&
-            !valuteOptions.some(
+            !drzaveOptions.some(
                 (option) => option.label.toLowerCase() === inputValue.toLowerCase()
             )
         ) {
-            valuteOptions.push({
+            drzaveOptions.push({
                 label: `Create "${inputValue}"`,
                 value: "create",
                 isCreateOption: true,
             });
         }
 
-        setOptions(valuteOptions);
-    }, [inputValue, valute]);
+        setOptions(drzaveOptions);
+    }, [inputValue, drzaveList]);
 
     const handleSelectChange = (selectedOption) => {
         if (selectedOption?.isCreateOption) {
-            openDrawer("valute");
-            console.log('Create new valuta with name:', inputValue);
+            openDrawer("drzava");
         } else {
-            setValutaId(
-                selectedOption
-                    ? selectedOption.value
-                    : ""
-            );
+            setDrzavaId(selectedOption ? selectedOption.value : null);
         }
     };
 
     return (
         <Select
+            options={options}
             value={
-                valute.find((valuta) => valuta.id === valutaId)
+                drzaveList.find((drzava) => drzava.id === drzavaId)
                     ? {
-                        value: valutaId,
-                        label: valute.find((valuta) => valuta.id === valutaId).naziv,
+                        value: drzavaId,
+                        label: drzaveList.find((drzava) => drzava.id === drzavaId).naziv,
                     }
                     : null
             }
-            options={options}
             onInputChange={(value) => setInputValue(value)}
             onChange={handleSelectChange}
-            placeholder='Odaberite valutu'
-            className='w-72 h-9 rounded-sm'
+            placeholder='Select Država'
+            className='w-72 h-9 pl-2 rounded-sm'
         />
     );
 };
 
-export default SelectValute;
+export default SelectDrzave;

@@ -20,10 +20,14 @@ import {
 
 import io from "socket.io-client";
 import { fetchDjelatnosti } from "../../features/djelatnost/djelatnostThunk";
+import {fetchValuta} from "../../features/valute/valuteThunks.js";
 import Drawer from "../Drawer";
 import GradForm from "./Forme/CityForm.jsx";
 import DrzavaForm from "./Forme/DrzavaForm.jsx";
 import DjelatnostForm from "./Forme/DjelatnostForm.jsx";
+import SelectGradovi from "./SelectSearch/SelectGradovi.jsx";
+import SelectDrzava from "./SelectSearch/SelectDrzava.jsx";
+import SelectValuta from "./SelectSearch/SelectValuta.jsx";
 
 const socket = io("http://localhost:3001");
 
@@ -32,7 +36,6 @@ const UpdateCompany = () => {
   const [adresa, setAdresa] = useState("");
   const [PDVbroj, setPDVbroj] = useState("");
   const [IDbroj, setIDbroj] = useState("");
-  const [valuta, setValuta] = useState("");
   const [obveznikPDV, setObveznikPDV] = useState(false);
   const [telefon, setTelefon] = useState("");
   const [fax, setFax] = useState("");
@@ -46,6 +49,7 @@ const UpdateCompany = () => {
   const [djelatnostId, setDjelatnostId] = useState(null);
   const [postalCode, setPostalCode] = useState("");
   const [sifraDjelatnosti, setSifraDjelatnosti] = useState(null);
+  const [valutaId, setValutaId] = useState(null);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState("");
@@ -60,6 +64,7 @@ const UpdateCompany = () => {
   const djelatnosti = useSelector((state) => state.djelatnost.djelatnosti);
   const drzave = useSelector((state) => state.drzava.drzave);
   const banke = useSelector((state) => state.banka.banke);
+  const valute = useSelector((state) => state.valuta.valute)
 
   const openDrawer = (content) => {
     setDrawerContent(content);
@@ -85,6 +90,7 @@ const UpdateCompany = () => {
       dispatch(fetchDrzave());
       dispatch(fetchBanke());
       dispatch(fetchDjelatnosti());
+      dispatch(fetchValuta())
     }
   }, [service, dispatch]);
 
@@ -101,7 +107,6 @@ const UpdateCompany = () => {
       setAdresa(company.adresa);
       setPDVbroj(company.PDVbroj);
       setIDbroj(company.IDbroj);
-      setValuta(company.valuta);
       setObveznikPDV(company.obveznikPDV);
       setTelefon(company.telefon);
       setFax(company.fax);
@@ -110,6 +115,7 @@ const UpdateCompany = () => {
       setSjedisteId(Number(company.sjedisteId));
       setDrzavaId(Number(company.drzavaId));
       setDjelatnostId(Number(company.djelatnostId));
+      setValutaId(Number(company.valutaId));
     }
   }, [company]);
 
@@ -122,13 +128,13 @@ const UpdateCompany = () => {
       drzavaId,
       PDVbroj,
       IDbroj,
-      valuta,
       djelatnostId,
       obveznikPDV,
       telefon,
       fax,
       email,
       web,
+      valutaId
     };
 
     dispatch(updateCompany({ companyId, companyData }));
@@ -189,210 +195,198 @@ const UpdateCompany = () => {
   }
 
   return (
-    <div className='max-w-4xl mx-auto p-4'>
+    <div className='p-4 bg-white'>
       <div className='grid grid-cols-2 gap-4'>
-        <div className='bg-white shadow-md rounded-lg p-4'>
-          <h2 className='text-2xl font-bold mb-4'>Update Company</h2>
+        <div className='p-4'>
+          <h2 className='text-2xl font-bold mb-4'>Podaci o Firmi</h2>
           <form onSubmit={handleCompanyUpdate} className='space-y-4'>
-            <input
-              type='text'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder='Company Name'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-            <input
-              type='text'
-              value={adresa}
-              onChange={(e) => setAdresa(e.target.value)}
-              placeholder='Address'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-            <div className='flex items-center'>
-              <Select
-                options={gradovi.map((grad) => ({
-                  value: grad.id,
-                  label: grad.naziv,
-                }))}
-                value={
-                  gradovi.find((grad) => grad.id === sjedisteId)
-                    ? {
-                        value: sjedisteId,
-                        label: gradovi.find((grad) => grad.id === sjedisteId)
-                          .naziv,
-                      }
-                    : null
-                }
-                onChange={(selectedOption) =>
-                  setSjedisteId(selectedOption ? selectedOption.value : null)
-                }
-                placeholder='Select City'
-                className='flex-grow'
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Naziv Firme</label>
+              <input
+                  type='text'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder='Company Name'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
               />
-              <button
-                type='button'
-                className='ml-2 p-2 bg-blue-500 text-white rounded'
-                onClick={() => openDrawer("city")}
-              >
-                Add Grad
-              </button>
             </div>
-            <input
-              type='text'
-              value={postalCode}
-              readOnly
-              placeholder='Postal Code'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-            <div className='flex items-center'>
-              <Select
-                options={drzave.map((drzava) => ({
-                  value: drzava.id,
-                  label: drzava.naziv,
-                }))}
-                value={
-                  drzave.find((drzava) => drzava.id === drzavaId)
-                    ? {
-                        value: drzavaId,
-                        label: drzave.find((drzava) => drzava.id === drzavaId)
-                          .naziv,
-                      }
-                    : null
-                }
-                onChange={(selectedOption) =>
-                  setDrzavaId(selectedOption ? selectedOption.value : null)
-                }
-                placeholder='Select Drzava'
-                className=''
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Adresa</label>
+              <input
+                  type='text'
+                  value={adresa}
+                  onChange={(e) => setAdresa(e.target.value)}
+                  placeholder='Address'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
               />
-              <button
-                type='button'
-                className='ml-2 p-2 bg-blue-500 text-white rounded'
-                onClick={() => openDrawer("drzava")}
-              >
-                Add Drzava
-              </button>
             </div>
-            <input
-              type='text'
-              value={PDVbroj}
-              onChange={(e) => setPDVbroj(e.target.value)}
-              placeholder='PDV Number'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-            <input
-              type='text'
-              value={IDbroj}
-              onChange={(e) => setIDbroj(e.target.value)}
-              placeholder='ID Number'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-            <input
-              type='text'
-              value={valuta}
-              onChange={(e) => setValuta(e.target.value)}
-              placeholder='Currency'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Grad</label>
+              <SelectGradovi
+                  gradoviList={gradovi}
+                  sjedisteId={sjedisteId}
+                  setSjedisteId={setSjedisteId}
+                  openDrawer={openDrawer}
+              />
+            </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Postanski broj</label>
+              <input
+                  type='text'
+                  value={postalCode}
+                  readOnly
+                  placeholder='Postal Code'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
+              />
+            </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Drzava</label>
+              <SelectDrzava
+                  drzaveList={drzave}
+                  drzavaId={drzavaId}
+                  setDrzavaId={setDrzavaId}
+                  openDrawer={openDrawer}
+              />
+            </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>PDV Broj</label>
+              <input
+                  type='text'
+                  value={PDVbroj}
+                  onChange={(e) => setPDVbroj(e.target.value)}
+                  placeholder='PDV Number'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
+              />
+            </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>ID Broj</label>
+              <input
+                  type='text'
+                  value={IDbroj}
+                  onChange={(e) => setIDbroj(e.target.value)}
+                  placeholder='ID Number'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
+              />
+            </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Valuta</label>
+              <SelectValuta
+                  valute={valute}
+                  setValutaId={setValutaId}
+                  valutaId={valutaId}
+                  openDrawer={openDrawer}
+              />
+            </div>
             <label className='flex items-center space-x-2'>
               <input
-                type='checkbox'
-                checked={obveznikPDV}
-                onChange={(e) => setObveznikPDV(e.target.checked)}
-                className='form-checkbox'
+                  type='checkbox'
+                  checked={obveznikPDV}
+                  onChange={(e) => setObveznikPDV(e.target.checked)}
+                  className='form-checkbox'
               />
               <span>Obveznik PDV</span>
             </label>
-            <input
-              type='text'
-              value={telefon}
-              onChange={(e) => setTelefon(e.target.value)}
-              placeholder='Phone'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-            <input
-              type='text'
-              value={fax}
-              onChange={(e) => setFax(e.target.value)}
-              placeholder='Fax'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-            <input
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder='Email'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-            <input
-              type='text'
-              value={web}
-              onChange={(e) => setWeb(e.target.value)}
-              placeholder='Website'
-              className='w-full p-2 border border-gray-300 rounded'
-            />
-
-            <div className='bg-white shadow-md rounded-lg p-4'>
-              <h2 className='text-2xl font-bold mb-4'>Djelatnost Details</h2>
-
-              <div className='flex items-center space-x-4'>
-                <div className='flex-grow'>
-                  <Select
-                    options={djelatnosti.map((djelatnost) => ({
-                      value: djelatnost.id,
-                      label: djelatnost.naziv,
-                    }))}
-                    value={
-                      djelatnosti.find(
-                        (djelatnost) => djelatnost.id === djelatnostId
-                      )
-                        ? {
-                            value: djelatnostId,
-                            label: djelatnosti.find(
-                              (djelatnost) => djelatnost.id === djelatnostId
-                            ).naziv,
-                          }
-                        : null
-                    }
-                    onChange={(selectedOption) =>
-                      setDjelatnostId(
-                        selectedOption ? selectedOption.value : null
-                      )
-                    }
-                    placeholder='Select Djelatnost'
-                    className='w-full'
-                  />
-                </div>
-
-                <input
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Telefon</label>
+              <input
                   type='text'
-                  value={sifraDjelatnosti}
-                  readOnly
-                  placeholder='Sifra djelatnosti'
-                  className='w-32 p-2 border border-gray-300 rounded'
-                />
-
-                <button
-                  type='button'
-                  className='p-2 bg-blue-500 text-white rounded'
-                  onClick={() => openDrawer("djelatnost")}
-                >
-                  Add Djelatnost
-                </button>
-              </div>
+                  value={telefon}
+                  onChange={(e) => setTelefon(e.target.value)}
+                  placeholder='Phone'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
+              />
             </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Fax</label>
+              <input
+                  type='text'
+                  value={fax}
+                  onChange={(e) => setFax(e.target.value)}
+                  placeholder='Fax'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
+              />
+            </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Email</label>
+              <input
+                  type='email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder='Email'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
+              />
+            </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Web</label>
+              <input
+                  type='text'
+                  value={web}
+                  onChange={(e) => setWeb(e.target.value)}
+                  placeholder='Website'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
+              />
+            </div>
+              <div className='p-4'>
+                <h2 className='text-2xl font-bold mb-4'>Djelatnost</h2>
 
-            <button
-              type='submit'
-              className='w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600'
-            >
-              Update Company
-            </button>
+                <div className='flex items-center space-x-4'>
+                  <div className='flex-grow'>
+                    <Select
+                        options={djelatnosti.map((djelatnost) => ({
+                          value: djelatnost.id,
+                          label: djelatnost.naziv,
+                        }))}
+                        value={
+                          djelatnosti.find(
+                              (djelatnost) => djelatnost.id === djelatnostId
+                          )
+                              ? {
+                                value: djelatnostId,
+                                label: djelatnosti.find(
+                                    (djelatnost) => djelatnost.id === djelatnostId
+                                ).naziv,
+                              }
+                              : null
+                        }
+                        onChange={(selectedOption) =>
+                            setDjelatnostId(
+                                selectedOption ? selectedOption.value : null
+                            )
+                        }
+                        placeholder='Select Djelatnost'
+                        className='w-full'
+                    />
+                  </div>
+
+                  <input
+                      type='text'
+                      value={sifraDjelatnosti}
+                      readOnly
+                      placeholder='Sifra djelatnosti'
+                      className='w-32 p-2 border border-gray-300 rounded'
+                  />
+
+                  <button
+                      type='button'
+                      className='p-2 bg-blue-500 text-white rounded'
+                      onClick={() => openDrawer("djelatnost")}
+                  >
+                    Add Djelatnost
+                  </button>
+                </div>
+              </div>
+
+              <button
+                  type='submit'
+                  className='w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600'
+              >
+                Update Company
+              </button>
           </form>
         </div>
 
-        <div className='bg-white shadow-md rounded-lg p-4'>
-          <h2 className='text-2xl font-bold mb-4'>Bank Account Details</h2>
+        <div className=' p-4'>
+          <h2 className='text-2xl font-bold mb-4'>Dodaj bankovni racun</h2>
           <form onSubmit={handleBankDetailsCreate} className='space-y-4'>
             <Select
               options={banke.map((banka) => ({
@@ -441,7 +435,7 @@ const UpdateCompany = () => {
 
           {/* List of Bank Accounts */}
           <div className='mt-4'>
-            <h3 className='text-xl font-bold'>Existing Bank Accounts</h3>
+            <h3 className='text-xl font-bold'>Bankovni racuni</h3>
             <ul className='mt-2'>
               {racuni.map((racun) => {
                 const banka = banke.find((b) => b.id === racun.nazivId);

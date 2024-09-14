@@ -8,7 +8,6 @@ const createCompany = async (req, res) => {
     drzavaId,
     PDVbroj,
     IDbroj,
-    valuta,
     djelatnostId,
     obveznikPDV,
     telefon,
@@ -16,6 +15,7 @@ const createCompany = async (req, res) => {
     email,
     web,
     serviceId,
+    valutaId
   } = req.body;
 
   try {
@@ -23,18 +23,18 @@ const createCompany = async (req, res) => {
       data: {
         name,
         adresa: adresa || null,
-        sjedisteId: sjedisteId || null,
-        drzavaId: drzavaId || null,
+        sjediste: sjedisteId ? { connect: { id: sjedisteId } } : undefined, // Korištenje connect za relaciju
+        drzava: drzavaId ? { connect: { id: drzavaId } } : undefined,
         PDVbroj: PDVbroj ? PDVbroj.toString() : null,
         IDbroj: IDbroj ? IDbroj.toString() : null,
-        valuta: valuta || null,
-        djelatnostId: djelatnostId || null,
+        djelatnostId: djelatnostId ? {connect: {id: djelatnostId}} : undefined,
         obveznikPDV: obveznikPDV !== undefined ? obveznikPDV : null,
         telefon: telefon ? telefon.toString() : null,
         fax: fax ? fax.toString() : null,
         email: email || null,
         web: web || null,
         serviceId,
+        valutaId: valutaId || null,
       },
     });
 
@@ -56,13 +56,13 @@ const updateCompany = async (req, res) => {
     drzavaId,
     PDVbroj,
     IDbroj,
-    valuta,
     djelatnostId,
     obveznikPDV,
     telefon,
     fax,
     email,
     web,
+    valutaId
   } = req.body;
 
   try {
@@ -73,17 +73,17 @@ const updateCompany = async (req, res) => {
       data: {
         name: name || undefined,
         adresa: adresa || undefined,
-        sjedisteId: sjedisteId || undefined,
-        drzavaId: drzavaId || undefined,
+        sjediste: sjedisteId ? { connect: { id: sjedisteId } } : undefined, // Korištenje connect
+        drzava: drzavaId ? { connect: { id: drzavaId } } : undefined,
         PDVbroj: PDVbroj ? PDVbroj.toString() : undefined,
         IDbroj: IDbroj ? IDbroj.toString() : undefined,
-        valuta: valuta || undefined,
-        djelatnostId: djelatnostId || undefined,
+        djelatnost: djelatnostId ? { connect: { id: djelatnostId } } : undefined,
         obveznikPDV: obveznikPDV !== undefined ? obveznikPDV : undefined,
         telefon: telefon ? telefon.toString() : undefined,
         fax: fax ? fax.toString() : undefined,
         email: email || undefined,
         web: web || undefined,
+        Valuta: valutaId ? {connect: {id: valutaId}} : undefined,
       },
     });
 

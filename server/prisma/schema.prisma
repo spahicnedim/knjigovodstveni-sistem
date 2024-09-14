@@ -36,7 +36,8 @@ model Company {
   drzava          Drzave?          @relation(fields: [drzavaId], references: [id])
   PDVbroj         String? // jedinstven
   IDbroj          String? // jedinstven
-  valuta          String?
+  Valuta          Valuta?          @relation(fields: [valutaId], references: [id])
+  valutaId        Int?
   djelatnostId    Int?
   djelatnost      Djelatnost?      @relation(fields: [djelatnostId], references: [id])
   obveznikPDV     Boolean?
@@ -285,6 +286,7 @@ model Valuta {
   id        Int         @id @default(autoincrement())
   naziv     String
   dokumenti Dokumenti[]
+  Company   Company[]
 }
 
 model PDV {

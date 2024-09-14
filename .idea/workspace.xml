@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="sitne promjene">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikli.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/editModeSlice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/uploads/maloprodajnaKalkulacija-1726154761246.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/uploads/maloprodajnaKalkulacija-1726154803913.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/uploads/maloprodajnaKalkulacija-1726154827409.png" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodan edit i delete artikla">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectDrzava.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectGradovi.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectValuta.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectValuta.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/companyController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/companyController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +124,8 @@
       <workItem from="1725611336485" duration="53000" />
       <workItem from="1725636726171" duration="12575000" />
       <workItem from="1725980045748" duration="15048000" />
-      <workItem from="1726151476794" duration="6578000" />
+      <workItem from="1726151476794" duration="6807000" />
+      <workItem from="1726323224842" duration="3748000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -384,7 +383,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726001473881</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="dodan edit i delete artikla">
+      <option name="closed" value="true" />
+      <created>1726158322559</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1726158322559</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -403,7 +410,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="redux organized" />
     <MESSAGE value="prisma change" />
     <MESSAGE value="dokument controller" />
     <MESSAGE value="vrstaDokumenta controller" />
@@ -428,6 +434,7 @@
     <MESSAGE value="dodan navbar i rijesene neke sitnice" />
     <MESSAGE value=" dodan select search custom" />
     <MESSAGE value="sitne promjene" />
-    <option name="LAST_COMMIT_MESSAGE" value="sitne promjene" />
+    <MESSAGE value="dodan edit i delete artikla" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodan edit i delete artikla" />
   </component>
 </project>

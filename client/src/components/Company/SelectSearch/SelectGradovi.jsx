@@ -1,63 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-const SelectValute = ({ valute, setValutaId, valutaId, openDrawer }) => {
+const SelectGradovi = ({ gradoviList, sjedisteId, setSjedisteId, openDrawer }) => {
     const [inputValue, setInputValue] = useState("");
     const [options, setOptions] = useState([]);
 
     useEffect(() => {
-        const valuteOptions = valute.map((valuta) => ({
-            value: valuta.id,
-            label: valuta.naziv,
+        // Mapiranje gradova u odgovarajuće opcije
+        const gradoviOptions = gradoviList.map((grad) => ({
+            value: grad.id,
+            label: grad.naziv,
         }));
 
         // Dodaj opciju "Create" ako unos ne postoji u opcijama
         if (
             inputValue &&
-            !valuteOptions.some(
+            !gradoviOptions.some(
                 (option) => option.label.toLowerCase() === inputValue.toLowerCase()
             )
         ) {
-            valuteOptions.push({
+            gradoviOptions.push({
                 label: `Create "${inputValue}"`,
                 value: "create",
                 isCreateOption: true,
             });
         }
 
-        setOptions(valuteOptions);
-    }, [inputValue, valute]);
+        setOptions(gradoviOptions);
+    }, [inputValue, gradoviList]);
 
     const handleSelectChange = (selectedOption) => {
         if (selectedOption?.isCreateOption) {
-            openDrawer("valute");
-            console.log('Create new valuta with name:', inputValue);
+            openDrawer("city");
         } else {
-            setValutaId(
-                selectedOption
-                    ? selectedOption.value
-                    : ""
-            );
+            setSjedisteId(selectedOption ? selectedOption.value : null);
         }
     };
 
     return (
         <Select
+            options={options}
             value={
-                valute.find((valuta) => valuta.id === valutaId)
+                gradoviList.find((grad) => grad.id === sjedisteId)
                     ? {
-                        value: valutaId,
-                        label: valute.find((valuta) => valuta.id === valutaId).naziv,
+                        value: sjedisteId,
+                        label: gradoviList.find((grad) => grad.id === sjedisteId).naziv,
                     }
                     : null
             }
-            options={options}
             onInputChange={(value) => setInputValue(value)}
             onChange={handleSelectChange}
-            placeholder='Odaberite valutu'
-            className='w-72 h-9 rounded-sm'
+            placeholder='Select City'
+            className='w-72 h-9 pl-2 rounded-sm'
         />
     );
 };
 
-export default SelectValute;
+export default SelectGradovi;
