@@ -222,6 +222,7 @@ const UlaznaKalkulacija = ({
             </label>
             <SelectValuta
                 valute={valute}
+                valutaId={valutaId}
                 setValutaId={setValutaId}
                 openDrawer={openDrawer}
             />

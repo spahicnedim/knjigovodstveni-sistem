@@ -14,13 +14,22 @@ const createDokumenti = async (req, res) => {
         datumIzdavanjaDokumenta,
         datumKreiranjaKalkulacije,
         valutaId,
-        artikli, // JSON string koji treba parsirati
+        artikli,
     } = req.body;
 
     // Pretvaranje JSON stringa u objekt
     const parsedArtikli = JSON.parse(artikli);
 
+
     try {
+        const activeGodina = await prisma.godine.findFirst({
+            where: { status: true },
+        });
+
+        if (!activeGodina) {
+            return res.status(404).json({ message: 'Nema aktivne godine.' });
+        }
+
         // Provjeravamo je li fajl uploadovan
         const file = req.file;
         let filePath = null;
@@ -45,7 +54,8 @@ const createDokumenti = async (req, res) => {
                     datumIzdavanjaDokumenta: validDatumIzdavanja,
                     datumKreiranjaKalkulacije: validDatumKreiranja,
                     valutaId: parseInt(valutaId, 10),
-                    filePath: filePath, // Putanja do fajla
+                    filePath: filePath,
+                    godineId: activeGodina.id
                 }
             });
 
@@ -154,19 +164,23 @@ const updateDokumenta = async (req, res) => {
 };
 
 const getAllDokumenti = async (req, res) => {
-    const { skladisteId } = req.query;
+    const { skladisteId, godineId } = req.query;
 
     try {
-        if (!skladisteId) {
-            return res.status(400).json({ error: "Missing skladisteId query parameter" });
+        // Provjera da li su oba parametra prisutna
+        if (!skladisteId || !godineId) {
+            return res.status(400).json({ error: "Missing skladisteId or godineId query parameters" });
         }
 
+        const whereConditions = {
+            skladisteId: parseInt(skladisteId, 10),
+            godineId: parseInt(godineId, 10),
+        };
+
         const dokumenti = await prisma.dokumenti.findMany({
-            where: {
-                skladisteId: parseInt(skladisteId, 10),
-            },
+            where: whereConditions,
             include: {
-                artikli: true, // Ovo uključuje povezane artikle za svaki dokument
+                artikli: true, // Uključuje povezane artikle za svaki dokument
             },
         });
 
@@ -176,7 +190,6 @@ const getAllDokumenti = async (req, res) => {
         res.status(400).json({ error: "Error fetching dokumenti", details: error.message });
     }
 };
-
 module.exports = {
     createDokumenti,
     updateDokumenta,

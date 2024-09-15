@@ -134,7 +134,6 @@ model Artikli {
   jedinicaMjere    String
   skladisteArtikli SkladisteArtikli[]
   transfer         Transferi[]
-  Godine           Godine?            @relation(fields: [godineId], references: [id])
   godineId         Int?
 
   dokumenti     Dokumenti[]     @relation("ArtikliDokumenti")
@@ -159,7 +158,6 @@ model SkladisteArtikli {
   artikliId   Int?
   artikli     Artikli?   @relation(fields: [artikliId], references: [id])
   kolicina    Decimal    @db.Decimal(10, 2)
-  Godine      Godine?    @relation(fields: [godineId], references: [id])
   godineId    Int?
 
   @@unique([skladisteId, artikliId])
@@ -235,10 +233,8 @@ model Godine {
   naziv  Int     @unique
   status Boolean
 
-  skladisteArtikli SkladisteArtikli[]
-  artikli          Artikli[]
-  dokumenti        Dokumenti[]
-  knjige           Knjige[]
+  dokumenti Dokumenti[]
+  knjige    Knjige[]
 }
 
 model SjedisteFirme {

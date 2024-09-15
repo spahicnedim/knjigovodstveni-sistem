@@ -144,22 +144,6 @@ export const UnosRobe = () => {
         }
     };
 
-    // const handleAddArtikl = () => {
-    //     if (odabraniArtikl && kolicina > 0) {
-    //         const artiklZaDodavanje = {
-    //             ...odabraniArtikl,
-    //             kolicina: parseFloat(kolicina),
-    //             cijena: parseFloat(cijena),
-    //             mpcijena: parseFloat(mpcijena)
-    //         };
-    //
-    //         setArtikli([...artikli, artiklZaDodavanje]);
-    //         setOdabraniArtikl(null);
-    //         setKolicina(0);
-    //         setCijena(0);
-    //     }
-    // };
-
     console.log(editMode)
     useEffect(() => {
         if (odabraniArtikl && !editMode) {

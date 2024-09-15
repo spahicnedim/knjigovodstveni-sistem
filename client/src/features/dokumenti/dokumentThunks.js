@@ -29,10 +29,10 @@ export const fetchPdv = createAsyncThunk(
 
 export const fetchDokumenti = createAsyncThunk(
     "dokumenti/fetchDokumenti",
-    async (skladisteId, thunkAPI) => {
+    async ({skladisteId, godineId} ,thunkAPI) => {
         try {
             const response = await api.get("/dokument", {
-                params: { skladisteId }
+                params: { skladisteId, godineId }
             });
             return response.data.dokumenti;
         } catch (error) {

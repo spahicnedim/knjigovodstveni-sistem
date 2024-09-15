@@ -23,6 +23,7 @@ const vrstaDokumentaRoute = require("./routes/vrstaDokumentaRoutes");
 const vrstaSkladistaRoute = require("./routes/vrstaSkladistaRoutes");
 const pdvRoute = require("./routes/pdvRoutes")
 const valuteRoutes = require("./routes/valuteRoutes")
+const godineRoutes = require("./routes/godineRoutes")
 
 dotenv.config();
 
@@ -53,6 +54,7 @@ app.use("/api/vrstaDokumenta", vrstaDokumentaRoute);
 app.use("/api/vrstaSkladista", vrstaSkladistaRoute);
 app.use("/api/pdv", pdvRoute)
 app.use("/api/valuta", valuteRoutes)
+app.use("/api/godine", godineRoutes)
 
 
 

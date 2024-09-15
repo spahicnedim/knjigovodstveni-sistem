@@ -10,6 +10,7 @@ import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from
 import Drawer from "../Drawer.jsx";
 import { EditMaloprodajnaKalkulacija } from "./Forme/EditMaloprodajnaKalkulacija.jsx";
 import { parseISO, compareAsc, format } from "date-fns";
+import {fetchActiveGodina, fetchAllGodine} from "../../features/godine/godineThunks.js";
 
 // Definiši jednostavan text input filter za kolonu
 function DefaultColumnFilter({
@@ -49,6 +50,7 @@ export function MaloprodajnaKalukacija() {
     const dispatch = useDispatch();
     const [poslovniceId, setPoslovnicaId] = useState(null);
     const [skladisteId, setSkladisteId] = useState(null);
+    const [godineId, setGodineId] = useState(null)
     const [filteredSkladista, setFilteredSkladista] = useState([]);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerContent, setDrawerContent] = useState(null);
@@ -57,12 +59,15 @@ export function MaloprodajnaKalukacija() {
     const skladista = useSelector((state) => state.skladiste.skladista);
     const dokumenti = useSelector((state) => state.dokument.dokumenti);
     const dobavljaci = useSelector((state) => state.kupacDobavljac.kupciDobavljaci);
+    const godine = useSelector((state) => state.godina.godine)
 
     const { companyId } = useParams();
+
 
     useEffect(() => {
         dispatch(fetchPoslovnice(companyId));
         dispatch(fetchSkladista());
+        dispatch(fetchAllGodine())
     }, [dispatch, companyId]);
 
     useEffect(() => {
@@ -77,11 +82,18 @@ export function MaloprodajnaKalukacija() {
     }, [poslovniceId, skladista]);
 
     useEffect(() => {
-        if (skladisteId) {
-            dispatch(fetchDokumenti(skladisteId));
+        const activeYear = godine.find((godina) => godina.status === true);
+        if (activeYear) {
+            setGodineId(activeYear.id);  // Postavlja se godina sa statusom true kao podrazumijevana
+        }
+    }, [godine]);
+
+    useEffect(() => {
+        if (poslovniceId && skladisteId && godineId) {
+            dispatch(fetchDokumenti({skladisteId, godineId}));
             dispatch(fetchKupciDobavljaci(companyId));
         }
-    }, [dispatch, skladisteId]);
+    }, [dispatch, skladisteId, godineId, companyId]);
 
     const openDrawer = (id) => {
         setDrawerContent(id);
@@ -185,29 +197,48 @@ export function MaloprodajnaKalukacija() {
     return (
         <div>
             <div className="p-6 bg-white rounded-lg shadow-md space-y-6">
-                <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-medium mb-2">Poslovnica</label>
-                    <select
-                        value={poslovniceId}
-                        onChange={(e) => setPoslovnicaId(e.target.value)}
-                        className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
-                        required
-                    >
-                        <option value="">Odaberite poslovnicu</option>
-                        {poslovnice.map((poslovnica) => (
-                            <option key={poslovnica.id} value={poslovnica.id}>
-                                {poslovnica.naziv}
-                            </option>
-                        ))}
-                    </select>
+                <div className="flex justify-between mb-6">
+                    <div className="w-1/2 mr-6">
+                        <label className="block text-gray-700 text-sm font-medium mb-2">Poslovnica</label>
+                        <select
+                            value={poslovniceId}
+                            onChange={(e) => setPoslovnicaId(e.target.value)}
+                            className="w-72 h-9 pl-2 border border-gray-300 rounded-sm"
+                            required
+                        >
+                            <option value="">Odaberite poslovnicu</option>
+                            {poslovnice.map((poslovnica) => (
+                                <option key={poslovnica.id} value={poslovnica.id}>
+                                    {poslovnica.naziv}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="w-1/7">
+                        <label className="text-gray-700 text-sm font-medium mr-4">Godina</label>
+                        <select
+                            value={godineId}
+                            onChange={(e) => setGodineId(e.target.value)}
+                            className="w-32 h-9 pl-2 border border-gray-300 rounded-sm"
+                            required
+                        >
+                            {godine.map((godina) => (
+                                <option key={godina.id} value={godina.id}>
+                                    {godina.naziv}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
+
 
                 <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-medium mb-2">Skladište</label>
                     <select
                         value={skladisteId}
                         onChange={(e) => setSkladisteId(e.target.value)}
-                        className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
+                        className="w-72 h-9 pl-2 border border-gray-300 rounded-sm"
                         required
                     >
                         <option value="">Odaberite skladište</option>
@@ -218,109 +249,110 @@ export function MaloprodajnaKalukacija() {
                         ))}
                     </select>
                 </div>
-                <div className="mt-6">
-                    <h2 className="text-xl font-medium mb-4">Dokumenti</h2>
-                    <div className="mb-6">
-                        <input
-                            type="text"
-                            value={globalFilter || ""}
-                            onChange={(e) => setGlobalFilter(e.target.value || undefined)}
-                            placeholder="Pretraži dokumente..."
-                            className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
-                        />
-                    </div>
-                    <table {...getTableProps()} className="w-full border-collapse border border-gray-300">
-                        <thead>
-                        {headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map((column) => (
-                                    <th
-                                        {...column.getHeaderProps()}
-                                        className="border border-gray-300 p-3 bg-gray-100 font-normal text-sm cursor-pointer"
-                                    >
-                                        {column.render("Header")}
-                                        {/*                  <button>*/}
-                                        {/*  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}*/}
-                                        {/*</button>*/}
-                                        <div>{column.canFilter ? column.render("Filter") : null}</div>
-                                    </th>
+            <div className="mt-6">
+                <h2 className="text-xl font-medium mb-4">Dokumenti</h2>
+                <div className="mb-6">
+                    <input
+                        type="text"
+                        value={globalFilter || ""}
+                        onChange={(e) => setGlobalFilter(e.target.value || undefined)}
+                        placeholder="Pretraži dokumente..."
+                        className="w-72 h-9 pl-2 border border-gray-300 rounded-lg"
+                    />
+                </div>
+                <table {...getTableProps()} className="w-full border-collapse border border-gray-300">
+                    <thead>
+                    {headerGroups.map((headerGroup) => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column) => (
+                                <th
+                                    {...column.getHeaderProps()}
+                                    className="border border-gray-300 p-3 bg-gray-100 font-normal text-sm cursor-pointer"
+                                >
+                                    {column.render("Header")}
+                                    {/*                  <button>*/}
+                                    {/*  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}*/}
+                                    {/*</button>*/}
+                                    <div>{column.canFilter ? column.render("Filter") : null}</div>
+                                </th>
+                            ))}
+                        </tr>
+                    ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                    {page.map((row) => {
+                        prepareRow(row);
+                        const isHighlighted = row.original.naziv.toLowerCase().includes(globalFilter?.toLowerCase());
+                        return (
+                            <tr
+                                {...row.getRowProps()}
+                                onClick={() => handleRowClick(row.original.id)}
+                                className={`cursor-pointer hover:bg-gray-100 ${
+                                    isHighlighted ? "bg-gray-300" : ""
+                                }`}
+                            >
+                                {row.cells.map((cell) => (
+                                    <td {...cell.getCellProps()} className="border border-gray-300 p-3">
+                                        {cell.render("Cell")}
+                                    </td>
                                 ))}
                             </tr>
-                        ))}
-                        </thead>
-                        <tbody {...getTableBodyProps()}>
-                        {page.map((row) => {
-                            prepareRow(row);
-                            const isHighlighted = row.original.naziv.toLowerCase().includes(globalFilter?.toLowerCase());
-                            return (
-                                <tr
-                                    {...row.getRowProps()}
-                                    onClick={() => handleRowClick(row.original.id)}
-                                    className={`cursor-pointer hover:bg-gray-100 ${
-                                        isHighlighted ? "bg-gray-300" : ""
-                                    }`}
-                                >
-                                    {row.cells.map((cell) => (
-                                        <td {...cell.getCellProps()} className="border border-gray-300 p-3">
-                                            {cell.render("Cell")}
-                                        </td>
-                                    ))}
-                                </tr>
-                            );
-                        })}
-                        </tbody>
-                    </table>
-                    <div className="mt-6 flex gap-2 items-center">
-                        <button
-                            onClick={() => gotoPage(0)}
-                            disabled={!canPreviousPage}
-                            className="p-2 cursor-pointer"
-                        >
-                            <FaAngleDoubleLeft/>
-                        </button>
-                        <button
-                            onClick={() => previousPage()}
-                            disabled={!canPreviousPage}
-                            className="p-2 cursor-pointer"
-                        >
-                            <FaAngleLeft/>
-                        </button>
-                        <button
-                            onClick={() => nextPage()}
-                            disabled={!canNextPage}
-                            className="p-2 cursor-pointer"
-                        >
-                            <FaAngleRight/>
-                        </button>
-                        <button
-                            onClick={() => gotoPage(pageOptions.length - 1)}
-                            disabled={!canNextPage}
-                            className="p-2 cursor-pointer"
-                        >
-                            <FaAngleDoubleRight/>
-                        </button>
-                        <span>
+                        );
+                    })}
+                    </tbody>
+                </table>
+                <div className="mt-6 flex gap-2 items-center">
+                    <button
+                        onClick={() => gotoPage(0)}
+                        disabled={!canPreviousPage}
+                        className="p-2 cursor-pointer"
+                    >
+                        <FaAngleDoubleLeft/>
+                    </button>
+                    <button
+                        onClick={() => previousPage()}
+                        disabled={!canPreviousPage}
+                        className="p-2 cursor-pointer"
+                    >
+                        <FaAngleLeft/>
+                    </button>
+                    <button
+                        onClick={() => nextPage()}
+                        disabled={!canNextPage}
+                        className="p-2 cursor-pointer"
+                    >
+                        <FaAngleRight/>
+                    </button>
+                    <button
+                        onClick={() => gotoPage(pageOptions.length - 1)}
+                        disabled={!canNextPage}
+                        className="p-2 cursor-pointer"
+                    >
+                        <FaAngleDoubleRight/>
+                    </button>
+                    <span>
                         Stranica {pageIndex + 1} od {pageOptions.length}
                     </span>
-                        <select
-                            value={pageSize}
-                            onChange={(e) => setPageSize(Number(e.target.value))}
-                            className="p-2 border border-gray-300 rounded-lg"
-                        >
-                            {[10, 20, 30, 40].map(pageSizeOption => (
-                                <option key={pageSizeOption} value={pageSizeOption}>
-                                    {pageSizeOption} stavki po stranici
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    <select
+                        value={pageSize}
+                        onChange={(e) => setPageSize(Number(e.target.value))}
+                        className="p-2 border border-gray-300 rounded-lg"
+                    >
+                        {[10, 20, 30, 40].map(pageSizeOption => (
+                            <option key={pageSizeOption} value={pageSizeOption}>
+                                {pageSizeOption} stavki po stranici
+                            </option>
+                        ))}
+                    </select>
                 </div>
             </div>
-            <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-                {drawerContent && <EditMaloprodajnaKalkulacija dokumentId={drawerContent}/>
-
-                }
-            </Drawer>
         </div>
-    );
+    <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+        {drawerContent && <EditMaloprodajnaKalkulacija dokumentId={drawerContent}/>
+
+        }
+    </Drawer>
+</div>
+)
+    ;
 }

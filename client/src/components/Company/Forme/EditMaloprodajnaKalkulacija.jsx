@@ -15,7 +15,6 @@ export function EditMaloprodajnaKalkulacija({dokumentId}) {
             <p><strong>Naziv:</strong> {dokument.naziv}</p>
             <p><strong>Datum:</strong> {format(new Date(dokument.datumIzdavanjaDokumenta), 'MM.dd.yyyy')}</p>
             <p><strong>Dobavljač:</strong> {dokument.kupacDobavljacId}</p>
-            {/* Dodajte druge detalje dokumenta po potrebi */}
         </div>
     );
 }
