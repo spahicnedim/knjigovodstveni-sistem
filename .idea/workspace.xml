@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodan edit i delete artikla">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectDrzava.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectGradovi.jsx" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="izmjene u firmi">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectDjelatnost.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240914150014_dodana_valuta_u_companiju/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectValuta.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectValuta.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/UpdateCompany.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/companyController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/companyController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +122,8 @@
       <workItem from="1725636726171" duration="12575000" />
       <workItem from="1725980045748" duration="15048000" />
       <workItem from="1726151476794" duration="6807000" />
-      <workItem from="1726323224842" duration="3748000" />
+      <workItem from="1726323224842" duration="4379000" />
+      <workItem from="1726390750551" duration="779000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -391,7 +389,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726158322559</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="izmjene u firmi">
+      <option name="closed" value="true" />
+      <created>1726328946410</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1726328946410</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -410,7 +416,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="prisma change" />
     <MESSAGE value="dokument controller" />
     <MESSAGE value="vrstaDokumenta controller" />
     <MESSAGE value="skladiste dokument i poslovnica" />
@@ -435,6 +440,7 @@
     <MESSAGE value=" dodan select search custom" />
     <MESSAGE value="sitne promjene" />
     <MESSAGE value="dodan edit i delete artikla" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodan edit i delete artikla" />
+    <MESSAGE value="izmjene u firmi" />
+    <option name="LAST_COMMIT_MESSAGE" value="izmjene u firmi" />
   </component>
 </project>

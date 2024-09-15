@@ -28,6 +28,7 @@ import DjelatnostForm from "./Forme/DjelatnostForm.jsx";
 import SelectGradovi from "./SelectSearch/SelectGradovi.jsx";
 import SelectDrzava from "./SelectSearch/SelectDrzava.jsx";
 import SelectValuta from "./SelectSearch/SelectValuta.jsx";
+import SelectDjelatnost from "./SelectSearch/SelectDjelatnost.jsx";
 
 const socket = io("http://localhost:3001");
 
@@ -326,55 +327,26 @@ const UpdateCompany = () => {
                   className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
               />
             </div>
-              <div className='p-4'>
-                <h2 className='text-2xl font-bold mb-4'>Djelatnost</h2>
 
-                <div className='flex items-center space-x-4'>
-                  <div className='flex-grow'>
-                    <Select
-                        options={djelatnosti.map((djelatnost) => ({
-                          value: djelatnost.id,
-                          label: djelatnost.naziv,
-                        }))}
-                        value={
-                          djelatnosti.find(
-                              (djelatnost) => djelatnost.id === djelatnostId
-                          )
-                              ? {
-                                value: djelatnostId,
-                                label: djelatnosti.find(
-                                    (djelatnost) => djelatnost.id === djelatnostId
-                                ).naziv,
-                              }
-                              : null
-                        }
-                        onChange={(selectedOption) =>
-                            setDjelatnostId(
-                                selectedOption ? selectedOption.value : null
-                            )
-                        }
-                        placeholder='Select Djelatnost'
-                        className='w-full'
-                    />
-                  </div>
-
-                  <input
-                      type='text'
-                      value={sifraDjelatnosti}
-                      readOnly
-                      placeholder='Sifra djelatnosti'
-                      className='w-32 p-2 border border-gray-300 rounded'
-                  />
-
-                  <button
-                      type='button'
-                      className='p-2 bg-blue-500 text-white rounded'
-                      onClick={() => openDrawer("djelatnost")}
-                  >
-                    Add Djelatnost
-                  </button>
-                </div>
-              </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Djelatnost</label>
+              <SelectDjelatnost
+                  djelatnosti={djelatnosti}
+                  djelatnostId={djelatnostId}
+                  setDjelatnostId={setDjelatnostId}
+                  openDrawer={openDrawer}
+              />
+            </div>
+            <div className='flex items-center  space-x-5 mb-6'>
+              <label className='block text-gray-700 text-sm font-medium'>Djelatnost</label>
+              <input
+                  type='text'
+                  value={sifraDjelatnosti}
+                  readOnly
+                  placeholder='Sifra djelatnosti'
+                  className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
+              />
+            </div>
 
               <button
                   type='submit'
