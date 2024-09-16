@@ -4,24 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="izmjene u firmi 2">
-      <change afterPath="$PROJECT_DIR$/client/src/features/godine/godineSlice.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/features/godine/godineThunks.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/controllers/godineController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240915093707_promjene_u_tabeli_godina/migration.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routes/godineRoutes.js" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana godina">
+      <change afterPath="$PROJECT_DIR$/server/uploads/maloprodajnaKalkulacija-1726394291813.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/EditMaloprodajnaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/EditMaloprodajnaKalkulacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +122,7 @@
       <workItem from="1725980045748" duration="15048000" />
       <workItem from="1726151476794" duration="6807000" />
       <workItem from="1726323224842" duration="4379000" />
-      <workItem from="1726390750551" duration="13954000" />
+      <workItem from="1726390750551" duration="15227000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -418,7 +404,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726391701465</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="dodana godina">
+      <option name="closed" value="true" />
+      <created>1726413594083</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1726413594083</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -437,7 +431,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="vrstaDokumenta controller" />
     <MESSAGE value="skladiste dokument i poslovnica" />
     <MESSAGE value="doradjene poslovnice i skladista" />
     <MESSAGE value="dodana vrstaSkladista" />
@@ -462,6 +455,7 @@
     <MESSAGE value="dodan edit i delete artikla" />
     <MESSAGE value="izmjene u firmi" />
     <MESSAGE value="izmjene u firmi 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="izmjene u firmi 2" />
+    <MESSAGE value="dodana godina" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodana godina" />
   </component>
 </project>

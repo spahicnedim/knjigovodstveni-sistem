@@ -180,7 +180,7 @@ const getAllDokumenti = async (req, res) => {
         const dokumenti = await prisma.dokumenti.findMany({
             where: whereConditions,
             include: {
-                artikli: true, // Uključuje povezane artikle za svaki dokument
+                artikli: true,
             },
         });
 
