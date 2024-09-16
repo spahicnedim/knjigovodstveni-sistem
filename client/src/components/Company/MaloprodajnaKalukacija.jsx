@@ -18,13 +18,14 @@ import {
   FaAngleLeft,
   FaAngleRight,
 } from "react-icons/fa";
-import Drawer from "../Drawer.jsx";
+import DrawerDokument from "./DrawerDokument.jsx";
 import { EditMaloprodajnaKalkulacija } from "./Forme/EditMaloprodajnaKalkulacija.jsx";
 import { parseISO, compareAsc, format } from "date-fns";
 import {
   fetchActiveGodina,
   fetchAllGodine,
 } from "../../features/godine/godineThunks.js";
+import { fetchVrstaDokumenta } from "../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 
 // Definiši jednostavan text input filter za kolonu
 function DefaultColumnFilter({
@@ -68,6 +69,7 @@ export function MaloprodajnaKalukacija() {
   const [filteredSkladista, setFilteredSkladista] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState(null);
+  const [vrstaDokumentaId, setVrstaDokumentaId] = useState(null);
 
   const poslovnice = useSelector((state) => state.poslovnica.poslovnice);
   const skladista = useSelector((state) => state.skladiste.skladista);
@@ -76,6 +78,9 @@ export function MaloprodajnaKalukacija() {
     (state) => state.kupacDobavljac.kupciDobavljaci
   );
   const godine = useSelector((state) => state.godina.godine);
+  const vrstaDokumenta = useSelector(
+    (state) => state.vrstaDokumenta.vrsteDokumenata
+  );
 
   const { companyId } = useParams();
 
@@ -83,6 +88,7 @@ export function MaloprodajnaKalukacija() {
     dispatch(fetchPoslovnice(companyId));
     dispatch(fetchSkladista());
     dispatch(fetchAllGodine());
+    dispatch(fetchVrstaDokumenta());
   }, [dispatch, companyId]);
 
   useEffect(() => {
@@ -104,11 +110,11 @@ export function MaloprodajnaKalukacija() {
   }, [godine]);
 
   useEffect(() => {
-    if (poslovniceId && skladisteId && godineId) {
-      dispatch(fetchDokumenti({ skladisteId, godineId }));
+    if (poslovniceId && skladisteId && godineId && vrstaDokumentaId) {
+      dispatch(fetchDokumenti({ skladisteId, godineId, vrstaDokumentaId }));
       dispatch(fetchKupciDobavljaci(companyId));
     }
-  }, [dispatch, skladisteId, godineId, companyId]);
+  }, [dispatch, skladisteId, godineId, companyId, vrstaDokumentaId]);
 
   const openDrawer = (id) => {
     setDrawerContent(id);
@@ -149,7 +155,6 @@ export function MaloprodajnaKalukacija() {
       {
         Header: "Dobavljac",
         accessor: "kupacDobavljacId",
-        Filter: DefaultColumnFilter,
         Cell: ({ value }) => {
           const kupacDobavljac = dobavljaci.find((kd) => kd.id === value);
           return kupacDobavljac ? kupacDobavljac.name : "N/A";
@@ -276,6 +281,24 @@ export function MaloprodajnaKalukacija() {
             ))}
           </select>
         </div>
+        <div className='mb-6'>
+          <label className='block text-gray-700 text-sm font-medium mb-2'>
+            Vrsta Dokumenta
+          </label>
+          <select
+            value={vrstaDokumentaId}
+            onChange={(e) => setVrstaDokumentaId(e.target.value)}
+            className='w-80 p-2 border border-gray-300 rounded-sm'
+            required
+          >
+            <option value=''>Odaberite vrstu dokumenta</option>
+            {vrstaDokumenta.map((vrsta) => (
+              <option key={vrsta.id} value={vrsta.id}>
+                {vrsta.naziv}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className='mt-6'>
           <h2 className='text-xl font-medium mb-4'>Dokumenti</h2>
           <div className='mb-6'>
@@ -375,7 +398,7 @@ export function MaloprodajnaKalukacija() {
               onChange={(e) => setPageSize(Number(e.target.value))}
               className='p-2 border border-gray-300 rounded-lg'
             >
-              {[10, 20, 30, 40].map((pageSizeOption) => (
+              {[5, 10, 20, 30, 40].map((pageSizeOption) => (
                 <option key={pageSizeOption} value={pageSizeOption}>
                   {pageSizeOption} stavki po stranici
                 </option>
@@ -384,11 +407,19 @@ export function MaloprodajnaKalukacija() {
           </div>
         </div>
       </div>
-      <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+      <DrawerDokument
+        isOpen={isDrawerOpen}
+        onClose={closeDrawer}
+        brojDokumenta={
+          drawerContent
+            ? dokumenti.find((doc) => doc.id === drawerContent)?.redniBroj
+            : ""
+        }
+      >
         {drawerContent && (
           <EditMaloprodajnaKalkulacija dokumentId={drawerContent} />
         )}
-      </Drawer>
+      </DrawerDokument>
     </div>
   );
 }

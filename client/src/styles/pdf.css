@@ -1,12 +1,9 @@
-@media print {
-    body {
-        margin: 0;
-        overflow: hidden;
-    }
+.printable-area {
+  display: none; /* Sakrij na stranici */
+}
 
-    .printable-area {
-        width: 100%;
-        box-sizing: border-box;
-        page-break-inside: avoid;
-    }
+@media print {
+  .printable-area {
+    display: block; /* Prikazuj samo tokom štampanja */
+  }
 }

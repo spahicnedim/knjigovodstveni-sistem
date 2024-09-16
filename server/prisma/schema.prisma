@@ -136,8 +136,9 @@ model Artikli {
   transfer         Transferi[]
   godineId         Int?
 
-  dokumenti     Dokumenti[]     @relation("ArtikliDokumenti")
-  ArtikliCijene ArtikliCijene[]
+  dokumenti        Dokumenti[]        @relation("ArtikliDokumenti")
+  ArtikliCijene    ArtikliCijene[]
+  DokumentiArtikli DokumentiArtikli[]
 }
 
 model ArtikliCijene {
@@ -161,6 +162,17 @@ model SkladisteArtikli {
   godineId    Int?
 
   @@unique([skladisteId, artikliId])
+}
+
+model DokumentiArtikli {
+  id         Int       @id @default(autoincrement())
+  dokumentId Int
+  dokument   Dokumenti @relation(fields: [dokumentId], references: [id])
+  artikliId  Int
+  artikli    Artikli   @relation(fields: [artikliId], references: [id])
+  kolicina   Decimal   @db.Decimal(10, 2)
+  cijena     Decimal   @db.Decimal(10, 2)
+  mpcijena   Decimal?  @db.Decimal(10, 2)
 }
 
 model Transferi {
@@ -249,31 +261,32 @@ model SjedisteFirme {
 // Knjige i dokumenti
 
 model Dokumenti {
-  id                        Int             @id @default(autoincrement())
+  id                        Int                @id @default(autoincrement())
   naziv                     String
   datumIzdavanjaDokumenta   DateTime
   datumKreiranjaKalkulacije DateTime
-  Godine                    Godine?         @relation(fields: [godineId], references: [id])
+  Godine                    Godine?            @relation(fields: [godineId], references: [id])
   godineId                  Int?
-  Company                   Company?        @relation(fields: [companyId], references: [id])
+  Company                   Company?           @relation(fields: [companyId], references: [id])
   companyId                 Int?
-  Poslovnice                Poslovnice?     @relation(fields: [poslovniceId], references: [id])
+  Poslovnice                Poslovnice?        @relation(fields: [poslovniceId], references: [id])
   poslovniceId              Int?
-  Skladiste                 Skladiste?      @relation(fields: [skladisteId], references: [id])
+  Skladiste                 Skladiste?         @relation(fields: [skladisteId], references: [id])
   skladisteId               Int?
-  VrstaDokumenta            VrstaDokumenta? @relation(fields: [vrstaDokumentaId], references: [id])
+  VrstaDokumenta            VrstaDokumenta?    @relation(fields: [vrstaDokumentaId], references: [id])
   vrstaDokumentaId          Int?
   redniBroj                 Int
   filePath                  String?
-  Knjige                    Knjige?         @relation(fields: [knjigeId], references: [id])
+  Knjige                    Knjige?            @relation(fields: [knjigeId], references: [id])
   knjigeId                  Int?
-  artikli                   Artikli[]       @relation("ArtikliDokumenti")
+  artikli                   Artikli[]          @relation("ArtikliDokumenti")
   kupacDobavljacId          Int?
-  kupacDobavljac            KupacDobavljac? @relation(fields: [kupacDobavljacId], references: [id])
-  PDV                       PDV?            @relation(fields: [pDVId], references: [id])
+  kupacDobavljac            KupacDobavljac?    @relation(fields: [kupacDobavljacId], references: [id])
+  PDV                       PDV?               @relation(fields: [pDVId], references: [id])
   pDVId                     Int?
-  Valuta                    Valuta?         @relation(fields: [valutaId], references: [id])
+  Valuta                    Valuta?            @relation(fields: [valutaId], references: [id])
   valutaId                  Int?
+  DokumentiArtikli          DokumentiArtikli[]
 
   @@unique([redniBroj])
 }

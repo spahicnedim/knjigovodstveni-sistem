@@ -107,6 +107,8 @@ export const UnosRobe = () => {
     formData.append("skladisteId", parseInt(skladisteId, 10));
     formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
     formData.append("artikli", JSON.stringify(artikli));
+    console.log(artikli);
+
     formData.append("companyId", companyId);
     formData.append("kupacDobavljacId", parseInt(dobavljacId, 10));
     formData.append("pDVId", parseInt(aktivniPdv.id, 10));

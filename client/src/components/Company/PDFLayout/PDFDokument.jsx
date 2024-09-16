@@ -92,26 +92,28 @@ const PdfContent = React.forwardRef(
                 <tr key={index}>
                   <td className='border border-gray-300 p-3'>{index + 1}</td>
                   <td className='border border-gray-300 p-3'>{artikl.naziv}</td>
-                  <td className='border border-gray-300 p-3'>
+                  <td className='border border-gray-300 p-3 text-right'>
                     {artikl.jedinicaMjere}
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.kolicina}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(artikl.kolicina, 2)}
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.cijena}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(artikl.cijena, 2)}
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.kolicina * artikl.cijena}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(artikl.kolicina * artikl.cijena, 2)}
                   </td>
-                  <td className='border border-gray-300 p-3'>0</td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.cijena}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(0, 2)}
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.kolicina * artikl.cijena}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(artikl.cijena, 2)}
                   </td>
-                  <td className='border border-gray-300 p-3'>
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(artikl.kolicina * artikl.cijena, 2)}
+                  </td>
+                  <td className='border border-gray-300 p-3 text-right'>
                     {roundTo(
                       ((artikl.kolicina * artikl.mpcijena -
                         artikl.kolicina * artikl.cijena) /
@@ -121,25 +123,31 @@ const PdfContent = React.forwardRef(
                     )}
                     %
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.kolicina * artikl.mpcijena -
-                      artikl.kolicina * artikl.cijena}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(
+                      artikl.kolicina * artikl.mpcijena -
+                        artikl.kolicina * artikl.cijena,
+                      2
+                    )}
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.kolicina * artikl.mpcijena -
-                      (artikl.kolicina * artikl.mpcijena * 17) / 100}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(
+                      artikl.kolicina * artikl.mpcijena -
+                        (artikl.kolicina * artikl.mpcijena * 17) / 100,
+                      2
+                    )}
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {aktivniPdv.stopaPDV}%
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(aktivniPdv.stopaPDV, 2)}%
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {(artikl.kolicina * artikl.mpcijena * 17) / 100}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo((artikl.kolicina * artikl.mpcijena * 17) / 100, 2)}
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.kolicina * artikl.mpcijena}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(artikl.kolicina * artikl.mpcijena, 2)}
                   </td>
-                  <td className='border border-gray-300 p-3'>
-                    {artikl.mpcijena}
+                  <td className='border border-gray-300 p-3 text-right'>
+                    {roundTo(artikl.mpcijena, 2)}
                   </td>
                 </tr>
               ))}
