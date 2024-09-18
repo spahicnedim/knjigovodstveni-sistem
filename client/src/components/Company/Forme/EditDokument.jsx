@@ -88,9 +88,7 @@ export function EditDokument() {
     dispatch(fetchKupciDobavljaci(companyId));
     dispatch(fetchPdv());
     dispatch(fetchValuta());
-    if (dokumentId) {
-      dispatch(fetchDokumentiById(dokumentId));
-    }
+    dispatch(fetchDokumentiById(dokumentId));
   }, [dispatch, companyId, dokumentId]);
 
   useEffect(() => {
@@ -117,12 +115,11 @@ export function EditDokument() {
 
   useEffect(() => {
     if (dokument && dokument.dokument) {
-      // Postavite state prema podacima dokumenta
       setRedniBroj(dokument.dokument.redniBroj);
       setPoslovnicaId(dokument.dokument.poslovniceId);
       setSkladisteId(dokument.dokument.skladisteId);
       setVrstaDokumentaId(dokument.dokument.vrstaDokumentaId);
-      setArtikli(dokument.dokument.DokumentiArtikli);
+      setArtikli(dokument.dokument.DokumentiArtikli || []);
       setDobavljacId(dokument.dokument.kupacDobavljacId);
       setAktivniPdv(dokument.dokument.pDVId);
       setDatumIzdavanjaDokumenta(dokument.dokument.datumIzdavanjaDokumenta);
@@ -132,7 +129,8 @@ export function EditDokument() {
     }
   }, [dokumentId, dokument]);
 
-  const handleSubmitVrsta1 = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("id", dokumentId);
     formData.append("redniBroj", redniBroj);
@@ -149,14 +147,8 @@ export function EditDokument() {
     if (file) {
       formData.append("file", file);
     }
-
     dispatch(updateDokument({ dokumentId, formData }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    handleSubmitVrsta1();
+    dispatch(fetchDokumentiById(dokumentId));
   };
 
   const handleOdabraniArtiklChange = (e) => {
@@ -228,12 +220,20 @@ export function EditDokument() {
 
   const handleEditArtikl = (index) => {
     const artikl = artikli[index];
-    setOdabraniArtikl(artikl);
-    setKolicina(artikl.kolicina);
-    setCijena(artikl.cijena);
-    setMpCijena(artikl.mpcijena);
-    dispatch(setEditMode(true));
-    setEditIndex(index);
+    if (artikl) {
+      setOdabraniArtikl({
+        ...artikl.artikli, // Provjerite da li ovo odgovara strukturi vaših podataka
+        kolicina: artikl.kolicina,
+        cijena: artikl.cijena,
+        mpcijena: artikl.mpcijena,
+      });
+
+      setKolicina(artikl.kolicina);
+      setCijena(artikl.cijena);
+      setMpCijena(artikl.mpcijena);
+      dispatch(setEditMode(true));
+      setEditIndex(index);
+    }
   };
 
   return (
@@ -430,7 +430,7 @@ export function EditDokument() {
 
         <div className='mb-6'>
           <h3 className='text-xl font-semibold mb-4'>Uneseni Artikli</h3>
-          {artikli.length > 0 ? (
+          {artikli?.length > 0 ? (
             <table className='w-full border-collapse border border-gray-300'>
               <thead>
                 <tr>
@@ -588,7 +588,7 @@ export function EditDokument() {
               <h4 className='text-lg font-semibold'>Iznos racuna:</h4>
               <p className='text-xl'>
                 {roundTo(
-                  artikli.reduce(
+                  artikli?.reduce(
                     (acc, artikl) => acc + artikl.cijena * artikl.kolicina,
                     0
                   ),
@@ -601,7 +601,7 @@ export function EditDokument() {
               <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>
               <p className='text-xl'>
                 {roundTo(
-                  artikli.reduce(
+                  artikli?.reduce(
                     (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,
                     0
                   ),

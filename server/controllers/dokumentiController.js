@@ -63,7 +63,7 @@ const createDokumenti = async (req, res) => {
           where: {
             skladisteId_artikliId: {
               skladisteId: parseInt(skladisteId, 10),
-              artikliId: parseInt(artikl.id, 10),
+              artikliId: parseInt(artikl.artikliId, 10),
             },
           },
         });
@@ -73,7 +73,7 @@ const createDokumenti = async (req, res) => {
             where: {
               skladisteId_artikliId: {
                 skladisteId: parseInt(skladisteId, 10),
-                artikliId: parseInt(artikl.id, 10),
+                artikliId: parseInt(artikl.artikliId, 10),
               },
             },
             data: {
@@ -86,7 +86,7 @@ const createDokumenti = async (req, res) => {
           await prisma.skladisteArtikli.create({
             data: {
               artikli: {
-                connect: { id: parseInt(artikl.id, 10) },
+                connect: { id: parseInt(artikl.artikliId, 10) },
               },
               skladiste: {
                 connect: { id: parseInt(skladisteId, 10) },
@@ -99,7 +99,7 @@ const createDokumenti = async (req, res) => {
         // Kreiranje cijene za artikl
         await prisma.artikliCijene.create({
           data: {
-            artikliId: parseInt(artikl.id, 10),
+            artikliId: parseInt(artikl.artikliId, 10),
             cijena: parseFloat(artikl.cijena),
             mpcijena: parseFloat(artikl.mpcijena),
           },
@@ -118,7 +118,7 @@ const createDokumenti = async (req, res) => {
         await prisma.dokumentiArtikli.create({
           data: {
             dokumentId: createdDokument.id,
-            artikliId: parseInt(artikl.id, 10),
+            artikliId: parseInt(artikl.artikliId, 10),
             kolicina: parseFloat(artikl.kolicina),
             cijena: parseFloat(artikl.cijena),
             mpcijena: parseFloat(artikl.mpcijena),

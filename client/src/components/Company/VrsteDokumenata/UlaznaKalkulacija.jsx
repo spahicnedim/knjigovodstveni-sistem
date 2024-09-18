@@ -18,8 +18,11 @@ import { setEditMode } from "../../../features/editModeSlice.js";
 const UlaznaKalkulacija = ({
   redniBroj,
   setRedniBroj,
+  poslovniceId,
   setPoslovnicaId,
+  skladisteId,
   setSkladisteId,
+  dobavljacId,
   setDobavljacId,
   poslovnice,
   filteredSkladista,
@@ -93,12 +96,20 @@ const UlaznaKalkulacija = ({
 
   const handleEditArtikl = (index) => {
     const artikl = artikli[index];
-    setOdabraniArtikl(artikl);
-    setKolicina(artikl.kolicina);
-    setCijena(artikl.cijena);
-    setMpCijena(artikl.mpcijena);
-    dispatch(setEditMode(true));
-    setEditIndex(index);
+    if (artikl) {
+      setOdabraniArtikl({
+        ...artikl.artikli,
+        kolicina: artikl.kolicina,
+        cijena: artikl.cijena,
+        mpcijena: artikl.mpcijena,
+      });
+
+      setKolicina(artikl.kolicina);
+      setCijena(artikl.cijena);
+      setMpCijena(artikl.mpcijena);
+      dispatch(setEditMode(true));
+      setEditIndex(index);
+    }
   };
 
   return (
@@ -156,6 +167,7 @@ const UlaznaKalkulacija = ({
           </label>
           <SelectPoslovnice
             poslovnice={poslovnice}
+            poslovniceId={poslovniceId}
             setPoslovnicaId={setPoslovnicaId}
             openDrawer={openDrawer}
           />
@@ -166,6 +178,7 @@ const UlaznaKalkulacija = ({
           </label>
           <SelectSkladista
             filteredSkladista={filteredSkladista}
+            skladisteId={skladisteId}
             setSkladisteId={setSkladisteId}
             openDrawer={openDrawer}
           />
@@ -180,6 +193,7 @@ const UlaznaKalkulacija = ({
           <SelectDobavljaci
             kupciDobavljaci={kupciDobavljaci}
             openDrawer={openDrawer}
+            dobavljacId={dobavljacId}
             setDobavljacId={setDobavljacId}
             placeholder='Odaberite dobavljaca'
             className='w-80 h-9 p-2 rounded-sm mb-3.5'
@@ -353,10 +367,14 @@ const UlaznaKalkulacija = ({
               {artikli.map((artikl, index) => (
                 <tr key={index}>
                   <td className='border border-gray-300 p-3'>{index + 1}</td>
-                  <td className='border border-gray-300 p-3'>{artikl.sifra}</td>
-                  <td className='border border-gray-300 p-3'>{artikl.naziv}</td>
+                  <td className='border border-gray-300 p-3'>
+                    {artikl.artikli.sifra}
+                  </td>
+                  <td className='border border-gray-300 p-3'>
+                    {artikl.artikli.naziv}
+                  </td>
                   <td className='border border-gray-300 p-3 text-right'>
-                    {artikl.jedinicaMjere}
+                    {artikl.artikli.jedinicaMjere}
                   </td>
                   <td className='border border-gray-300 p-3 text-right'>
                     {roundTo(artikl.kolicina, 2)}

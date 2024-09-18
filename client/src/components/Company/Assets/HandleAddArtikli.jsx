@@ -33,11 +33,8 @@ const HandleAddArtikl = ({
           naziv: odabraniArtikl.naziv,
           sifra: odabraniArtikl.sifra,
           jedinicaMjere: odabraniArtikl.jedinicaMjere,
-          godineId: odabraniArtikl.godineId,
         },
       };
-
-      console.log(artiklZaDodavanje);
 
       if (editMode) {
         const updatedArtikli = artikli.map((item, index) =>

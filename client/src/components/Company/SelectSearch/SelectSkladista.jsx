@@ -16,7 +16,6 @@ const SelectSkladista = ({
       label: skladiste.naziv,
     }));
 
-    // Dodaj opciju "Create" ako unos ne postoji u opcijama
     if (
       inputValue &&
       !skladistaOptions.some(
