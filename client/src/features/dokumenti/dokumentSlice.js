@@ -4,6 +4,7 @@ import {
   fetchDokumenti,
   fetchPdv,
   fetchDokumentiById,
+  updateDokument,
 } from "./dokumentThunks.js";
 
 const dokumentSlice = createSlice({
@@ -32,6 +33,19 @@ const dokumentSlice = createSlice({
       .addCase(fetchDokumentiById.fulfilled, (state, action) => {
         state.current = action.payload;
         state.status = "succeeded";
+      })
+      .addCase(updateDokument.fulfilled, (state, action) => {
+        state.status = "succeeded";
+
+        const index = state.dokumenti.findIndex(
+          (dok) => dok.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.dokumenti[index] = action.payload;
+        }
+        if (state.current && state.current.id === action.payload.id) {
+          state.current = action.payload;
+        }
       });
   },
 });

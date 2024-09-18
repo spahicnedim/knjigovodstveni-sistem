@@ -16,15 +16,10 @@ import HandleAddArtikl from "../Assets/HandleAddArtikli.jsx";
 import { setEditMode } from "../../../features/editModeSlice.js";
 
 const UlaznaKalkulacija = ({
-  naziv,
-  setNaziv,
   redniBroj,
   setRedniBroj,
-  poslovniceId,
   setPoslovnicaId,
-  skladisteId,
   setSkladisteId,
-  dobavljacId,
   setDobavljacId,
   poslovnice,
   filteredSkladista,
@@ -32,7 +27,6 @@ const UlaznaKalkulacija = ({
   artikliList,
   odabraniArtikl,
   setOdabraniArtikl,
-  handleOdabraniArtiklChange,
   kolicina,
   setKolicina,
   cijena,
@@ -41,8 +35,6 @@ const UlaznaKalkulacija = ({
   setMpCijena,
   artikli,
   setArtikli,
-  isContentVisible,
-  contentRef,
   aktivniPdv,
   datumIzdavanjaDokumenta,
   setDatumIzdavanjaDokumenta,
@@ -51,12 +43,6 @@ const UlaznaKalkulacija = ({
   valutaId,
   setValutaId,
   valute,
-  handleGeneratePDF,
-  handlePrint,
-  handleToggleContent,
-  isDrawerOpen,
-  closeDrawer,
-  drawerContent,
   openDrawer,
   handleFileChange,
 }) => {
@@ -71,7 +57,6 @@ const UlaznaKalkulacija = ({
       label: artikl.naziv,
     }));
 
-    // Dodaj opciju "Create" ako unos ne postoji u opcijama
     if (
       inputValue &&
       !artikliOptions.some(
@@ -101,15 +86,14 @@ const UlaznaKalkulacija = ({
   };
 
   const handleRemoveArtikl = (index) => {
-    // Filtriraj artikle da ukloniš onaj s odgovarajućim indeksom
     const noviArtikli = artikli.filter((_, i) => i !== index);
-    // Ažuriraj stanje s novom listom artikala
+
     setArtikli(noviArtikli);
   };
 
   const handleEditArtikl = (index) => {
     const artikl = artikli[index];
-    setOdabraniArtikl(artikl); // Postavi artikl u formu
+    setOdabraniArtikl(artikl);
     setKolicina(artikl.kolicina);
     setCijena(artikl.cijena);
     setMpCijena(artikl.mpcijena);
@@ -119,24 +103,12 @@ const UlaznaKalkulacija = ({
 
   return (
     <div className='p-6 bg-white rounded-lg shadow-md space-y-6'>
-      <div className='flex items-center  space-x-5 mb-6'>
-        <label className='block text-gray-700 text-sm font-medium'>Naziv</label>
-        <input
-          type='text'
-          value={naziv}
-          onChange={(e) => setNaziv(e.target.value)}
-          className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
-          placeholder='Unesite naziv'
-          required
-        />
-      </div>
-
       <div className='flex items-center space-x-5 mb-6'>
         <label className='block text-gray-700 text-sm font-medium'>
           Broj dokumenta
         </label>
         <input
-          type='number'
+          type='text'
           value={redniBroj}
           onChange={(e) => setRedniBroj(e.target.value)}
           className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
@@ -147,12 +119,12 @@ const UlaznaKalkulacija = ({
       <div className='grid grid-cols-1 md:grid-cols-3 gap-32 mb-6'>
         <div className='flex items-center space-x-5'>
           <label className='block text-gray-700 text-sm font-medium'>
-            Datum izdavanja dokumenta
+            Datum kalkulacije
           </label>
           <div className='relative'>
             <DatePicker
-              selected={datumIzdavanjaDokumenta}
-              onChange={(date) => setDatumIzdavanjaDokumenta(date)}
+              selected={datumKreiranjaKalkulacije}
+              onChange={(date) => setDatumKreiranjaKalkulacije(date)}
               dateFormat='dd.MM.yyyy'
               placeholderText='Odaberi datum'
               className='w-72 h-9 p-2 pl-10 border border-gray-300 rounded-sm bg-white'
@@ -160,15 +132,14 @@ const UlaznaKalkulacija = ({
             <FaCalendarAlt className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500' />
           </div>
         </div>
-
         <div className='flex items-center space-x-5'>
           <label className='block text-gray-700 text-sm font-medium'>
-            Datum kreiranja kalkulacije
+            Datum prijema robe
           </label>
           <div className='relative'>
             <DatePicker
-              selected={datumKreiranjaKalkulacije}
-              onChange={(date) => setDatumKreiranjaKalkulacije(date)}
+              selected={datumIzdavanjaDokumenta}
+              onChange={(date) => setDatumIzdavanjaDokumenta(date)}
               dateFormat='dd.MM.yyyy'
               placeholderText='Odaberi datum'
               className='w-72 h-9 p-2 pl-10 border border-gray-300 rounded-sm bg-white'
@@ -328,6 +299,9 @@ const UlaznaKalkulacija = ({
                   Redni broj
                 </th>
                 <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
+                  Sifra
+                </th>
+                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
                   Naziv
                 </th>
                 <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
@@ -369,7 +343,7 @@ const UlaznaKalkulacija = ({
                 <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
                   Maloprodajna vrijednost sa PDV-om
                 </th>
-                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
+                <th className='border border-gray-300 bt p-3 bg-gray-100 font-normal text-sm'>
                   Maloprodajna cijena sa PDV-om
                 </th>
                 <th className='border border-gray-300 p-3 bg-gray-100 '></th>
@@ -379,6 +353,7 @@ const UlaznaKalkulacija = ({
               {artikli.map((artikl, index) => (
                 <tr key={index}>
                   <td className='border border-gray-300 p-3'>{index + 1}</td>
+                  <td className='border border-gray-300 p-3'>{artikl.sifra}</td>
                   <td className='border border-gray-300 p-3'>{artikl.naziv}</td>
                   <td className='border border-gray-300 p-3 text-right'>
                     {artikl.jedinicaMjere}
@@ -464,7 +439,20 @@ const UlaznaKalkulacija = ({
       <div className='flex justify-end'>
         <div className='mt-4 p-5 flex gap-4 w-1/3 h-32 bg-gray-50 drop-shadow-md flex-col'>
           <div className='flex justify-between'>
-            <h4 className='text-lg font-semibold'>Ukupno:</h4>
+            <h4 className='text-lg font-semibold'>Iznos racuna:</h4>
+            <p className='text-xl'>
+              {roundTo(
+                artikli.reduce(
+                  (acc, artikl) => acc + artikl.cijena * artikl.kolicina,
+                  0
+                ),
+                2
+              )}
+              KM
+            </p>
+          </div>
+          <div className='flex justify-between'>
+            <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>
             <p className='text-xl'>
               {roundTo(
                 artikli.reduce(

@@ -21,9 +21,9 @@ const transferRoute = require("./routes/transferRoutes");
 const dokumentRoute = require("./routes/dokumentRoutes");
 const vrstaDokumentaRoute = require("./routes/vrstaDokumentaRoutes");
 const vrstaSkladistaRoute = require("./routes/vrstaSkladistaRoutes");
-const pdvRoute = require("./routes/pdvRoutes")
-const valuteRoutes = require("./routes/valuteRoutes")
-const godineRoutes = require("./routes/godineRoutes")
+const pdvRoute = require("./routes/pdvRoutes");
+const valuteRoutes = require("./routes/valuteRoutes");
+const godineRoutes = require("./routes/godineRoutes");
 
 dotenv.config();
 
@@ -31,6 +31,7 @@ const app = express();
 
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(JSONBigIntMiddleware);
 app.use(cookieParser());
 
@@ -44,7 +45,7 @@ app.use("/api/racun", racunRoute);
 app.use("/api/djelatnost", djelatnostRoute);
 app.use("/api/drzava", drzavaRoute);
 app.use("/api/banke", bankeRoute);
-app.use("/api/kupacDobavljac", kupacDobavljacRoute)
+app.use("/api/kupacDobavljac", kupacDobavljacRoute);
 app.use("/api/poslovnice", poslovniceRoute);
 app.use("/api/skladiste", skladisteRoute);
 app.use("/api/artikli", artikliRoute);
@@ -52,11 +53,9 @@ app.use("/api/transfer", transferRoute);
 app.use("/api/dokument", dokumentRoute);
 app.use("/api/vrstaDokumenta", vrstaDokumentaRoute);
 app.use("/api/vrstaSkladista", vrstaSkladistaRoute);
-app.use("/api/pdv", pdvRoute)
-app.use("/api/valuta", valuteRoutes)
-app.use("/api/godine", godineRoutes)
-
-
+app.use("/api/pdv", pdvRoute);
+app.use("/api/valuta", valuteRoutes);
+app.use("/api/godine", godineRoutes);
 
 const PORT = process.env.PORT || 3000;
 

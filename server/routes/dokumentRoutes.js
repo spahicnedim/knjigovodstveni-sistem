@@ -9,7 +9,7 @@ const {
 const upload = require("../utils/multerConfig");
 
 router.post("/", upload.single("file"), createDokumenti);
-router.put("/:id", updateDokumenta);
+router.put("/:dokumentId", upload.single("file"), updateDokumenta);
 router.get("/", getAllDokumenti);
 router.get("/:dokumentId", getDokumentById);
 

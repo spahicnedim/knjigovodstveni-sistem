@@ -136,7 +136,6 @@ model Artikli {
   transfer         Transferi[]
   godineId         Int?
 
-  dokumenti        Dokumenti[]        @relation("ArtikliDokumenti")
   ArtikliCijene    ArtikliCijene[]
   DokumentiArtikli DokumentiArtikli[]
 }
@@ -262,7 +261,6 @@ model SjedisteFirme {
 
 model Dokumenti {
   id                        Int                @id @default(autoincrement())
-  naziv                     String
   datumIzdavanjaDokumenta   DateTime
   datumKreiranjaKalkulacije DateTime
   Godine                    Godine?            @relation(fields: [godineId], references: [id])
@@ -275,11 +273,10 @@ model Dokumenti {
   skladisteId               Int?
   VrstaDokumenta            VrstaDokumenta?    @relation(fields: [vrstaDokumentaId], references: [id])
   vrstaDokumentaId          Int?
-  redniBroj                 Int
+  redniBroj                 String
   filePath                  String?
   Knjige                    Knjige?            @relation(fields: [knjigeId], references: [id])
   knjigeId                  Int?
-  artikli                   Artikli[]          @relation("ArtikliDokumenti")
   kupacDobavljacId          Int?
   kupacDobavljac            KupacDobavljac?    @relation(fields: [kupacDobavljacId], references: [id])
   PDV                       PDV?               @relation(fields: [pDVId], references: [id])

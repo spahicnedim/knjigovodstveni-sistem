@@ -1,55 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
+import React, { useState, useEffect } from "react";
+import Select from "react-select";
 
-const SelectSkladista = ({ filteredSkladista, setSkladisteId, openDrawer }) => {
-    const [inputValue, setInputValue] = useState("");
-    const [options, setOptions] = useState([]);
+const SelectSkladista = ({
+  filteredSkladista,
+  skladisteId,
+  setSkladisteId,
+  openDrawer,
+}) => {
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
 
-    useEffect(() => {
-        const skladistaOptions = filteredSkladista.map((skladiste) => ({
-            value: skladiste.id,
-            label: skladiste.naziv,
-        }));
+  useEffect(() => {
+    const skladistaOptions = filteredSkladista.map((skladiste) => ({
+      value: skladiste.id,
+      label: skladiste.naziv,
+    }));
 
-        // Dodaj opciju "Create" ako unos ne postoji u opcijama
-        if (
-            inputValue &&
-            !skladistaOptions.some(
-                (option) => option.label.toLowerCase() === inputValue.toLowerCase()
-            )
-        ) {
-            skladistaOptions.push({
-                label: `Create "${inputValue}"`,
-                value: "create",
-                isCreateOption: true,
-            });
-        }
+    // Dodaj opciju "Create" ako unos ne postoji u opcijama
+    if (
+      inputValue &&
+      !skladistaOptions.some(
+        (option) => option.label.toLowerCase() === inputValue.toLowerCase()
+      )
+    ) {
+      skladistaOptions.push({
+        label: `Create "${inputValue}"`,
+        value: "create",
+        isCreateOption: true,
+      });
+    }
 
-        setOptions(skladistaOptions);
-    }, [inputValue, filteredSkladista]);
+    setOptions(skladistaOptions);
+  }, [inputValue, filteredSkladista]);
 
-    const handleSelectChange = (selectedOption) => {
-        if (selectedOption?.isCreateOption) {
-            openDrawer("skladista");
-            console.log('Create new skladište with name:', inputValue);
-        } else {
-            setSkladisteId(
-                selectedOption
-                    ? selectedOption.value
-                    : ""
-            );
-        }
-    };
+  const handleSelectChange = (selectedOption) => {
+    if (selectedOption?.isCreateOption) {
+      openDrawer("skladista");
+      console.log("Create new skladište with name:", inputValue);
+    } else {
+      setSkladisteId(selectedOption ? selectedOption.value : "");
+    }
+  };
 
-    return (
-        <Select
-            options={options}
-            onInputChange={(value) => setInputValue(value)}
-            onChange={handleSelectChange}
-            placeholder='Odaberite skladište'
-            className='w-72 h-9 rounded-sm'
-        />
-    );
+  return (
+    <Select
+      value={
+        filteredSkladista.find((skladista) => skladista.id === skladisteId)
+          ? {
+              value: skladisteId,
+              label: filteredSkladista.find(
+                (skladista) => skladista.id === skladisteId
+              ).naziv,
+            }
+          : null
+      }
+      options={options}
+      onInputChange={(value) => setInputValue(value)}
+      onChange={handleSelectChange}
+      placeholder='Odaberite skladište'
+      className='w-72 h-9 rounded-sm'
+    />
+  );
 };
 
 export default SelectSkladista;

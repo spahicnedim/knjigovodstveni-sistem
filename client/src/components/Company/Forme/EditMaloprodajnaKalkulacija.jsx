@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { MdEdit, MdEmail, MdDelete } from "react-icons/md";
 import { IoMdPrint } from "react-icons/io";
@@ -15,6 +15,8 @@ import { fetchDokumentiById } from "../../../features/dokumenti/dokumentThunks.j
 export function EditMaloprodajnaKalkulacija({ dokumentId }) {
   const contentRef = useRef();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { companyId } = useParams();
 
   useEffect(() => {
@@ -39,15 +41,13 @@ export function EditMaloprodajnaKalkulacija({ dokumentId }) {
       const artiklInfo = dokumentArtikl.artikli;
       return {
         naziv: artiklInfo?.naziv,
+        sifra: artiklInfo?.sifra,
         jedinicaMjere: artiklInfo?.jedinicaMjere,
         kolicina: dokumentArtikl.kolicina, // Ovo je količina iz 'DokumentiArtikli' tabele
         cijena: dokumentArtikl.cijena, // Ovo je cijena iz 'DokumentiArtikli' tabele
         mpcijena: dokumentArtikl.mpcijena, // Ovo je mpcijena iz 'DokumentiArtikli' tabele
       };
     }) || [];
-
-  console.log(artikliDokumenta);
-  console.log(dokument);
 
   const dobavljac = kupciDobavljaci?.find(
     (dobavljac) => dobavljac.id === dokument?.dokument?.kupacDobavljacId
@@ -76,6 +76,11 @@ export function EditMaloprodajnaKalkulacija({ dokumentId }) {
     `,
   });
 
+  const handleClick = () => {
+    // Navigirajte na rutu sa ID-jem
+    navigate(`${dokumentId}`);
+  };
+
   if (!dokument || !dokument.dokument || !artikliList.length) {
     return <div>Loading...</div>; // Prikaz loadera dok podaci nisu dostupni
   }
@@ -83,7 +88,10 @@ export function EditMaloprodajnaKalkulacija({ dokumentId }) {
   return (
     <div>
       <div className='flex items-center'>
-        <button className='px-2 flex items-center space-x-1'>
+        <button
+          onClick={handleClick}
+          className='px-2 flex items-center space-x-1'
+        >
           <MdEdit className='w-4 h-4' />
           <span>Edit</span>
         </button>
@@ -108,7 +116,6 @@ export function EditMaloprodajnaKalkulacija({ dokumentId }) {
         </button>
       </div>
       <div className='border-b border-gray-300 pt-2' />
-
       <div className='mt-4'>
         <PdfContent
           ref={contentRef}
@@ -119,6 +126,101 @@ export function EditMaloprodajnaKalkulacija({ dokumentId }) {
           brojDokumenta={dokument.dokument.redniBroj}
           dobavljac={dobavljac ? dobavljac.name : "Nepoznat"}
         />
+      </div>
+      <table className='w-full border-collapse border border-gray-300'>
+        <thead>
+          <tr>
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              R.br.
+            </th>
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              Sifra
+            </th>
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              Naziv
+            </th>
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              Količina
+            </th>
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              Fakturna cijena bez PDV-a
+            </th>
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              Fakturna vrijednost bez PDV-a
+            </th>
+
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              Iznos PDV-a
+            </th>
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              Maloprodajna vrijednost sa PDV-om
+            </th>
+            <th className='border border-gray-300 p-3 font-medium text-sm'>
+              Maloprodajna cijena sa PDV-om
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {artikliDokumenta.map((artikl, index) => (
+            <tr key={index}>
+              <td className='border border-gray-300 p-3'>{index + 1}</td>
+              <td className='border border-gray-300 p-3'>{artikl.sifra}</td>
+              <td className='border border-gray-300 p-3 whitespace-nowrap'>
+                {artikl.naziv}
+              </td>
+              <td className='border border-gray-300 p-3 text-right'>
+                {roundTo(artikl.kolicina, 2)}
+              </td>
+              <td className='border border-gray-300 p-3 text-right'>
+                {roundTo(artikl.cijena, 2)}
+              </td>
+              <td className='border border-gray-300 p-3 text-right'>
+                {roundTo(artikl.kolicina * artikl.cijena, 2)}
+              </td>
+
+              <td className='border border-gray-300 p-3 text-right'>
+                {roundTo((artikl.kolicina * artikl.mpcijena * 17) / 100, 2)}
+              </td>
+              <td className='border border-gray-300 p-3 text-right'>
+                {roundTo(artikl.kolicina * artikl.mpcijena, 2)}
+              </td>
+              <td className='border border-gray-300 p-3 text-right'>
+                {roundTo(artikl.mpcijena, 2)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className='flex justify-end'>
+        <div className='mt-4 p-5 flex gap-4 w-1/2 h-32 bg-gray-50 drop-shadow-md flex-col'>
+          <div className='flex justify-between'>
+            <h4 className='text-lg font-semibold'>Iznos racuna:</h4>
+            <p className='text-xl'>
+              {roundTo(
+                artikliDokumenta.reduce(
+                  (acc, artikl) => acc + artikl.cijena * artikl.kolicina,
+                  0
+                ),
+                2
+              )}
+              KM
+            </p>
+          </div>
+          <div className='flex justify-between'>
+            <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>
+            <p className='text-xl'>
+              {roundTo(
+                artikliDokumenta.reduce(
+                  (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,
+                  0
+                ),
+                2
+              )}
+              KM
+            </p>
+          </div>
+          <div className='border-t border-gray-400'></div>
+        </div>
       </div>
     </div>
   );

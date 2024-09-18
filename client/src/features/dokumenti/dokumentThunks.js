@@ -52,3 +52,19 @@ export const fetchDokumentiById = createAsyncThunk(
     }
   }
 );
+
+export const updateDokument = createAsyncThunk(
+  "dokumenti/updateDokument",
+  async ({ dokumentId, formData }, thunkAPI) => {
+    try {
+      const response = await api.put(`/dokument/${dokumentId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);

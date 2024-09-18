@@ -3,7 +3,6 @@ const { Decimal } = require("decimal.js"); // Dodajte ovu liniju ako koristite D
 
 const createDokumenti = async (req, res) => {
   const {
-    naziv,
     redniBroj,
     poslovniceId,
     skladisteId,
@@ -43,8 +42,7 @@ const createDokumenti = async (req, res) => {
     const dokument = await prisma.$transaction(async (prisma) => {
       const createdDokument = await prisma.dokumenti.create({
         data: {
-          naziv,
-          redniBroj: parseInt(redniBroj, 10),
+          redniBroj,
           poslovniceId: parseInt(poslovniceId, 10),
           skladisteId: parseInt(skladisteId, 10),
           vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
@@ -131,13 +129,7 @@ const createDokumenti = async (req, res) => {
       return createdDokument;
     });
 
-    // Dohvati kreirani dokument zajedno sa artiklima
-    const dokumentWithArtikli = await prisma.dokumenti.findUnique({
-      where: { id: dokument.id },
-      include: { artikli: true }, // Uključi povezane artikle
-    });
-
-    res.status(201).json({ dokument: dokumentWithArtikli });
+    res.status(201).json({ dokument });
   } catch (error) {
     console.error(
       "Error creating dokument and connecting artikli:",
@@ -151,38 +143,116 @@ const createDokumenti = async (req, res) => {
 };
 
 const updateDokumenta = async (req, res) => {
-  const { id } = req.params;
+  const { dokumentId } = req.params;
   const {
-    naziv,
     redniBroj,
     vrstaDokumentaId,
+    kupacDobavljacId,
     datumIzdavanjaDokumenta,
     datumKreiranjaKalkulacije,
+    artikli,
   } = req.body;
+
+  const parsedArtikli = JSON.parse(artikli);
 
   try {
     const validDatumIzdavanja = new Date(datumIzdavanjaDokumenta);
     const validDatumKreiranja = new Date(datumKreiranjaKalkulacije);
 
-    const dokument = await prisma.dokumenti.update({
-      where: {
-        id: parseInt(id, 10), // Ensure id is correctly parsed to an integer
-      },
-      data: {
-        naziv,
-        redniBroj,
-        vrstaDokumentaId,
-        datumIzdavanjaDokumenta: validDatumIzdavanja,
-        datumKreiranjaKalkulacije: datumKreiranjaKalkulacije,
-      },
+    const dokument = await prisma.$transaction(async (prisma) => {
+      // Ažuriranje podataka dokumenta
+      const updatedDokument = await prisma.dokumenti.update({
+        where: {
+          id: parseInt(dokumentId, 10),
+        },
+        data: {
+          redniBroj: redniBroj ? String(redniBroj) : undefined,
+          vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
+          kupacDobavljacId: parseInt(kupacDobavljacId, 10),
+          datumIzdavanjaDokumenta: validDatumIzdavanja,
+          datumKreiranjaKalkulacije: validDatumKreiranja,
+        },
+      });
+
+      // Ažuriranje ili kreiranje artikala povezanih s dokumentom
+      for (const artikl of parsedArtikli) {
+        const existingDokumentArtikl = await prisma.dokumentiArtikli.findFirst({
+          where: {
+            dokumentId: parseInt(dokumentId, 10),
+            artikliId: parseInt(artikl.artikliId, 10),
+          },
+        });
+
+        if (existingDokumentArtikl) {
+          // Ako artikl već postoji, ažuriraj količinu i cijenu
+          await prisma.dokumentiArtikli.update({
+            where: {
+              id: existingDokumentArtikl.id,
+            },
+            data: {
+              kolicina: parseFloat(artikl.kolicina),
+              cijena: parseFloat(artikl.cijena),
+              mpcijena: parseFloat(artikl.mpcijena),
+            },
+          });
+        } else {
+          // Ako artikl ne postoji, kreiraj novi zapis
+          await prisma.dokumentiArtikli.create({
+            data: {
+              dokumentId: parseInt(dokumentId, 10),
+              artikliId: parseInt(artikl.artikliId, 10),
+              kolicina: parseFloat(artikl.kolicina),
+              cijena: parseFloat(artikl.cijena),
+              mpcijena: parseFloat(artikl.mpcijena),
+            },
+          });
+        }
+
+        // Ažuriraj skladište
+        const existingArtiklInStock = await prisma.skladisteArtikli.findUnique({
+          where: {
+            skladisteId_artikliId: {
+              skladisteId: updatedDokument.skladisteId,
+              artikliId: parseInt(artikl.artikliId, 10),
+            },
+          },
+        });
+
+        if (existingArtiklInStock) {
+          await prisma.skladisteArtikli.update({
+            where: {
+              skladisteId_artikliId: {
+                skladisteId: updatedDokument.skladisteId,
+                artikliId: parseInt(artikl.artikliId, 10),
+              },
+            },
+            data: {
+              kolicina: {
+                increment: parseFloat(artikl.kolicina), // Povećaj količinu
+              },
+            },
+          });
+        } else {
+          await prisma.skladisteArtikli.create({
+            data: {
+              artikliId: parseInt(artikl.artikliId, 10),
+              skladisteId: updatedDokument.skladisteId,
+              kolicina: parseFloat(artikl.kolicina),
+            },
+          });
+        }
+      }
+
+      return updatedDokument;
     });
 
     res.status(200).json({ dokument });
   } catch (error) {
-    console.error("Error updating dokument:", error);
-    res
-      .status(400)
-      .json({ error: "Error updating dokument", details: error.message });
+    console.error("Error updating dokument and artikli:", error.message);
+    res.status(400).json({
+      error: "Error updating dokument and artikli",
+      details: error.message,
+    });
   }
 };
 
@@ -204,9 +274,9 @@ const getAllDokumenti = async (req, res) => {
 
     const dokumenti = await prisma.dokumenti.findMany({
       where: whereConditions,
-      include: {
-        artikli: true,
-      },
+      // include: {
+      //   artikli: true,
+      // },
     });
 
     res.status(200).json({ dokumenti });

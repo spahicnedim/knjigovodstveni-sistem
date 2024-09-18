@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaHome, FaBuilding, FaUser, FaUserPlus, FaLock } from "react-icons/fa";
 import useAuthorization from "../useAuthorization";
 import {
@@ -11,7 +11,7 @@ import {
 } from "react-pro-sidebar";
 import "../../styles/sidebar.css";
 
-const CompanySidebar = ({setPageTitle}) => {
+const CompanySidebar = ({ setPageTitle }) => {
   const isVlasnik = useAuthorization([1, 3]);
   const isAdmin = useAuthorization([1]);
   const [collapsed, setCollapsed] = useState(true);
@@ -34,71 +34,54 @@ const CompanySidebar = ({setPageTitle}) => {
           Home
         </MenuItem>
         <MenuItem
-            component={<Link to='unosRobe' />}
-            icon={<FaHome />}
-            className='text-white hover:text-black'
-            onClick={() => setPageTitle("Kreiraj Dokumente")}
+          component={<Link to='unosRobe' />}
+          icon={<FaHome />}
+          className='text-white hover:text-black'
+          onClick={() => setPageTitle("Kreiraj Dokumente")}
         >
           Kreiraj dokumente
         </MenuItem>
+
+        <MenuItem
+          component={<Link to='maloprodajna-kalkulacija' />}
+          icon={<FaHome />}
+          className='text-white hover:text-black'
+          onClick={() => setPageTitle("Lista Dokumenata")}
+        >
+          Lista Dokumenata
+        </MenuItem>
+
         <SubMenu
-            label='Lista Dokumenata'
-            className='text-white'
-            icon={<FaBuilding />}
-            rootStyles={{
-              ["& > ." + menuClasses.button]: {
-                backgroundColor: "#023E8A",
-                color: "white",
-                "&:hover": {
-                  color: "black",
-                },
+          label='Sifrarnik'
+          className='text-white'
+          icon={<FaBuilding />}
+          rootStyles={{
+            ["& > ." + menuClasses.button]: {
+              backgroundColor: "#023E8A",
+              color: "white",
+              "&:hover": {
+                color: "black",
               },
-              ["." + menuClasses.subMenuContent]: {
-                backgroundColor: "#023E8A",
-                color: "white",
-              },
-            }}
+            },
+            ["." + menuClasses.subMenuContent]: {
+              backgroundColor: "#023E8A",
+              color: "white",
+            },
+          }}
         >
           <MenuItem
-              component={<Link to='listaDokumenata/maloprodajna-kalkulacija' />}
-              icon={<FaHome />}
-              className='text-white hover:text-black'
-              onClick={() => setPageTitle("Maloprodajna Kalkulacija")}
-          >
-            Maloprodajna Kalkulacija
-          </MenuItem>
-        </SubMenu>
-        <SubMenu
-            label='Sifrarnik'
-            className='text-white'
-            icon={<FaBuilding />}
-            rootStyles={{
-              ["& > ." + menuClasses.button]: {
-                backgroundColor: "#023E8A",
-                color: "white",
-                "&:hover": {
-                  color: "black",
-                },
-              },
-              ["." + menuClasses.subMenuContent]: {
-                backgroundColor: "#023E8A",
-                color: "white",
-              },
-            }}
-        >
-          <MenuItem
-              component={<Link to='sifrarnik/skladiste' />}
-              icon={<FaHome />}
-              className='text-white hover:text-black'
-              onClick={() => setPageTitle("Skladiste")}
+            component={<Link to='sifrarnik/skladiste' />}
+            icon={<FaHome />}
+            className='text-white hover:text-black'
+            onClick={() => setPageTitle("Skladiste")}
           >
             Skladiste
           </MenuItem>
           <MenuItem
-              component={<Link to='sifrarnik/poslovnica' />}
-              icon={<FaHome />}
-              className='text-white hover:text-black'
-              onClick={() => setPageTitle("Poslovnica")}
+            component={<Link to='sifrarnik/poslovnica' />}
+            icon={<FaHome />}
+            className='text-white hover:text-black'
+            onClick={() => setPageTitle("Poslovnica")}
           >
             Poslovnica
           </MenuItem>
@@ -131,10 +114,10 @@ const CompanySidebar = ({setPageTitle}) => {
               Dodaj Firmu
             </MenuItem>
             <MenuItem
-                component={<Link to='dashboard/dodaj-kupacDobavljac' />}
-                icon={<FaBuilding />}
-                className='text-white hover:text-black'
-                onClick={() => setPageTitle("Dodaj Kupca/Dobavljaca")}
+              component={<Link to='dashboard/dodaj-kupacDobavljac' />}
+              icon={<FaBuilding />}
+              className='text-white hover:text-black'
+              onClick={() => setPageTitle("Dodaj Kupca/Dobavljaca")}
             >
               Dodaj Kupca/Dobavljaca
             </MenuItem>

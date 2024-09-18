@@ -133,8 +133,8 @@ export function MaloprodajnaKalukacija() {
   const columns = useMemo(
     () => [
       {
-        Header: "Naziv Dokumenta",
-        accessor: "naziv",
+        Header: "Sifra Dokumenta",
+        accessor: "redniBroj",
         sortType: "alphanumeric",
         Filter: DefaultColumnFilter,
       },
@@ -337,8 +337,8 @@ export function MaloprodajnaKalukacija() {
             <tbody {...getTableBodyProps()}>
               {page.map((row) => {
                 prepareRow(row);
-                const isHighlighted = row.original.naziv
-                  .toLowerCase()
+                const isHighlighted = row.original.redniBroj
+                  ?.toLowerCase()
                   .includes(globalFilter?.toLowerCase());
                 return (
                   <tr

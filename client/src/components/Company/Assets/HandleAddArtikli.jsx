@@ -15,6 +15,7 @@ const HandleAddArtikl = ({
   setMpCijena,
   editIndex,
   setEditIndex,
+  dokumentId,
 }) => {
   const dispatch = useDispatch();
   const editMode = useSelector((state) => state.editMode.editMode);
@@ -22,11 +23,21 @@ const HandleAddArtikl = ({
   const handleAddArtikl = () => {
     if (odabraniArtikl && kolicina > 0) {
       const artiklZaDodavanje = {
-        ...odabraniArtikl,
+        dokumentId,
+        artikliId: odabraniArtikl.id,
         kolicina: parseFloat(kolicina),
         cijena: parseFloat(cijena),
         mpcijena: parseFloat(mpcijena),
+        artikli: {
+          id: odabraniArtikl.id,
+          naziv: odabraniArtikl.naziv,
+          sifra: odabraniArtikl.sifra,
+          jedinicaMjere: odabraniArtikl.jedinicaMjere,
+          godineId: odabraniArtikl.godineId,
+        },
       };
+
+      console.log(artiklZaDodavanje);
 
       if (editMode) {
         const updatedArtikli = artikli.map((item, index) =>

@@ -19,7 +19,6 @@ import KupciDobavljaciForm from "../Forme/KupciDobavljaci.jsx";
 export const UnosRobe = () => {
   const contentRef = useRef();
   const dispatch = useDispatch();
-  const [naziv, setNaziv] = useState("");
   const [redniBroj, setRedniBroj] = useState(0);
   const [poslovniceId, setPoslovnicaId] = useState(null);
   const [skladisteId, setSkladisteId] = useState(null);
@@ -101,14 +100,11 @@ export const UnosRobe = () => {
 
   const handleSubmitVrsta1 = () => {
     const formData = new FormData();
-    formData.append("naziv", naziv);
-    formData.append("redniBroj", parseInt(redniBroj, 10));
+    formData.append("redniBroj", redniBroj);
     formData.append("poslovniceId", parseInt(poslovniceId, 10));
     formData.append("skladisteId", parseInt(skladisteId, 10));
     formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
     formData.append("artikli", JSON.stringify(artikli));
-    console.log(artikli);
-
     formData.append("companyId", companyId);
     formData.append("kupacDobavljacId", parseInt(dobavljacId, 10));
     formData.append("pDVId", parseInt(aktivniPdv.id, 10));
@@ -234,8 +230,8 @@ export const UnosRobe = () => {
         {vrstaDokumentaId == 1 && (
           <>
             <UlaznaKalkulacija
-              naziv={naziv}
-              setNaziv={setNaziv}
+              // naziv={naziv}
+              // setNaziv={setNaziv}
               redniBroj={redniBroj}
               setRedniBroj={setRedniBroj}
               poslovniceId={poslovniceId}
