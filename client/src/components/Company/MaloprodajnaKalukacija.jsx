@@ -4,6 +4,7 @@ import { fetchPoslovnice } from "../../features/poslovnice/poslovnicaThunks.js";
 import { useParams } from "react-router-dom";
 import { fetchSkladista } from "../../features/skladista/skladisteThunks.js";
 import { fetchDokumenti } from "../../features/dokumenti/dokumentThunks.js";
+import { resetDokumenti } from "../../features/dokumenti/dokumentSlice.js";
 import { fetchKupciDobavljaci } from "../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import {
   useTable,
@@ -92,6 +93,19 @@ export function MaloprodajnaKalukacija() {
   }, [dispatch, companyId]);
 
   useEffect(() => {
+    if (poslovniceId && skladisteId && godineId && vrstaDokumentaId) {
+      dispatch(fetchDokumenti({ skladisteId, godineId, vrstaDokumentaId }));
+      dispatch(fetchKupciDobavljaci(companyId));
+    }
+  }, [dispatch, skladisteId, godineId, companyId, vrstaDokumentaId]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetDokumenti());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
     if (poslovniceId) {
       const relevantSkladista = skladista.filter(
         (skladiste) => skladiste.poslovnicaId === Number(poslovniceId)
@@ -109,12 +123,15 @@ export function MaloprodajnaKalukacija() {
     }
   }, [godine]);
 
-  useEffect(() => {
-    if (poslovniceId && skladisteId && godineId && vrstaDokumentaId) {
-      dispatch(fetchDokumenti({ skladisteId, godineId, vrstaDokumentaId }));
-      dispatch(fetchKupciDobavljaci(companyId));
-    }
-  }, [dispatch, skladisteId, godineId, companyId, vrstaDokumentaId]);
+  const data = useMemo(() => {
+    return [...dokumenti]
+      .filter((dokument) => dokument.datumIzdavanjaDokumenta) // Filtriraj nevalidne datume
+      .sort(
+        (a, b) =>
+          new Date(b.datumIzdavanjaDokumenta) -
+          new Date(a.datumIzdavanjaDokumenta)
+      );
+  }, [dokumenti]);
 
   const openDrawer = (id) => {
     setDrawerContent(id);
@@ -142,7 +159,15 @@ export function MaloprodajnaKalukacija() {
         Header: "Datum",
         accessor: "datumIzdavanjaDokumenta",
         Cell: ({ value }) => {
-          return format(new Date(value), "dd.MM.yyyy");
+          if (!value) {
+            return "N/A"; // Prikazati "N/A" ako je datum nevalidan
+          }
+          try {
+            return format(new Date(value), "dd.MM.yyyy");
+          } catch (error) {
+            console.error("Invalid date format: ", value); // Logiraj grešku za dijagnostiku
+            return "Invalid date"; // Prikazati poruku ako je greška u formatu
+          }
         },
         Filter: DefaultColumnFilter,
         filter: "dateFilter",
@@ -178,14 +203,6 @@ export function MaloprodajnaKalukacija() {
     ],
     [dobavljaci]
   );
-
-  const data = useMemo(() => {
-    return [...dokumenti].sort(
-      (a, b) =>
-        new Date(b.datumIzdavanjaDokumenta) -
-        new Date(a.datumIzdavanjaDokumenta)
-    );
-  }, [dokumenti]);
 
   const defaultColumn = useMemo(
     () => ({

@@ -16,6 +16,11 @@ const dokumentSlice = createSlice({
     error: null,
     status: null,
   },
+  reducers: {
+    resetDokumenti(state) {
+      state.dokumenti = []; // Resetuj dokumente
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createDokument.fulfilled, (state, action) => {
@@ -49,5 +54,7 @@ const dokumentSlice = createSlice({
       });
   },
 });
+
+export const { resetDokumenti } = dokumentSlice.actions;
 
 export default dokumentSlice.reducer;

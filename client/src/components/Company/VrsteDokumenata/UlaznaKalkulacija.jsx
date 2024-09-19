@@ -14,6 +14,8 @@ import SelectPoslovnice from "../SelectSearch/SelectPoslovnice.jsx";
 import SelectValuta from "../SelectSearch/SelectValuta.jsx";
 import HandleAddArtikl from "../Assets/HandleAddArtikli.jsx";
 import { setEditMode } from "../../../features/editModeSlice.js";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import "react-photo-view/dist/react-photo-view.css";
 
 const UlaznaKalkulacija = ({
   redniBroj,
@@ -48,11 +50,22 @@ const UlaznaKalkulacija = ({
   valute,
   openDrawer,
   handleFileChange,
+  file,
+  setFile,
 }) => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const artikliOptions = artikliList.map((artikl) => ({
@@ -109,6 +122,13 @@ const UlaznaKalkulacija = ({
       setMpCijena(artikl.mpcijena);
       dispatch(setEditMode(true));
       setEditIndex(index);
+    }
+  };
+
+  const handleFileChange1 = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
     }
   };
 
@@ -212,28 +232,77 @@ const UlaznaKalkulacija = ({
         </div>
       </div>
 
-      <div className='flex items-center space-x-5 mb-6'>
-        <label className='block text-gray-700 text-sm font-medium'>
-          Zakaci dokument
-        </label>
+      <PhotoProvider>
+        <div className='flex items-center space-x-5 mb-6'>
+          <label className='block text-gray-700 text-sm font-medium'>
+            Zakači dokument
+          </label>
 
-        <div className='relative'>
-          <input
-            id='fileUpload'
-            type='file'
-            onChange={handleFileChange}
-            className='absolute inset-0 w-full h-full opacity-0 cursor-pointer'
-            required
-          />
-
-          <button
-            type='button'
-            className='p-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 transition duration-300 ease-in-out'
-          >
-            Odaberi dokument
-          </button>
+          <div className='relative'>
+            <input
+              id='fileUpload'
+              type='file'
+              onChange={handleFileChange}
+              className='absolute inset-0 w-full h-full opacity-0 cursor-pointer'
+              required
+            />
+            <button
+              type='button'
+              className='p-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 transition duration-300 ease-in-out'
+            >
+              Odaberi dokument
+            </button>
+          </div>
         </div>
-      </div>
+
+        {/* Prikaz imena fajla i sličice */}
+        {file && (
+          <div className='mt-2 text-gray-700'>
+            <span className='font-medium'>Odabrani dokument:</span> {file.name}
+            <div className='mt-2'>
+              {/* Ako je fajl slika, prikaži preview */}
+              {file.type.startsWith("image/") ? (
+                <PhotoView src={URL.createObjectURL(file)}>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt='Preview'
+                    className='mt-2 w-32 h-32 object-cover cursor-pointer'
+                  />
+                </PhotoView>
+              ) : file.type === "application/pdf" ? (
+                <a
+                  href={URL.createObjectURL(file)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Otvori PDF
+                </a>
+              ) : (
+                // Prikaz generičke ikone dokumenta ako nije slika ili PDF
+                <div className='mt-2 p-4 bg-gray-100 text-gray-700'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-8 w-8'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M9 12h6m2 6H7m12-10h-6V5h-2v3H5l7-7 7 7z'
+                    />
+                  </svg>
+                  <p className='text-sm mt-2'>
+                    Pregled nije dostupan za ovaj tip fajla
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </PhotoProvider>
       <div className='border-t border-gray-300 my-4'></div>
 
       <div className='mb-6'>

@@ -15,6 +15,7 @@ import UlaznaKalkulacija from "../VrsteDokumenata/UlaznaKalkulacija.jsx";
 import { ArtikliForm } from "../Forme/ArtikliForm.jsx";
 import Drawer from "../../Drawer.jsx";
 import KupciDobavljaciForm from "../Forme/KupciDobavljaci.jsx";
+import { resetDokumenti } from "../../../features/dokumenti/dokumentSlice.js";
 
 export const UnosRobe = () => {
   const contentRef = useRef();
@@ -273,6 +274,8 @@ export const UnosRobe = () => {
               drawerContent={drawerContent}
               openDrawer={openDrawer}
               handleFileChange={handleFileChange}
+              file={file}
+              setFile={setFile}
             />
           </>
         )}
