@@ -102,6 +102,7 @@ const createDokumenti = async (req, res) => {
             artikliId: parseInt(artikl.artikliId, 10),
             cijena: parseFloat(artikl.cijena),
             mpcijena: parseFloat(artikl.mpcijena),
+            vpcijena: parseFloat(artikl.vpcijena)
           },
         });
 
@@ -122,6 +123,7 @@ const createDokumenti = async (req, res) => {
             kolicina: parseFloat(artikl.kolicina),
             cijena: parseFloat(artikl.cijena),
             mpcijena: parseFloat(artikl.mpcijena),
+            vpcijena: parseFloat(artikl.vpcijena)
           },
         });
       }
@@ -193,6 +195,7 @@ const updateDokumenta = async (req, res) => {
               kolicina: parseFloat(artikl.kolicina),
               cijena: parseFloat(artikl.cijena),
               mpcijena: parseFloat(artikl.mpcijena),
+              vpcijena: parseFloat(artikl.vpcijena)
             },
           });
         } else {
@@ -204,6 +207,7 @@ const updateDokumenta = async (req, res) => {
               kolicina: parseFloat(artikl.kolicina),
               cijena: parseFloat(artikl.cijena),
               mpcijena: parseFloat(artikl.mpcijena),
+              vpcijena: parseFloat(artikl.vpcijena)
             },
           });
         }

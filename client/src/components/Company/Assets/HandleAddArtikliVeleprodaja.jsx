@@ -6,13 +6,13 @@ const HandleAddArtikl = ({
   odabraniArtikl,
   kolicina,
   cijena,
-  mpcijena,
+                           vpCijena,
   artikli,
   setArtikli,
   setOdabraniArtikl,
   setKolicina,
   setCijena,
-  setMpCijena,
+                           setVpCijena,
   editIndex,
   setEditIndex,
   dokumentId,
@@ -27,7 +27,7 @@ const HandleAddArtikl = ({
         artikliId: odabraniArtikl.id,
         kolicina: parseFloat(kolicina),
         cijena: parseFloat(cijena),
-        mpcijena: parseFloat(mpcijena),
+        vpcijena: parseFloat(vpCijena),
         artikli: {
           id: odabraniArtikl.id,
           naziv: odabraniArtikl.naziv,
@@ -51,7 +51,7 @@ const HandleAddArtikl = ({
       setOdabraniArtikl(null);
       setKolicina(0);
       setCijena(0);
-      setMpCijena(0);
+      setVpCijena(0);
     }
   };
 

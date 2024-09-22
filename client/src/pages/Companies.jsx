@@ -3,10 +3,10 @@ import CompanyDetail from "../components/Company/CompanyDetail";
 import CompanySidebar from "../components/Company/companySidebar";
 import CompanyHome from "../components/Company/CompanyHome";
 import Dashboard from "../components/Company/Dashboard";
-import { UnosRobe } from "../components/Company/KreirajDokumente/UnosRobe.jsx";
+import { KreirajDokumente } from "../components/Company/KreirajDokumente/KreirajDokumente.jsx";
 import { Sifrarnik } from "../components/Company/Sifrarnik.jsx";
-import { MaloprodajnaKalukacija } from "../components/Company/MaloprodajnaKalukacija.jsx";
-import { EditDokument } from "../components/Company/Forme/EditDokument.jsx";
+import { ListaDokumenata } from "../components/Company/VrsteDokumenata/ListaDokumenata.jsx";
+import { EditMaloprodajnaKalkulacija } from "../components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx";
 import { Navbar } from "../components/Navbar.jsx";
 import { useEffect, useState } from "react";
 import {
@@ -14,6 +14,9 @@ import {
   fetchAllGodine,
 } from "../features/godine/godineThunks.js";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  EditVeleprodajneKalkulacija
+} from "../components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx";
 
 const Companies = () => {
   const dispatch = useDispatch();
@@ -39,7 +42,7 @@ const Companies = () => {
           <CompanyDetail />
           <Routes>
             <Route path='home' element={<CompanyHome />} />
-            <Route path='unosRobe' element={<UnosRobe />} />
+            <Route path='unosRobe' element={<KreirajDokumente />} />
             <Route
               path='dashboard/*'
               element={<Dashboard />}
@@ -47,12 +50,16 @@ const Companies = () => {
             />
             <Route path='sifrarnik/*' element={<Sifrarnik />} />
             <Route
-              path='maloprodajna-kalkulacija'
-              element={<MaloprodajnaKalukacija />}
+              path='lista-dokumenata'
+              element={<ListaDokumenata />}
             />
             <Route
-              path='maloprodajna-kalkulacija/:dokumentId'
-              element={<EditDokument />}
+              path='lista-dokumenata/MP/:dokumentId'
+              element={<EditMaloprodajnaKalkulacija />}
+            />
+            <Route
+                path='lista-dokumenata/VP/:dokumentId'
+                element={<EditVeleprodajneKalkulacija />}
             />
           </Routes>
         </div>

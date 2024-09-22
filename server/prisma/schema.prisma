@@ -146,6 +146,7 @@ model ArtikliCijene {
   artikli   Artikli? @relation(fields: [artikliId], references: [id])
   cijena    Decimal  @db.Decimal(10, 2)
   mpcijena  Decimal? @db.Decimal(10, 2)
+  vpcijena  Decimal? @db.Decimal(10, 2)
   datum     DateTime @default(now())
 
   @@index([artikliId, datum])
@@ -172,6 +173,7 @@ model DokumentiArtikli {
   kolicina   Decimal   @db.Decimal(10, 2)
   cijena     Decimal   @db.Decimal(10, 2)
   mpcijena   Decimal?  @db.Decimal(10, 2)
+  vpcijena   Decimal?  @db.Decimal(10, 2)
 }
 
 model Transferi {

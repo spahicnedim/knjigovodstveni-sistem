@@ -5,14 +5,14 @@ import { format } from "date-fns";
 import { MdEdit, MdEmail, MdDelete } from "react-icons/md";
 import { IoMdPrint } from "react-icons/io";
 import { useReactToPrint } from "react-to-print";
-import PdfContent from "../PDFLayout/PDFDokument";
-import { roundTo } from "../../../utils/RoundTo";
-import { fetchArtikli } from "../../../features/artikli/artikliThunks.js";
-import { fetchKupciDobavljaci } from "../../../features/kupacDobavljac/kupacDobavljacThunk.js";
-import { fetchPdv } from "../../../features/dokumenti/dokumentThunks.js";
-import { fetchDokumentiById } from "../../../features/dokumenti/dokumentThunks.js";
+import PdfContent from "../../PDFLayout/PDFDokument.jsx";
+import { roundTo } from "../../../../utils/RoundTo.jsx";
+import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
+import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
+import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
+import { fetchDokumentiById } from "../../../../features/dokumenti/dokumentThunks.js";
 
-export function EditMaloprodajnaKalkulacija({ dokumentId }) {
+export function DetaljiMaloprodajneKalkulacije({ dokumentId }) {
   const contentRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ export function EditMaloprodajnaKalkulacija({ dokumentId }) {
 
   const handleClick = () => {
     // Navigirajte na rutu sa ID-jem
-    navigate(`${dokumentId}`);
+    navigate(`MP/${dokumentId}`);
   };
 
   if (!dokument || !dokument.dokument || !artikliList.length) {

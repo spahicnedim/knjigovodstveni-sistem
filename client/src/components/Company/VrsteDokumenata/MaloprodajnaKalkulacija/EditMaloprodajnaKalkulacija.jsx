@@ -3,31 +3,32 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createDokument,
   updateDokument,
-} from "../../../features/dokumenti/dokumentThunks.js";
+} from "../../../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";
-import { fetchSkladista } from "../../../features/skladista/skladisteThunks.js";
-import { fetchPoslovnice } from "../../../features/poslovnice/poslovnicaThunks.js";
-import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
-import { fetchArtikli } from "../../../features/artikli/artikliThunks.js";
-import { fetchKupciDobavljaci } from "../../../features/kupacDobavljac/kupacDobavljacThunk.js";
+import { fetchSkladista } from "../../../../features/skladista/skladisteThunks.js";
+import { fetchPoslovnice } from "../../../../features/poslovnice/poslovnicaThunks.js";
+import { fetchVrstaDokumenta } from "../../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
+import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
+import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import {
   fetchPdv,
   fetchDokumentiById,
-} from "../../../features/dokumenti/dokumentThunks.js";
-import { fetchValuta } from "../../../features/valute/valuteThunks.js";
-import { roundTo } from "../../../utils/RoundTo.jsx";
+} from "../../../../features/dokumenti/dokumentThunks.js";
+import { fetchValuta } from "../../../../features/valute/valuteThunks.js";
+import { roundTo } from "../../../../utils/RoundTo.jsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
-import SelectArtikli from "../SelectSearch/SelectArtikli.jsx";
-import SelectDobavljaci from "../SelectSearch/SelectDobavljaci.jsx";
-import SelectSkladista from "../SelectSearch/SelectSkladista.jsx";
-import SelectPoslovnice from "../SelectSearch/SelectPoslovnice.jsx";
-import SelectValuta from "../SelectSearch/SelectValuta.jsx";
-import HandleAddArtikl from "../Assets/HandleAddArtikli.jsx";
-import { setEditMode } from "../../../features/editModeSlice.js";
+import SelectArtikli from "../../SelectSearch/SelectArtikli.jsx";
+import SelectDobavljaci from "../../SelectSearch/SelectDobavljaci.jsx";
+import SelectSkladista from "../../SelectSearch/SelectSkladista.jsx";
+import SelectPoslovnice from "../../SelectSearch/SelectPoslovnice.jsx";
+import SelectValuta from "../../SelectSearch/SelectValuta.jsx";
+import HandleAddArtikl from "../../Assets/HandleAddArtikliVeleprodaja.jsx";
+import { setEditMode } from "../../../../features/editModeSlice.js";
+import HandleAddArtikliMaloprodaja from "../../Assets/HandleAddArtikliMaloprodaja.jsx";
 
-export function EditDokument() {
+export function EditMaloprodajnaKalkulacija() {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
@@ -230,7 +231,7 @@ export function EditDokument() {
 
       setKolicina(artikl.kolicina);
       setCijena(artikl.cijena);
-      setMpCijena(artikl.mpcijena);
+      setMpCijena(artikl?.mpcijena);
       dispatch(setEditMode(true));
       setEditIndex(index);
     }
@@ -409,7 +410,7 @@ export function EditDokument() {
                   className='flex-1 h-9 p-2 border border-gray-300 rounded-sm'
                 />
               </div>
-              <HandleAddArtikl
+              <HandleAddArtikliMaloprodaja
                 odabraniArtikl={odabraniArtikl}
                 kolicina={kolicina}
                 cijena={cijena}
@@ -544,7 +545,7 @@ export function EditDokument() {
                       )}
                     </td>
                     <td className='border border-gray-300 p-3 text-right'>
-                      {roundTo(aktivniPdv.stopaPDV, 2)}%
+                      {roundTo(aktivniPdv?.stopaPDV, 2)}%
                     </td>
                     <td className='border border-gray-300 p-3 text-right'>
                       {roundTo(

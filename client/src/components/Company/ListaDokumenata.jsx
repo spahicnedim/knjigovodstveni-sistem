@@ -1,17 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-import { MaloprodajnaKalukacija } from "./MaloprodajnaKalukacija.jsx";
-import { EditDokument } from "./Forme/EditDokument.jsx";
+import { ListaDokumenata } from "./VrsteDokumenata/ListaDokumenata.jsx";
+import { EditMaloprodajnaKalkulacija } from "./VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx";
 
 export function ListaDokumenata() {
   return (
     <Routes>
       <Route
-        path='maloprodajna-kalkulacija'
-        element={<MaloprodajnaKalukacija />}
+        path='lista-dokumenata'
+        element={<ListaDokumenata />}
       />
       <Route
-        path='maloprodajna-kalkulacija/:dokumentId'
-        element={<EditDokument />}
+        path='lista-dokumenata/:dokumentId'
+        element={<EditMaloprodajnaKalkulacija />}
       />
     </Routes>
   );

@@ -1,63 +1,77 @@
-import { ArtikliForm } from "../Forme/ArtikliForm.jsx";
-import Drawer from "../../Drawer.jsx";
-import PdfContent from "../PDFLayout/PDFDokument.jsx";
-import { roundTo } from "../../../utils/RoundTo.jsx";
+import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
-import SelectArtikli from "../SelectSearch/SelectArtikli.jsx";
-import SelectDobavljaci from "../SelectSearch/SelectDobavljaci.jsx";
-import SelectSkladista from "../SelectSearch/SelectSkladista.jsx";
-import SelectPoslovnice from "../SelectSearch/SelectPoslovnice.jsx";
-import SelectValuta from "../SelectSearch/SelectValuta.jsx";
-import HandleAddArtikl from "../Assets/HandleAddArtikli.jsx";
-import { setEditMode } from "../../../features/editModeSlice.js";
+import SelectArtikli from "../../SelectSearch/SelectArtikli.jsx";
+import SelectDobavljaci from "../../SelectSearch/SelectDobavljaci.jsx";
+import SelectSkladista from "../../SelectSearch/SelectSkladista.jsx";
+import SelectPoslovnice from "../../SelectSearch/SelectPoslovnice.jsx";
+import SelectValuta from "../../SelectSearch/SelectValuta.jsx";
+import HandleAddArtikl from "../../Assets/HandleAddArtikliVeleprodaja.jsx";
+import { setEditMode } from "../../../../features/editModeSlice.js";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
+import { useParams } from "react-router-dom";
+import { fetchSkladista } from "../../../../features/skladista/skladisteThunks.js";
+import { fetchPoslovnice } from "../../../../features/poslovnice/poslovnicaThunks.js";
+import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
+import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
+import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
+import { fetchValuta } from "../../../../features/valute/valuteThunks.js";
+import HandleAddArtikliMaloprodaja from "../../Assets/HandleAddArtikliMaloprodaja.jsx";
 
-const UlaznaKalkulacija = ({
-  redniBroj,
-  setRedniBroj,
-  poslovniceId,
-  setPoslovnicaId,
-  skladisteId,
-  setSkladisteId,
-  dobavljacId,
-  setDobavljacId,
-  poslovnice,
-  filteredSkladista,
-  kupciDobavljaci,
-  artikliList,
-  odabraniArtikl,
-  setOdabraniArtikl,
-  kolicina,
-  setKolicina,
-  cijena,
-  setCijena,
-  mpcijena,
-  setMpCijena,
-  artikli,
-  setArtikli,
-  aktivniPdv,
-  datumIzdavanjaDokumenta,
-  setDatumIzdavanjaDokumenta,
-  datumKreiranjaKalkulacije,
-  setDatumKreiranjaKalkulacije,
-  valutaId,
-  setValutaId,
-  valute,
-  openDrawer,
-  handleFileChange,
-  file,
-  setFile,
+
+const MaloprodajnaKalkulacijaForm = ({
+    redniBroj,
+    setRedniBroj,
+    poslovniceId,
+    setPoslovnicaId,
+    skladisteId,
+    setSkladisteId,
+    artikli,
+    setArtikli,
+    dobavljacId,
+    setDobavljacId,
+    aktivniPdv,
+    setAktivniPdv,
+    datumIzdavanjaDokumenta,
+    setDatumIzdavanjaDokumenta,
+    datumKreiranjaKalkulacije,
+    setDatumKreiranjaKalkulacije,
+    valutaId,
+    setValutaId,
+    file,
+    setFile
 }) => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const contentRef = useRef();
+  const [filteredSkladista, setFilteredSkladista] = useState([]);
+  const [odabraniArtikl, setOdabraniArtikl] = useState(null); // Odabrani artikl iz dropdowna
+  const [kolicina, setKolicina] = useState(0);
+  const [cijena, setCijena] = useState(0);
+  const [mpcijena, setMpCijena] = useState(0);
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState("");
+
+  const poslovnice = useSelector((state) => state.poslovnica.poslovnice) || [];
+  const skladista = useSelector((state) => state.skladiste.skladista);
+
+  const artikliList = useSelector((state) => state.artikl.artikli);
+  const kupciDobavljaci = useSelector(
+      (state) => state.kupacDobavljac.kupciDobavljaci
+  );
+  const pdv = useSelector((state) => state.dokument.pdv);
+  const valute = useSelector((state) => state.valuta.valute);
+  const editMode = useSelector((state) => state.editMode.editMode);
+
+  const { companyId } = useParams();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -65,6 +79,43 @@ const UlaznaKalkulacija = ({
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openDrawer = (content) => {
+    setDrawerContent(content);
+    setIsDrawerOpen(true);
+  };
+
+
+  useEffect(() => {
+    dispatch(fetchPoslovnice(companyId));
+    dispatch(fetchSkladista());
+    dispatch(fetchArtikli());
+    dispatch(fetchKupciDobavljaci(companyId));
+    dispatch(fetchPdv());
+    dispatch(fetchValuta());
+  }, [dispatch, companyId]);
+
+  useEffect(() => {
+    // Filtriranje skladišta na osnovu odabrane poslovnice
+    if (poslovniceId) {
+      const relevantSkladista = skladista.filter(
+          (skladiste) => skladiste.poslovnicaId === Number(poslovniceId)
+      );
+      setFilteredSkladista(relevantSkladista);
+    } else {
+      setFilteredSkladista([]);
+    }
+  }, [poslovniceId, skladista]);
+
+  useEffect(() => {
+    const aktivni = pdv.find((p) => p.Aktivan);
+    setAktivniPdv(aktivni);
+  }, [pdv]);
+
+  // Funkcija za rukovanje promjenom fajla
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -89,17 +140,65 @@ const UlaznaKalkulacija = ({
     setOptions(artikliOptions);
   }, [inputValue, artikliList]);
 
-  const handleSelectChange = (selectedOption) => {
-    if (selectedOption?.isCreateOption) {
-      openDrawer("artikli");
-    } else {
-      setOdabraniArtikl(
-        selectedOption
-          ? artikliList.find((artikl) => artikl.id === selectedOption.value)
-          : null
-      );
+  // const handleSubmitVrsta1 = () => {
+  //   const formData = new FormData();
+  //   formData.append("redniBroj", redniBroj);
+  //   formData.append("poslovniceId", parseInt(poslovniceId, 10));
+  //   formData.append("skladisteId", parseInt(skladisteId, 10));
+  //   formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
+  //   formData.append("artikli", JSON.stringify(artikli));
+  //   formData.append("companyId", companyId);
+  //   formData.append("kupacDobavljacId", parseInt(dobavljacId, 10));
+  //   formData.append("pDVId", parseInt(aktivniPdv.id, 10));
+  //   formData.append("datumIzdavanjaDokumenta", datumIzdavanjaDokumenta);
+  //   formData.append("datumKreiranjaKalkulacije", datumKreiranjaKalkulacije);
+  //   formData.append("valutaId", parseInt(valutaId, 10));
+  //   if (file) {
+  //     formData.append("file", file);
+  //   }
+  //
+  //   dispatch(createDokument(formData));
+  // };
+
+  // const handleOdabraniArtiklChange = (e) => {
+  //   const artiklId = e.target.value;
+  //   const selectedArtikl = artikliList.find(
+  //       (artikl) => artikl.id === parseInt(artiklId, 10)
+  //   );
+  //   if (selectedArtikl) {
+  //     setOdabraniArtikl({
+  //       ...selectedArtikl,
+  //       kolicina: 0, // Resetiramo količinu prilikom odabira novog artikla
+  //       cijena: selectedArtikl.ArtikliCijene[0]?.cijena || 0,
+  //       mpcijena: selectedArtikl.ArtikliCijene[0]?.mpcijena || 0,
+  //     });
+  //   }
+  // };
+
+  useEffect(() => {
+    if (odabraniArtikl && !editMode) {
+      // Nađi zadnju cijenu iz liste cijena
+      const zadnjaCijena =
+          odabraniArtikl.ArtikliCijene.slice(-1)[0]?.cijena || 0;
+      const zadnjaMPCijena =
+          odabraniArtikl.ArtikliCijene.slice(-1)[0]?.mpcijena || 0;
+      setCijena(zadnjaCijena);
+      setMpCijena(zadnjaMPCijena);
     }
-  };
+  }, [odabraniArtikl, editMode]);
+
+
+  // const handleSelectChange = (selectedOption) => {
+  //   if (selectedOption?.isCreateOption) {
+  //     openDrawer("artikli");
+  //   } else {
+  //     setOdabraniArtikl(
+  //       selectedOption
+  //         ? artikliList.find((artikl) => artikl.id === selectedOption.value)
+  //         : null
+  //     );
+  //   }
+  // };
 
   const handleRemoveArtikl = (index) => {
     const noviArtikli = artikli.filter((_, i) => i !== index);
@@ -125,12 +224,12 @@ const UlaznaKalkulacija = ({
     }
   };
 
-  const handleFileChange1 = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-    }
-  };
+  // const handleFileChange1 = (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   if (selectedFile) {
+  //     setFile(selectedFile);
+  //   }
+  // };
 
   return (
     <div className='p-6 bg-white rounded-lg shadow-md space-y-6'>
@@ -354,7 +453,7 @@ const UlaznaKalkulacija = ({
                 className='flex-1 h-9 p-2 border border-gray-300 rounded-sm'
               />
             </div>
-            <HandleAddArtikl
+            <HandleAddArtikliMaloprodaja
               odabraniArtikl={odabraniArtikl}
               kolicina={kolicina}
               cijena={cijena}
@@ -530,7 +629,7 @@ const UlaznaKalkulacija = ({
             <p className='text-xl'>
               {roundTo(
                 artikli.reduce(
-                  (acc, artikl) => acc + artikl.cijena * artikl.kolicina,
+                  (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,
                   0
                 ),
                 2
@@ -595,4 +694,5 @@ const UlaznaKalkulacija = ({
   );
 };
 
-export default UlaznaKalkulacija;
+
+export default MaloprodajnaKalkulacijaForm;

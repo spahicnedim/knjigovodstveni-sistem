@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPoslovnice } from "../../features/poslovnice/poslovnicaThunks.js";
+import { fetchPoslovnice } from "../../../features/poslovnice/poslovnicaThunks.js";
 import { useParams } from "react-router-dom";
-import { fetchSkladista } from "../../features/skladista/skladisteThunks.js";
-import { fetchDokumenti } from "../../features/dokumenti/dokumentThunks.js";
-import { resetDokumenti } from "../../features/dokumenti/dokumentSlice.js";
-import { fetchKupciDobavljaci } from "../../features/kupacDobavljac/kupacDobavljacThunk.js";
+import { fetchSkladista } from "../../../features/skladista/skladisteThunks.js";
+import { fetchDokumenti } from "../../../features/dokumenti/dokumentThunks.js";
+import { resetDokumenti } from "../../../features/dokumenti/dokumentSlice.js";
+import { fetchKupciDobavljaci } from "../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import {
   useTable,
   usePagination,
@@ -19,14 +19,15 @@ import {
   FaAngleLeft,
   FaAngleRight,
 } from "react-icons/fa";
-import DrawerDokument from "./DrawerDokument.jsx";
-import { EditMaloprodajnaKalkulacija } from "./Forme/EditMaloprodajnaKalkulacija.jsx";
+import DrawerDokument from "../DrawerDokument.jsx";
+import { DetaljiMaloprodajneKalkulacije } from "./MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx";
 import { parseISO, compareAsc, format } from "date-fns";
 import {
   fetchActiveGodina,
   fetchAllGodine,
-} from "../../features/godine/godineThunks.js";
-import { fetchVrstaDokumenta } from "../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
+} from "../../../features/godine/godineThunks.js";
+import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
+import {DetaljiVeleprodajneKalkulacije} from "./VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx";
 
 // Definiši jednostavan text input filter za kolonu
 function DefaultColumnFilter({
@@ -62,7 +63,7 @@ function DobavljacColumnFilter({
   );
 }
 
-export function MaloprodajnaKalukacija() {
+export function ListaDokumenata() {
   const dispatch = useDispatch();
   const [poslovniceId, setPoslovnicaId] = useState(null);
   const [skladisteId, setSkladisteId] = useState(null);
@@ -433,8 +434,12 @@ export function MaloprodajnaKalukacija() {
             : ""
         }
       >
-        {drawerContent && (
-          <EditMaloprodajnaKalkulacija dokumentId={drawerContent} />
+        {vrstaDokumentaId == 1 && (
+              <DetaljiMaloprodajneKalkulacije dokumentId={drawerContent} />
+        )}
+
+        {vrstaDokumentaId == 2 && (
+            <DetaljiVeleprodajneKalkulacije dokumentId={drawerContent} />
         )}
       </DrawerDokument>
     </div>

@@ -43,7 +43,7 @@ const CompanySidebar = ({ setPageTitle }) => {
         </MenuItem>
 
         <MenuItem
-          component={<Link to='maloprodajna-kalkulacija' />}
+          component={<Link to='lista-dokumenata' />}
           icon={<FaHome />}
           className='text-white hover:text-black'
           onClick={() => setPageTitle("Lista Dokumenata")}

@@ -5,9 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana godina">
-      <change afterPath="$PROJECT_DIR$/server/uploads/maloprodajnaKalkulacija-1726394291813.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliMaloprodaja.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240922193833_dodana_vpcijena/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240922201754_/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikli.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliVeleprodaja.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/EditDokument.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/EditMaloprodajnaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/ListaDokumenata.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/ListaDokumenata.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/server/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,11 +81,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\VrsteDokumenata" />
+      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\VrsteDokumenata\MaloprodajnaKalkulacija" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\SelectSearch" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\Forme" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\KreirajDokumente" />
-      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\PDFLayout" />
-      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\VrsteDokumenata" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -123,6 +139,7 @@
       <workItem from="1726151476794" duration="6807000" />
       <workItem from="1726323224842" duration="4379000" />
       <workItem from="1726390750551" duration="15227000" />
+      <workItem from="1727020094055" duration="11780000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
