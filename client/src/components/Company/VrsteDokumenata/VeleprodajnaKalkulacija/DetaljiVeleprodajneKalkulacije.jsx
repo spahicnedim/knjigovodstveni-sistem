@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { MdEdit, MdEmail, MdDelete } from "react-icons/md";
 import { IoMdPrint } from "react-icons/io";
 import { useReactToPrint } from "react-to-print";
-import PdfContent from "../../PDFLayout/PDFDokument.jsx";
+import PDFVeleprodajneKalkulacije from "../../PDFLayout/PDFVeleprodajnaKalkulacija.jsx";
 import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
@@ -117,10 +117,9 @@ export function DetaljiVeleprodajneKalkulacije({ dokumentId }) {
             </div>
             <div className='border-b border-gray-300 pt-2' />
             <div className='mt-4'>
-                <PdfContent
+                <PDFVeleprodajneKalkulacije
                     ref={contentRef}
                     artikli={artikliDokumenta}
-                    // aktivniPdv={aktivniPdv}
                     roundTo={roundTo}
                     naziv={dokument.dokument.naziv}
                     brojDokumenta={dokument.dokument.redniBroj}
@@ -198,19 +197,6 @@ export function DetaljiVeleprodajneKalkulacije({ dokumentId }) {
                             KM
                         </p>
                     </div>
-                    {/*<div className='flex justify-between'>*/}
-                    {/*    <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>*/}
-                    {/*    <p className='text-xl'>*/}
-                    {/*        {roundTo(*/}
-                    {/*            artikliDokumenta.reduce(*/}
-                    {/*                (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,*/}
-                    {/*                0*/}
-                    {/*            ),*/}
-                    {/*            2*/}
-                    {/*        )}*/}
-                    {/*        KM*/}
-                    {/*    </p>*/}
-                    {/*</div>*/}
                     <div className='border-t border-gray-400'></div>
                 </div>
             </div>

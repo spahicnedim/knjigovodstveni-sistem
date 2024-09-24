@@ -1,7 +1,7 @@
 import React from "react";
 import "../../../styles/pdf.css";
 
-const PdfContent = React.forwardRef(
+const PDFMaloprodajneKalkulacije = React.forwardRef(
   ({ artikli, aktivniPdv, roundTo, naziv, brojDokumenta, dobavljac }, ref) => {
     return (
       <div ref={ref} className='printable-area'>
@@ -164,4 +164,4 @@ const PdfContent = React.forwardRef(
   }
 );
 
-export default PdfContent;
+export default PDFMaloprodajneKalkulacije;

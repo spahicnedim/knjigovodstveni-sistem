@@ -488,10 +488,10 @@ const VeleprodajnaKalkulacijaForm = ({
                                 Iznos PDV-a
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                Veleprodajna vrijednost sa PDV-om
+                                Veleprodajna vrijednost
                             </th>
                             <th className='border border-gray-300 bt p-3 bg-gray-100 font-normal text-sm'>
-                                Veleprodajna cijena sa PDV-om
+                                Veleprodajna cijena
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 '></th>
                         </tr>

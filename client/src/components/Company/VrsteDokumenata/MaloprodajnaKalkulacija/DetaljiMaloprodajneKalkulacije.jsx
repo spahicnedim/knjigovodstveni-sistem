@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { MdEdit, MdEmail, MdDelete } from "react-icons/md";
 import { IoMdPrint } from "react-icons/io";
 import { useReactToPrint } from "react-to-print";
-import PdfContent from "../../PDFLayout/PDFDokument.jsx";
+import PDFMaloprodajneKalkulacije from "../../PDFLayout/PDFMaloprodajnaKalkulacija.jsx";
 import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
@@ -117,7 +117,7 @@ export function DetaljiMaloprodajneKalkulacije({ dokumentId }) {
       </div>
       <div className='border-b border-gray-300 pt-2' />
       <div className='mt-4'>
-        <PdfContent
+        <PDFMaloprodajneKalkulacije
           ref={contentRef}
           artikli={artikliDokumenta}
           aktivniPdv={aktivniPdv}
