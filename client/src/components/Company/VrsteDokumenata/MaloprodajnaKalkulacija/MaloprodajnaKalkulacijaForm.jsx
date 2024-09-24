@@ -71,6 +71,9 @@ const MaloprodajnaKalkulacijaForm = ({
   const pdv = useSelector((state) => state.dokument.pdv);
   const valute = useSelector((state) => state.valuta.valute);
   const editMode = useSelector((state) => state.editMode.editMode);
+  const firma = useSelector((state) => state.company.current)
+
+
 
   const { companyId } = useParams();
 
@@ -554,10 +557,10 @@ const MaloprodajnaKalkulacijaForm = ({
                     )}
                   </td>
                   <td className='border border-gray-300 p-3 text-right'>
-                    {roundTo(aktivniPdv.stopaPDV, 2)}%
+                    {firma.obveznikPDV ? `${roundTo(aktivniPdv.stopaPDV, 2)}%` : '0%'}
                   </td>
                   <td className='border border-gray-300 p-3 text-right'>
-                    {roundTo((artikl.kolicina * artikl.mpcijena * 17) / 100, 2)}
+                    {firma.obveznikPDV ? `${roundTo((artikl.kolicina * artikl.mpcijena * 17) / 100, 2)}` : '0'}
                   </td>
                   <td className='border border-gray-300 p-3 text-right'>
                     {roundTo(artikl.kolicina * artikl.mpcijena, 2)}

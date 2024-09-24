@@ -68,3 +68,15 @@ export const updateDokument = createAsyncThunk(
     }
   }
 );
+
+export const deleteDokument = createAsyncThunk(
+    "dokumenti/deleteDokument",
+    async (dokumentId, thunkAPI) => {
+        try {
+            const response = await api.delete(`/dokument/${dokumentId}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);

@@ -5,6 +5,7 @@ import {
   fetchPdv,
   fetchDokumentiById,
   updateDokument,
+  deleteDokument
 } from "./dokumentThunks.js";
 
 const dokumentSlice = createSlice({
@@ -51,7 +52,15 @@ const dokumentSlice = createSlice({
         if (state.current && state.current.id === action.payload.id) {
           state.current = action.payload;
         }
-      });
+      })
+        .addCase(deleteDokument.fulfilled, (state, action) => {
+          state.dokumenti = state.dokumenti.filter(
+              (dokument) => dokument.id !== action.meta.arg
+          );
+        })
+        .addCase(deleteDokument.rejected, (state, action) => {
+          state.error = action.payload;
+        });
   },
 });
 

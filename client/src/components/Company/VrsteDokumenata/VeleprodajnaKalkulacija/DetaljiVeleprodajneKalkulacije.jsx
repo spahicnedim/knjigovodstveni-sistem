@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
 import { MdEdit, MdEmail, MdDelete } from "react-icons/md";
 import { IoMdPrint } from "react-icons/io";
 import { useReactToPrint } from "react-to-print";
@@ -9,7 +8,7 @@ import PDFVeleprodajneKalkulacije from "../../PDFLayout/PDFVeleprodajnaKalkulaci
 import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
-import { fetchDokumentiById } from "../../../../features/dokumenti/dokumentThunks.js";
+import { fetchDokumentiById, deleteDokument } from "../../../../features/dokumenti/dokumentThunks.js";
 
 export function DetaljiVeleprodajneKalkulacije({ dokumentId }) {
     const contentRef = useRef();
@@ -85,6 +84,10 @@ export function DetaljiVeleprodajneKalkulacije({ dokumentId }) {
         return <div>Loading...</div>; // Prikaz loadera dok podaci nisu dostupni
     }
 
+    const handleDelete = () => {
+        dispatch(deleteDokument(dokumentId))
+    };
+
     return (
         <div>
             <div className='flex items-center'>
@@ -110,7 +113,7 @@ export function DetaljiVeleprodajneKalkulacije({ dokumentId }) {
                     <span>Print</span>
                 </button>
                 <div className='w-px h-5 bg-gray-300 mx-2'></div>
-                <button className='px-2 flex items-center space-x-1'>
+                <button type='button' onClick={handleDelete} className='px-2 flex items-center space-x-1'>
                     <MdDelete className='w-4 h-4' />
                     <span>Izbriši</span>
                 </button>

@@ -10,7 +10,7 @@ import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
-import { fetchDokumentiById } from "../../../../features/dokumenti/dokumentThunks.js";
+import { fetchDokumentiById, deleteDokument } from "../../../../features/dokumenti/dokumentThunks.js";
 
 export function DetaljiMaloprodajneKalkulacije({ dokumentId }) {
   const contentRef = useRef();
@@ -85,6 +85,10 @@ export function DetaljiMaloprodajneKalkulacije({ dokumentId }) {
     return <div>Loading...</div>; // Prikaz loadera dok podaci nisu dostupni
   }
 
+  const handleDelete = () => {
+    dispatch(deleteDokument(dokumentId))
+  };
+
   return (
     <div>
       <div className='flex items-center'>
@@ -110,7 +114,7 @@ export function DetaljiMaloprodajneKalkulacije({ dokumentId }) {
           <span>Print</span>
         </button>
         <div className='w-px h-5 bg-gray-300 mx-2'></div>
-        <button className='px-2 flex items-center space-x-1'>
+        <button type='button' onClick={handleDelete} className='px-2 flex items-center space-x-1'>
           <MdDelete className='w-4 h-4' />
           <span>Izbriši</span>
         </button>

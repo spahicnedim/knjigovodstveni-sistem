@@ -306,7 +306,7 @@ export function ListaDokumenata() {
           <select
             value={vrstaDokumentaId}
             onChange={(e) => setVrstaDokumentaId(e.target.value)}
-            className='w-80 p-2 border border-gray-300 rounded-sm'
+            className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
             required
           >
             <option value=''>Odaberite vrstu dokumenta</option>
