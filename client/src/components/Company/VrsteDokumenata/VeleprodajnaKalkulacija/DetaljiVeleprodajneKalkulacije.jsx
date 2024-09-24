@@ -9,7 +9,6 @@ import PdfContent from "../../PDFLayout/PDFDokument.jsx";
 import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
-import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
 import { fetchDokumentiById } from "../../../../features/dokumenti/dokumentThunks.js";
 
 export function DetaljiVeleprodajneKalkulacije({ dokumentId }) {
@@ -20,10 +19,11 @@ export function DetaljiVeleprodajneKalkulacije({ dokumentId }) {
     const { companyId } = useParams();
 
     useEffect(() => {
-        dispatch(fetchDokumentiById(dokumentId));
-        dispatch(fetchArtikli());
-        dispatch(fetchKupciDobavljaci(companyId));
-        // dispatch(fetchPdv());
+        if (dokumentId) {
+            dispatch(fetchDokumentiById(dokumentId));
+            dispatch(fetchArtikli());
+            dispatch(fetchKupciDobavljaci(companyId));
+        }
     }, [dispatch, companyId, dokumentId]);
 
     const dokument = useSelector((state) => state.dokument.current || {});
@@ -149,10 +149,10 @@ export function DetaljiVeleprodajneKalkulacije({ dokumentId }) {
                         Fakturna vrijednost bez PDV-a
                     </th>
                     <th className='border border-gray-300 p-3 font-medium text-sm'>
-                        Veleprodajna vrijednost sa PDV-om
+                        Veleprodajna vrijednost
                     </th>
                     <th className='border border-gray-300 p-3 font-medium text-sm'>
-                        Veleprodajna cijena sa PDV-om
+                        Veleprodajna cijena
                     </th>
                 </tr>
                 </thead>

@@ -426,19 +426,19 @@ export function ListaDokumenata() {
         </div>
       </div>
       <DrawerDokument
-        isOpen={isDrawerOpen}
-        onClose={closeDrawer}
-        brojDokumenta={
-          drawerContent
-            ? dokumenti.find((doc) => doc.id === drawerContent)?.redniBroj
-            : ""
-        }
+          isOpen={isDrawerOpen}
+          onClose={closeDrawer}
+          brojDokumenta={
+            drawerContent && drawerContent !== "null"
+                ? dokumenti.find((doc) => doc.id === drawerContent)?.redniBroj
+                : ""
+          }
       >
-        {vrstaDokumentaId == 1 && (
-              <DetaljiMaloprodajneKalkulacije dokumentId={drawerContent} />
+        {vrstaDokumentaId == 1 && drawerContent && (
+            <DetaljiMaloprodajneKalkulacije dokumentId={drawerContent} />
         )}
 
-        {vrstaDokumentaId == 2 && (
+        {vrstaDokumentaId == 2 && drawerContent && (
             <DetaljiVeleprodajneKalkulacije dokumentId={drawerContent} />
         )}
       </DrawerDokument>
