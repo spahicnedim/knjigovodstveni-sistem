@@ -24,7 +24,7 @@ export function DetaljiMaloprodajneKalkulacije({ dokumentId }) {
     dispatch(fetchArtikli());
     dispatch(fetchKupciDobavljaci(companyId));
     dispatch(fetchPdv());
-  }, [dispatch, companyId, dokumentId]);
+  }, [dispatch, dokumentId]);
 
   const dokument = useSelector((state) => state.dokument.current || {});
 

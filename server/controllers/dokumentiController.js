@@ -95,26 +95,33 @@ const createDokumenti = async (req, res) => {
             },
           });
         }
-
-        // Kreiranje cijene za artikl
-        await prisma.artikliCijene.create({
-          data: {
-            artikliId: parseInt(artikl.artikliId, 10),
-            cijena: parseFloat(artikl.cijena),
-            mpcijena: parseFloat(artikl.mpcijena),
-            vpcijena: parseFloat(artikl.vpcijena)
-          },
+        // Dohvati posljednju cijenu na osnovu najvećeg id-a
+        const lastCijena = await prisma.artikliCijene.findFirst({
+          where: { artikliId: parseInt(artikl.artikliId, 10) },
+          orderBy: { id: 'desc' }, // Dohvati zadnju cijenu na osnovu id-a
         });
 
-        // Povezivanje artikala sa dokumentom
-        // await prisma.dokumenti.update({
-        //   where: { id: createdDokument.id },
-        //   data: {
-        //     artikli: {
-        //       connect: { id: parseInt(artikl.id, 10) },
-        //     },
-        //   },
-        // });
+        // Postavi cijene samo ako nisu nula; ako jesu, koristi postojeće vrijednosti
+        const novaCijena = parseFloat(artikl.cijena) || lastCijena?.cijena || 0;
+        const novaMpcijena = parseFloat(artikl.mpcijena) || lastCijena?.mpcijena || 0;
+        const novaVpcijena = parseFloat(artikl.vpcijena) || lastCijena?.vpcijena || 0;
+
+        // Provjeri da li su cijene promijenjene u odnosu na zadnje cijene
+        const arePricesDifferent =
+            (artikl.cijena && novaCijena !== lastCijena?.cijena) ||
+            (artikl.mpcijena && novaMpcijena !== lastCijena?.mpcijena) ||
+            (artikl.vpcijena && novaVpcijena !== lastCijena?.vpcijena);
+
+        if (arePricesDifferent) {
+          await prisma.artikliCijene.create({
+            data: {
+              artikliId: parseInt(artikl.artikliId, 10),
+              cijena: novaCijena,
+              mpcijena: novaMpcijena,
+              vpcijena: novaVpcijena,
+            },
+          });
+        }
 
         await prisma.dokumentiArtikli.create({
           data: {

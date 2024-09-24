@@ -4,26 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana godina">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliMaloprodaja.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240922193833_dodana_vpcijena/migration.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20240922201754_/migration.sql" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana veleprodajna kalkulacija">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikli.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliVeleprodaja.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/EditDokument.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/EditMaloprodajnaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/UnosRobe.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/ListaDokumenata.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/ListaDokumenata.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/MaloprodajnaKalukacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/UlaznaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/server/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +123,9 @@
       <workItem from="1726151476794" duration="6807000" />
       <workItem from="1726323224842" duration="4379000" />
       <workItem from="1726390750551" duration="15227000" />
-      <workItem from="1727020094055" duration="11780000" />
+      <workItem from="1727020094055" duration="12124000" />
+      <workItem from="1727080198636" duration="228000" />
+      <workItem from="1727161541022" duration="3023000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -429,7 +415,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726413594083</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="dodana veleprodajna kalkulacija">
+      <option name="closed" value="true" />
+      <created>1727038559194</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1727038559194</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -448,7 +442,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="skladiste dokument i poslovnica" />
     <MESSAGE value="doradjene poslovnice i skladista" />
     <MESSAGE value="dodana vrstaSkladista" />
     <MESSAGE value="dodane funkcionalnosti u unosrobe" />
@@ -473,6 +466,7 @@
     <MESSAGE value="izmjene u firmi" />
     <MESSAGE value="izmjene u firmi 2" />
     <MESSAGE value="dodana godina" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodana godina" />
+    <MESSAGE value="dodana veleprodajna kalkulacija" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodana veleprodajna kalkulacija" />
   </component>
 </project>
