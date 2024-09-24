@@ -1,6 +1,6 @@
 import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
@@ -9,7 +9,6 @@ import SelectDobavljaci from "../../SelectSearch/SelectDobavljaci.jsx";
 import SelectSkladista from "../../SelectSearch/SelectSkladista.jsx";
 import SelectPoslovnice from "../../SelectSearch/SelectPoslovnice.jsx";
 import SelectValuta from "../../SelectSearch/SelectValuta.jsx";
-import HandleAddArtikl from "../../Assets/HandleAddArtikliVeleprodaja.jsx";
 import { setEditMode } from "../../../../features/editModeSlice.js";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
@@ -49,16 +48,18 @@ const MaloprodajnaKalkulacijaForm = ({
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const contentRef = useRef();
   const [filteredSkladista, setFilteredSkladista] = useState([]);
   const [odabraniArtikl, setOdabraniArtikl] = useState(null); // Odabrani artikl iz dropdowna
   const [kolicina, setKolicina] = useState(0);
   const [cijena, setCijena] = useState(0);
   const [mpcijena, setMpCijena] = useState(0);
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [drawerContent, setDrawerContent] = useState("");
+  const [uneseniIznos, setUneseniIznos] = useState('');
+  const [uneseniIznosSaPdv, setUneseniIznosSaPdv] = useState('');
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [poruka, setPoruka] = useState('');
+
+
 
   const poslovnice = useSelector((state) => state.poslovnica.poslovnice) || [];
   const skladista = useSelector((state) => state.skladiste.skladista);
@@ -73,13 +74,30 @@ const MaloprodajnaKalkulacijaForm = ({
 
   const { companyId } = useParams();
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const iznosRacuna = roundTo(
+      artikli.reduce((acc, artikl) => acc + artikl.cijena * artikl.kolicina, 0),
+      2
+  );
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const iznosRacunaSaPdv = roundTo(
+      artikli.reduce((acc, artikl) => acc + artikl.mpcijena * artikl.kolicina, 0),
+      2
+  );
+
+  useEffect(() => {
+    // Zaokružujemo unesene vrijednosti na dvije decimale i uspoređujemo sa proračunatim vrijednostima
+    const uneseniIznosRounded = roundTo(parseFloat(uneseniIznos), 2);
+    const uneseniIznosSaPdvRounded = roundTo(parseFloat(uneseniIznosSaPdv), 2);
+
+    if (uneseniIznosRounded === iznosRacuna && uneseniIznosSaPdvRounded === iznosRacunaSaPdv) {
+      setPoruka('');
+      setIsDisabled(false); // Aktiviramo dugme ako su vrijednosti tačne
+    } else {
+      setPoruka('Unesene vrijednosti ne odgovaraju proračunatim vrijednostima.');
+      setIsDisabled(true); // Dugme ostaje neaktivno
+    }
+  }, [uneseniIznos, uneseniIznosSaPdv, iznosRacuna, iznosRacunaSaPdv]);
+
 
   const openDrawer = (content) => {
     setDrawerContent(content);
@@ -140,40 +158,6 @@ const MaloprodajnaKalkulacijaForm = ({
     setOptions(artikliOptions);
   }, [inputValue, artikliList]);
 
-  // const handleSubmitVrsta1 = () => {
-  //   const formData = new FormData();
-  //   formData.append("redniBroj", redniBroj);
-  //   formData.append("poslovniceId", parseInt(poslovniceId, 10));
-  //   formData.append("skladisteId", parseInt(skladisteId, 10));
-  //   formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
-  //   formData.append("artikli", JSON.stringify(artikli));
-  //   formData.append("companyId", companyId);
-  //   formData.append("kupacDobavljacId", parseInt(dobavljacId, 10));
-  //   formData.append("pDVId", parseInt(aktivniPdv.id, 10));
-  //   formData.append("datumIzdavanjaDokumenta", datumIzdavanjaDokumenta);
-  //   formData.append("datumKreiranjaKalkulacije", datumKreiranjaKalkulacije);
-  //   formData.append("valutaId", parseInt(valutaId, 10));
-  //   if (file) {
-  //     formData.append("file", file);
-  //   }
-  //
-  //   dispatch(createDokument(formData));
-  // };
-
-  // const handleOdabraniArtiklChange = (e) => {
-  //   const artiklId = e.target.value;
-  //   const selectedArtikl = artikliList.find(
-  //       (artikl) => artikl.id === parseInt(artiklId, 10)
-  //   );
-  //   if (selectedArtikl) {
-  //     setOdabraniArtikl({
-  //       ...selectedArtikl,
-  //       kolicina: 0, // Resetiramo količinu prilikom odabira novog artikla
-  //       cijena: selectedArtikl.ArtikliCijene[0]?.cijena || 0,
-  //       mpcijena: selectedArtikl.ArtikliCijene[0]?.mpcijena || 0,
-  //     });
-  //   }
-  // };
 
   useEffect(() => {
     if (odabraniArtikl && !editMode) {
@@ -188,17 +172,6 @@ const MaloprodajnaKalkulacijaForm = ({
   }, [odabraniArtikl, editMode]);
 
 
-  // const handleSelectChange = (selectedOption) => {
-  //   if (selectedOption?.isCreateOption) {
-  //     openDrawer("artikli");
-  //   } else {
-  //     setOdabraniArtikl(
-  //       selectedOption
-  //         ? artikliList.find((artikl) => artikl.id === selectedOption.value)
-  //         : null
-  //     );
-  //   }
-  // };
 
   const handleRemoveArtikl = (index) => {
     const noviArtikli = artikli.filter((_, i) => i !== index);
@@ -224,12 +197,6 @@ const MaloprodajnaKalkulacijaForm = ({
     }
   };
 
-  // const handleFileChange1 = (e) => {
-  //   const selectedFile = e.target.files[0];
-  //   if (selectedFile) {
-  //     setFile(selectedFile);
-  //   }
-  // };
 
   return (
     <div className='p-6 bg-white rounded-lg shadow-md space-y-6'>
@@ -622,74 +589,59 @@ const MaloprodajnaKalkulacijaForm = ({
           <p className='text-gray-500'>Nemate unesenih artikala.</p>
         )}
       </div>
-      <div className='flex justify-end'>
-        <div className='mt-4 p-5 flex gap-4 w-1/3 h-32 bg-gray-50 drop-shadow-md flex-col'>
-          <div className='flex justify-between'>
-            <h4 className='text-lg font-semibold'>Iznos racuna:</h4>
-            <p className='text-xl'>
-              {roundTo(
-                artikli.reduce(
-                  (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,
-                  0
-                ),
-                2
-              )}
-              KM
-            </p>
+      <div>
+        <div className='flex justify-end'>
+          <div className='mt-4 p-5 flex gap-4 w-1/3 h-auto bg-gray-50 drop-shadow-md flex-col'>
+            <div className='flex justify-between'>
+              <h4 className='text-lg font-semibold'>Iznos racuna:</h4>
+              <p className='text-xl'>{iznosRacuna} KM</p>
+            </div>
+            <div className='flex justify-between'>
+              <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>
+              <p className='text-xl'>{iznosRacunaSaPdv} KM</p>
+            </div>
+            <div className='border-t border-gray-400'></div>
+
+            {/* Input za unos iznosa */}
+            <div className='flex justify-between mt-4'>
+              <label className='text-lg font-semibold'>Unesite iznos racuna:</label>
+              <input
+                  type='number'
+                  value={uneseniIznos}
+                  onChange={(e) => setUneseniIznos(e.target.value)}
+                  className='border border-gray-300 rounded-lg p-2'
+              />
+            </div>
+
+            {/* Input za unos iznosa sa PDV-om */}
+            <div className='flex justify-between mt-4'>
+              <label className='text-lg font-semibold'>Unesite iznos racuna sa PDV-om:</label>
+              <input
+                  type='number'
+                  value={uneseniIznosSaPdv}
+                  onChange={(e) => setUneseniIznosSaPdv(e.target.value)}
+                  className='border border-gray-300 rounded-lg p-2'
+              />
+            </div>
+
+            {/* Poruka o neusklađenosti */}
+            {poruka && <p className='text-red-500 mt-2'>{poruka}</p>}
           </div>
-          <div className='flex justify-between'>
-            <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>
-            <p className='text-xl'>
-              {roundTo(
-                artikli.reduce(
-                  (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,
-                  0
-                ),
-                2
-              )}
-              KM
-            </p>
-          </div>
-          <div className='border-t border-gray-400'></div>
+        </div>
+
+        {/* Dugme za čuvanje */}
+        <div className='flex justify-end space-x-4'>
+          <button
+              type='submit'
+              disabled={isDisabled}
+              className={`bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg ${
+                  isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+          >
+            Sačuvaj
+          </button>
         </div>
       </div>
-
-      <div className='flex justify-end space-x-4'>
-        <button
-          type='submit'
-          className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg'
-        >
-          Sačuvaj
-        </button>
-      </div>
-      {/*{isContentVisible && (*/}
-      {/*    <div className="mt-4">*/}
-      {/*        <PdfContent ref={contentRef} artikli={artikli} aktivniPdv={aktivniPdv} roundTo={roundTo}*/}
-      {/*                    naziv={naziv}*/}
-      {/*                    brojDokumenta={redniBroj}*/}
-      {/*                    dobavljac={kupciDobavljaci.find((dobavljac) => dobavljac.id == dobavljacId)?.name}/>*/}
-      {/*    </div>*/}
-      {/*)}*/}
-
-      {/*<button*/}
-      {/*    type="button"*/}
-      {/*    onClick={handleGeneratePDF}*/}
-      {/*    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Generiši*/}
-      {/*    PDF*/}
-      {/*</button>*/}
-      {/*<button*/}
-      {/*    type="button"*/}
-      {/*    onClick={handlePrint}*/}
-      {/*    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Pregledaj*/}
-      {/*    PDF*/}
-      {/*</button>*/}
-      {/*<button*/}
-      {/*    type="button"*/}
-      {/*    onClick={handleToggleContent}*/}
-      {/*    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"*/}
-      {/*>*/}
-      {/*    {isContentVisible ? 'Hide PDF Content' : 'Show PDF Content'}*/}
-      {/*</button>*/}
     </div>
   );
 };
