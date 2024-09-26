@@ -50,6 +50,41 @@ const CompanySidebar = ({ setPageTitle }) => {
         >
           Lista Dokumenata
         </MenuItem>
+        <SubMenu
+            label='Knjige'
+            className='text-white'
+            icon={<FaBuilding />}
+            rootStyles={{
+              ["& > ." + menuClasses.button]: {
+                backgroundColor: "#023E8A",
+                color: "white",
+                "&:hover": {
+                  color: "black",
+                },
+              },
+              ["." + menuClasses.subMenuContent]: {
+                backgroundColor: "#023E8A",
+                color: "white",
+              },
+            }}
+        >
+          <MenuItem
+              component={<Link to='knjige/KUF/1' />}
+              icon={<FaHome />}
+              className='text-white hover:text-black'
+              onClick={() => setPageTitle("KUF")}
+          >
+            KUF
+          </MenuItem>
+          <MenuItem
+              component={<Link to='knjige/KIF' />}
+              icon={<FaHome />}
+              className='text-white hover:text-black'
+              onClick={() => setPageTitle("KIF")}
+          >
+            KIF
+          </MenuItem>
+        </SubMenu>
 
         <SubMenu
           label='Sifrarnik'

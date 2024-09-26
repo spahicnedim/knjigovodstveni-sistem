@@ -4,15 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodan pdf kod veleprodajne kalkulacije">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodan delete dokumenta">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/KUF.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/Knjige.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/knjige/knjigeSlice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/features/knjige/knjigeThunks.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/knjigeController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/knjigeRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -131,7 +135,8 @@
       <workItem from="1726390750551" duration="15227000" />
       <workItem from="1727020094055" duration="12124000" />
       <workItem from="1727080198636" duration="228000" />
-      <workItem from="1727161541022" duration="13107000" />
+      <workItem from="1727161541022" duration="13966000" />
+      <workItem from="1727341590655" duration="15314000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -461,7 +466,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727172014532</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="dodan delete dokumenta">
+      <option name="closed" value="true" />
+      <created>1727208325697</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1727208325697</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +493,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix" />
     <MESSAGE value="dodani artikli u unosu robe" />
     <MESSAGE value="prosirena tabela i dodani dobavljaci u unosu dokumenta" />
     <MESSAGE value="pdf osnovna struktura" />
@@ -505,6 +517,7 @@
     <MESSAGE value="ispravljena greska sa dokumentId" />
     <MESSAGE value="dodana provjera prilikom kreiranja dokumenata" />
     <MESSAGE value="dodan pdf kod veleprodajne kalkulacije" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodan pdf kod veleprodajne kalkulacije" />
+    <MESSAGE value="dodan delete dokumenta" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodan delete dokumenta" />
   </component>
 </project>

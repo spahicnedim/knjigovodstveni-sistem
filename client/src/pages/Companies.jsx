@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   EditVeleprodajneKalkulacija
 } from "../components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx";
+import {Knjige} from "../components/Company/Knjige/Knjige.jsx";
 
 const Companies = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,10 @@ const Companies = () => {
             <Route
                 path='lista-dokumenata/VP/:dokumentId'
                 element={<EditVeleprodajneKalkulacija />}
+            />
+            <Route
+                path='knjige/*'
+                element={<Knjige />}
             />
           </Routes>
         </div>

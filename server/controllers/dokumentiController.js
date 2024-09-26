@@ -135,6 +135,21 @@ const createDokumenti = async (req, res) => {
         });
       }
 
+      let knjigaId;
+      if (vrstaDokumentaId == 1) {
+        knjigaId = 1; // KUF ID
+      } else if (vrstaDokumentaId == 2) {
+        knjigaId = 2; // KIF ID
+      }
+
+
+      // Update dokumenta s knjigeId
+      await prisma.dokumenti.update({
+        where: { id: createdDokument.id },
+        data: {
+          knjigeId: knjigaId,
+        },
+      });
       return createdDokument;
     });
 
@@ -329,6 +344,9 @@ const getDokumentById = async (req, res) => {
       .json({ error: "Error fetching dokument", details: error.message });
   }
 };
+
+
+
 const deleteDokument = async (req, res) => {
   const { dokumentId } = req.params;
 
@@ -393,5 +411,5 @@ module.exports = {
   updateDokumenta,
   getAllDokumenti,
   getDokumentById,
-  deleteDokument
+  deleteDokument,
 };

@@ -20,6 +20,7 @@ import artikliReducer from "./artikli/artikliSlice.js"
 import valuteReducer from "./valute/valuteSlice.js"
 import editModeReducer from './editModeSlice';
 import godineReducer from "./godine/godineSlice.js";
+import knjigeReducer from "./knjige/knjigeSlice.js"
 
 const persistConfig = {
   key: "auth", // Specify a different key for each reducer
@@ -70,7 +71,8 @@ const store = configureStore({
     artikl: artikliReducer,
     valuta: valuteReducer,
     editMode: editModeReducer,
-    godina: godineReducer
+    godina: godineReducer,
+    knjige: knjigeReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

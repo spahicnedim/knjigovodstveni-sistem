@@ -5,7 +5,8 @@ const {
   updateDokumenta,
   getAllDokumenti,
   getDokumentById,
-  deleteDokument
+  deleteDokument,
+
 } = require("../controllers/dokumentiController");
 const upload = require("../utils/multerConfig");
 
