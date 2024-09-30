@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const {
-  createDokumenti,
+  createKalkulacije,
   updateDokumenta,
   getAllDokumenti,
   getDokumentById,
   deleteDokument,
-
 } = require("../controllers/dokumentiController");
+const {createFakture} = require("../controllers/izlaznaFakturaController");
 const upload = require("../utils/multerConfig");
 
-router.post("/", upload.single("file"), createDokumenti);
+router.post("/kalkulacije", upload.single("file"), createKalkulacije);
+router.post("/fakture", upload.none(), createFakture);
 router.put("/:dokumentId", upload.single("file"), updateDokumenta);
 router.get("/", getAllDokumenti);
 router.get("/:dokumentId", getDokumentById);

@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
-export const createDokument = createAsyncThunk(
-  "dokumenti/createDokument",
+export const createDokumentKalkulacije = createAsyncThunk(
+  "dokumenti/createDokumentKalkulacije",
   async (dokumentData, thunkAPI) => {
     try {
-      const response = await api.post("/dokument", dokumentData, {
+      const response = await api.post("/dokument/kalkulacije", dokumentData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data;
@@ -13,6 +13,21 @@ export const createDokument = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
+);
+
+export const createDokumentFakture = createAsyncThunk(
+    "dokumenti/createDokumentFakture",
+    async (dokumentData, thunkAPI) => {
+        try {
+            const response = await api.post("/dokument/fakture", dokumentData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            console.log(dokumentData)
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
 );
 
 export const fetchPdv = createAsyncThunk(

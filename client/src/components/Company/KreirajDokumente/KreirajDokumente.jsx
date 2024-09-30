@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createDokument } from "../../../features/dokumenti/dokumentThunks.js";
+import { createDokumentKalkulacije, createDokumentFakture } from "../../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";
 import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 import MaloprodajnaKalkulacijaForm from "../VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx";
 import VeleprodajnaKalkulacijaForm from "../VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx";
+import IzlaznaFakturaForm from "../VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx";
+
 
 
 export const KreirajDokumente = () => {
@@ -20,6 +22,7 @@ export const KreirajDokumente = () => {
   const [datumKreiranjaKalkulacije, setDatumKreiranjaKalkulacije] =
     useState("");
   const [valutaId, setValutaId] = useState(null);
+  const [nacinPlacanjaId, setNacinPlacanjaId] = useState(null);
   const [file, setFile] = useState(null);
 
   const vrstaDokumenta = useSelector(
@@ -32,7 +35,6 @@ export const KreirajDokumente = () => {
   useEffect(() => {
     dispatch(fetchVrstaDokumenta());
   }, [dispatch, companyId]);
-
 
   const handleSubmitMaloprodajnaKalkulacija = () => {
     const formData = new FormData();
@@ -51,7 +53,7 @@ export const KreirajDokumente = () => {
       formData.append("file", file);
     }
 
-    dispatch(createDokument(formData));
+    dispatch(createDokumentKalkulacije(formData));
   };
 
   const handleSubmitVeleprodajnaKalkulacija = () => {
@@ -70,9 +72,25 @@ export const KreirajDokumente = () => {
       formData.append("file", file);
     }
 
-    dispatch(createDokument(formData));
+    dispatch(createDokumentKalkulacije(formData));
   };
 
+  const handleSubmitIzlaznaFaktura = () => {
+    const formData = new FormData();
+    formData.append("redniBroj", redniBroj);
+    formData.append("poslovniceId", parseInt(poslovniceId, 10));
+    formData.append("skladisteId", parseInt(skladisteId, 10));
+    formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
+    formData.append("artikli", JSON.stringify(artikli));
+    formData.append("companyId", companyId);
+    formData.append("kupacDobavljacId", parseInt(dobavljacId, 10));
+    formData.append("datumIzdavanjaDokumenta", datumIzdavanjaDokumenta);
+    formData.append("datumKreiranjaKalkulacije", datumKreiranjaKalkulacije);
+    formData.append("valutaId", parseInt(valutaId, 10));
+    formData.append('nacinPlacanjaId', parseInt(nacinPlacanjaId, 10))
+    console.log(artikli)
+    dispatch(createDokumentFakture(formData));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -82,6 +100,9 @@ export const KreirajDokumente = () => {
         break;
       case "2":
         handleSubmitVeleprodajnaKalkulacija();
+        break;
+      case "3":
+        handleSubmitIzlaznaFaktura();
         break;
       default:
         console.error("Nepoznata vrsta dokumenta");
@@ -96,7 +117,7 @@ export const KreirajDokumente = () => {
             Vrsta Dokumenta
           </label>
           <select
-            value={vrstaDokumentaId}
+            value={vrstaDokumentaId || ""}
             onChange={(e) => setVrstaDokumentaId(e.target.value)}
             className='w-80 p-2 border border-gray-300 rounded-sm'
             required
@@ -158,6 +179,32 @@ export const KreirajDokumente = () => {
                 setValutaId={setValutaId}
                 file={file}
                 setFile={setFile}
+            />
+        )}
+
+        {vrstaDokumentaId == 3 && (
+            <IzlaznaFakturaForm
+                redniBroj={redniBroj}
+                setRedniBroj={setRedniBroj}
+                poslovniceId={poslovniceId}
+                setPoslovnicaId={setPoslovnicaId}
+                skladisteId={skladisteId}
+                setSkladisteId={setSkladisteId}
+                vrstaDokumentaId={vrstaDokumentaId}
+                artikli={artikli}
+                setArtikli={setArtikli}
+                dobavljacId={dobavljacId}
+                setDobavljacId={setDobavljacId}
+                aktivniPdv={aktivniPdv}
+                setAktivniPdv={setAktivniPdv}
+                datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
+                setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
+                datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
+                setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
+                valutaId={valutaId}
+                setValutaId={setValutaId}
+                nacinPlacanjaId={nacinPlacanjaId}
+                setNacinPlacanjaId={setNacinPlacanjaId}
             />
         )}
       </form>

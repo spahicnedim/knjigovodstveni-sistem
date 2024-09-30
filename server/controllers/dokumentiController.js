@@ -1,7 +1,7 @@
 const prisma = require("../prismaClient");
 const { Decimal } = require("decimal.js"); // Dodajte ovu liniju ako koristite Decimal.js
 
-const createDokumenti = async (req, res) => {
+const createKalkulacije = async (req, res) => {
   const {
     redniBroj,
     poslovniceId,
@@ -139,7 +139,7 @@ const createDokumenti = async (req, res) => {
       if (vrstaDokumentaId == 1) {
         knjigaId = 1; // KUF ID
       } else if (vrstaDokumentaId == 2) {
-        knjigaId = 2; // KIF ID
+        knjigaId = 1; // KIF ID
       }
 
 
@@ -407,7 +407,7 @@ const deleteDokument = async (req, res) => {
   }
 };
 module.exports = {
-  createDokumenti,
+  createKalkulacije,
   updateDokumenta,
   getAllDokumenti,
   getDokumentById,

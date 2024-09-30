@@ -9,7 +9,7 @@ const getKnjigeWithDokumenti = async (req, res) => {
             where: { id: parseInt(knjigeId, 10) },
             include: {
                 dokumenti: {
-                    where: {companyId: parseInt(companyId, 10)},// Pretpostavljam da imaš relaciju "dokumenta" u modelu knjiga
+                    where: { companyId: parseInt(companyId, 10) }, // Filtriranje dokumenata prema companyId odmah na početku
                     include: {
                         DokumentiArtikli: {
                             include: {

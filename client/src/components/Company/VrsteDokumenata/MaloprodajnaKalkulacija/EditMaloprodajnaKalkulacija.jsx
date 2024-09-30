@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createDokument,
   updateDokument,
 } from "../../../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";

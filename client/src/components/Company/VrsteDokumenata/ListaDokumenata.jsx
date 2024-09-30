@@ -28,6 +28,7 @@ import {
 } from "../../../features/godine/godineThunks.js";
 import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 import {DetaljiVeleprodajneKalkulacije} from "./VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx";
+import {DetaljiIzlazneFakture} from "./Izlazna Faktura/DetaljiIzlazneFakture.jsx";
 
 // Definiši jednostavan text input filter za kolonu
 function DefaultColumnFilter({
@@ -98,7 +99,7 @@ export function ListaDokumenata() {
       dispatch(fetchDokumenti({ skladisteId, godineId, vrstaDokumentaId }));
       dispatch(fetchKupciDobavljaci(companyId));
     }
-  }, [dispatch, skladisteId, godineId, companyId, vrstaDokumentaId]);
+  }, [dispatch, poslovniceId, skladisteId, godineId, companyId, vrstaDokumentaId]);
 
   useEffect(() => {
     return () => {
@@ -248,7 +249,7 @@ export function ListaDokumenata() {
               Poslovnica
             </label>
             <select
-              value={poslovniceId}
+              value={poslovniceId || ""}
               onChange={(e) => setPoslovnicaId(e.target.value)}
               className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
               required
@@ -267,7 +268,7 @@ export function ListaDokumenata() {
               Godina
             </label>
             <select
-              value={godineId}
+              value={godineId || ""}
               onChange={(e) => setGodineId(e.target.value)}
               className='w-32 h-9 pl-2 border border-gray-300 rounded-sm'
               required
@@ -286,7 +287,7 @@ export function ListaDokumenata() {
             Skladište
           </label>
           <select
-            value={skladisteId}
+            value={skladisteId || ""}
             onChange={(e) => setSkladisteId(e.target.value)}
             className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
             required
@@ -304,7 +305,7 @@ export function ListaDokumenata() {
             Vrsta Dokumenta
           </label>
           <select
-            value={vrstaDokumentaId}
+            value={vrstaDokumentaId || ""}
             onChange={(e) => setVrstaDokumentaId(e.target.value)}
             className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
             required
@@ -360,6 +361,7 @@ export function ListaDokumenata() {
                   .includes(globalFilter?.toLowerCase());
                 return (
                   <tr
+                      key={row.id || row.index}
                     {...row.getRowProps()}
                     onClick={() => handleRowClick(row.original.id)}
                     className={`cursor-pointer hover:bg-gray-100 ${
@@ -368,6 +370,7 @@ export function ListaDokumenata() {
                   >
                     {row.cells.map((cell) => (
                       <td
+                          key={cell.id || cell.index}
                         {...cell.getCellProps()}
                         className='border border-gray-300 p-3'
                       >
@@ -412,7 +415,7 @@ export function ListaDokumenata() {
               Stranica {pageIndex + 1} od {pageOptions.length}
             </span>
             <select
-              value={pageSize}
+              value={pageSize || ""}
               onChange={(e) => setPageSize(Number(e.target.value))}
               className='p-2 border border-gray-300 rounded-lg'
             >
@@ -440,6 +443,9 @@ export function ListaDokumenata() {
 
         {vrstaDokumentaId == 2 && drawerContent && (
             <DetaljiVeleprodajneKalkulacije dokumentId={drawerContent} />
+        )}
+        {vrstaDokumentaId == 3 && drawerContent && (
+            <DetaljiIzlazneFakture dokumentId={drawerContent} />
         )}
       </DrawerDokument>
     </div>

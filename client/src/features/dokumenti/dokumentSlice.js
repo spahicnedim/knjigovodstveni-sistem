@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  createDokument,
+  createDokumentKalkulacije,
+  createDokumentFakture,
   fetchDokumenti,
   fetchPdv,
   fetchDokumentiById,
@@ -24,10 +25,14 @@ const dokumentSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createDokument.fulfilled, (state, action) => {
+      .addCase(createDokumentKalkulacije.fulfilled, (state, action) => {
         state.dokumenti.push(action.payload);
         state.status = "succeeded";
       })
+        .addCase(createDokumentFakture.fulfilled, (state, action) => {
+          state.dokumenti.push(action.payload);
+          state.status = "succeeded";
+        })
       .addCase(fetchPdv.fulfilled, (state, action) => {
         state.loading = false;
         state.pdv = action.payload;
