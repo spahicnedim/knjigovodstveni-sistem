@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  updateDokument,
+  updateDokumentKalkulacije,
 } from "../../../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";
 import { fetchSkladista } from "../../../../features/skladista/skladisteThunks.js";
@@ -147,7 +147,7 @@ export function EditMaloprodajnaKalkulacija() {
     if (file) {
       formData.append("file", file);
     }
-    dispatch(updateDokument({ dokumentId, formData }));
+    dispatch(updateDokumentKalkulacije({ dokumentId, formData }));
     dispatch(fetchDokumentiById(dokumentId));
   };
 

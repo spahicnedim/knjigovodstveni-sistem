@@ -100,8 +100,6 @@ const createFakture = async (req, res) => {
                         data: {
                             artikliId: parseInt(artikl.artikliId, 10),
                             cijena: novaCijena,
-                            mpcijena: novaMpcijena,
-                            vpcijena: novaVpcijena,
                         },
                     });
                 }
@@ -112,8 +110,6 @@ const createFakture = async (req, res) => {
                         artikliId: parseInt(artikl.artikliId, 10),
                         kolicina: parseFloat(artikl.kolicina),
                         cijena: parseFloat(artikl.cijena),
-                        mpcijena: parseFloat(artikl.mpcijena),
-                        vpcijena: parseFloat(artikl.vpcijena),
                         popust: parseFloat(artikl.popust)
                     },
                 });
@@ -148,6 +144,123 @@ const createFakture = async (req, res) => {
     }
 };
 
+const updateFakture = async (req, res) => {
+    const { dokumentId } = req.params;
+    const {
+        redniBroj,
+        vrstaDokumentaId,
+        kupacDobavljacId,
+        datumIzdavanjaDokumenta,
+        datumKreiranjaKalkulacije,
+        nacinPlacanjaId,
+        artikli,
+    } = req.body;
+
+    const parsedArtikli = JSON.parse(artikli);
+
+    try {
+        const validDatumIzdavanja = new Date(datumIzdavanjaDokumenta);
+        const validDatumKreiranja = new Date(datumKreiranjaKalkulacije);
+
+        const dokument = await prisma.$transaction(async (prisma) => {
+            // Ažuriranje podataka dokumenta
+            const updatedDokument = await prisma.dokumenti.update({
+                where: {
+                    id: parseInt(dokumentId, 10),
+                },
+                data: {
+                    redniBroj: redniBroj ? String(redniBroj) : undefined,
+                    vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
+                    kupacDobavljacId: parseInt(kupacDobavljacId, 10),
+                    datumIzdavanjaDokumenta: validDatumIzdavanja,
+                    datumKreiranjaKalkulacije: validDatumKreiranja,
+                    nacinPlacanjaId: parseInt(nacinPlacanjaId, 10),
+                },
+            });
+
+            // Ažuriranje ili kreiranje artikala povezanih s dokumentom
+            for (const artikl of parsedArtikli) {
+                const existingDokumentArtikl = await prisma.dokumentiArtikli.findFirst({
+                    where: {
+                        dokumentId: parseInt(dokumentId, 10),
+                        artikliId: parseInt(artikl.artikliId, 10),
+                    },
+                });
+
+                if (existingDokumentArtikl) {
+                    // Ako artikl već postoji, ažuriraj količinu i cijenu
+                    await prisma.dokumentiArtikli.update({
+                        where: {
+                            id: existingDokumentArtikl.id,
+                        },
+                        data: {
+                            kolicina: parseFloat(artikl.kolicina),
+                            cijena: parseFloat(artikl.cijena),
+                            popust: parseFloat(artikl.popust)
+                        },
+                    });
+                } else {
+                    // Ako artikl ne postoji, kreiraj novi zapis
+                    await prisma.dokumentiArtikli.create({
+                        data: {
+                            dokumentId: parseInt(dokumentId, 10),
+                            artikliId: parseInt(artikl.artikliId, 10),
+                            kolicina: parseFloat(artikl.kolicina),
+                            cijena: parseFloat(artikl.cijena),
+                            popust: parseFloat(artikl.popust)
+                        },
+                    });
+                }
+
+                // Ažuriraj skladište
+                const existingArtiklInStock = await prisma.skladisteArtikli.findUnique({
+                    where: {
+                        skladisteId_artikliId: {
+                            skladisteId: updatedDokument.skladisteId,
+                            artikliId: parseInt(artikl.artikliId, 10),
+                        },
+                    },
+                });
+
+                if (existingArtiklInStock) {
+                    await prisma.skladisteArtikli.update({
+                        where: {
+                            skladisteId_artikliId: {
+                                skladisteId: updatedDokument.skladisteId,
+                                artikliId: parseInt(artikl.artikliId, 10),
+                            },
+                        },
+                        data: {
+                            kolicina: {
+                                decrement: parseFloat(artikl.kolicina), // Povećaj količinu
+                            },
+                        },
+                    });
+                } else {
+                    await prisma.skladisteArtikli.create({
+                        data: {
+                            artikliId: parseInt(artikl.artikliId, 10),
+                            skladisteId: updatedDokument.skladisteId,
+                            kolicina: parseFloat(artikl.kolicina),
+                        },
+                    });
+                }
+            }
+
+            return updatedDokument;
+        });
+
+        res.status(200).json({ dokument });
+    } catch (error) {
+        console.error("Error updating dokument and artikli:", error.message);
+        res.status(400).json({
+            error: "Error updating dokument and artikli",
+            details: error.message,
+        });
+    }
+};
+
 module.exports = {
-    createFakture
+    createFakture,
+    updateFakture
 }

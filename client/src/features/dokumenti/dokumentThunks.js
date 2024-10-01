@@ -68,11 +68,11 @@ export const fetchDokumentiById = createAsyncThunk(
   }
 );
 
-export const updateDokument = createAsyncThunk(
-  "dokumenti/updateDokument",
+export const updateDokumentKalkulacije = createAsyncThunk(
+  "dokumenti/updateDokumentKalkulacije",
   async ({ dokumentId, formData }, thunkAPI) => {
     try {
-      const response = await api.put(`/dokument/${dokumentId}`, formData, {
+      const response = await api.put(`/dokument/kalkulacije/${dokumentId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -82,6 +82,22 @@ export const updateDokument = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
+);
+
+export const updateDokumentFakture = createAsyncThunk(
+    "dokumenti/updateDokumentFakture",
+    async ({ dokumentId, formData }, thunkAPI) => {
+        try {
+            const response = await api.put(`/dokument/fakture/${dokumentId}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
 );
 
 export const deleteDokument = createAsyncThunk(

@@ -4,9 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="promijenjen dobavljac u kupac u fakturi">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="ispravljena greska kada je popust nula">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/izlaznaFakturaController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/izlaznaFakturaController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +138,7 @@
       <workItem from="1727430184399" duration="416000" />
       <workItem from="1727450637589" duration="4478000" />
       <workItem from="1727704498878" duration="16020000" />
-      <workItem from="1727770937125" duration="1496000" />
+      <workItem from="1727770937125" duration="7849000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -491,7 +500,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727771810037</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="ispravljena greska kada je popust nula">
+      <option name="closed" value="true" />
+      <created>1727772509870</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1727772509870</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -510,7 +527,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="doradjen pdf i osnovne neke izmjene dokumenta" />
     <MESSAGE value="sitne izmjene u artiklima" />
     <MESSAGE value="osnova za listu dokumenata" />
     <MESSAGE value="rijeseni datumi za dokumente" />
@@ -535,6 +551,7 @@
     <MESSAGE value="djelimicno napravljen kuf" />
     <MESSAGE value="napravljena izlazna kalkulacija" />
     <MESSAGE value="promijenjen dobavljac u kupac u fakturi" />
-    <option name="LAST_COMMIT_MESSAGE" value="promijenjen dobavljac u kupac u fakturi" />
+    <MESSAGE value="ispravljena greska kada je popust nula" />
+    <option name="LAST_COMMIT_MESSAGE" value="ispravljena greska kada je popust nula" />
   </component>
 </project>

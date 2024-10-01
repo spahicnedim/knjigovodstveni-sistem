@@ -78,7 +78,7 @@ export function DetaljiIzlazneFakture({ dokumentId }) {
 
     const handleClick = () => {
         // Navigirajte na rutu sa ID-jem
-        navigate(`MP/${dokumentId}`);
+        navigate(`izlazna-faktura/${dokumentId}`);
     };
 
     if (!dokument || !dokument.dokument || !artikliList.length) {

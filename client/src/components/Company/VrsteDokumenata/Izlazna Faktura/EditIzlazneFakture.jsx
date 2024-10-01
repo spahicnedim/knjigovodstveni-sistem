@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    updateDokumentKalkulacije,
+    updateDokumentFakture,
 } from "../../../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";
 import { fetchSkladista } from "../../../../features/skladista/skladisteThunks.js";
@@ -10,7 +10,7 @@ import { fetchVrstaDokumenta } from "../../../../features/vrstaDokumenta/vrstaDo
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import {
-    // fetchPdv,
+    fetchPdv,
     fetchDokumentiById,
 } from "../../../../features/dokumenti/dokumentThunks.js";
 import { fetchValuta } from "../../../../features/valute/valuteThunks.js";
@@ -25,9 +25,14 @@ import SelectPoslovnice from "../../SelectSearch/SelectPoslovnice.jsx";
 import SelectValuta from "../../SelectSearch/SelectValuta.jsx";
 import HandleAddArtikl from "../../Assets/HandleAddArtikliVeleprodaja.jsx";
 import { setEditMode } from "../../../../features/editModeSlice.js";
-import HandleAddArtikliVeleprodaja from "../../Assets/HandleAddArtikliVeleprodaja.jsx";
+import HandleAddArtikliMaloprodaja from "../../Assets/HandleAddArtikliMaloprodaja.jsx";
+import SelectKupac from "../../SelectSearch/SelectKupac.jsx";
+import {fetchNacinPlacanja} from "../../../../features/nacinPlacanja/nacinPlacanjaThunks.js";
+import HandleAddArtiklIzlaznakalkulacija from "../../Assets/HandleAddArtikliIzlaznaKalkulacija.jsx";
+import kupacDobavljac from "../../KupacDobavljac.jsx";
+import SelectNacinPlacanja from "../../SelectSearch/SelectNacinPlacanja.jsx";
 
-export function EditVeleprodajneKalkulacija() {
+export function EditIzlazneFakture() {
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
     const [options, setOptions] = useState([]);
@@ -42,14 +47,15 @@ export function EditVeleprodajneKalkulacija() {
     const [odabraniArtikl, setOdabraniArtikl] = useState(null); // Odabrani artikl iz dropdowna
     const [kolicina, setKolicina] = useState(0);
     const [cijena, setCijena] = useState(0);
-    const [vpcijena, setVpCijena] = useState(0);
     const [dobavljacId, setDobavljacId] = useState(null);
-    // const [aktivniPdv, setAktivniPdv] = useState(null);
+    const [aktivniPdv, setAktivniPdv] = useState(null);
     const [datumIzdavanjaDokumenta, setDatumIzdavanjaDokumenta] = useState("");
     const [datumKreiranjaKalkulacije, setDatumKreiranjaKalkulacije] =
         useState("");
     const [valutaId, setValutaId] = useState(null);
-    const [file, setFile] = useState(null);
+    const [popust, setPopust] = useState(null);
+    const [kupacId, setKupacId] = useState(null);
+    const [nacinPlacanjaId, setNacinPlacanjaId] = useState(null);
 
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerContent, setDrawerContent] = useState("");
@@ -64,9 +70,10 @@ export function EditVeleprodajneKalkulacija() {
         (state) => state.kupacDobavljac.kupciDobavljaci
     );
     const dokument = useSelector((state) => state.dokument.current);
-    // const pdv = useSelector((state) => state.dokument.pdv);
+    const pdv = useSelector((state) => state.dokument.pdv);
     const valute = useSelector((state) => state.valuta.valute);
     const editMode = useSelector((state) => state.editMode.editMode);
+    const nacinPlacanja = useSelector((state) => state.nacinPlacanja.naciniPlacanja)
 
     const { companyId, dokumentId } = useParams();
 
@@ -86,9 +93,10 @@ export function EditVeleprodajneKalkulacija() {
         dispatch(fetchVrstaDokumenta());
         dispatch(fetchArtikli());
         dispatch(fetchKupciDobavljaci(companyId));
-        // dispatch(fetchPdv());
+        dispatch(fetchPdv());
         dispatch(fetchValuta());
         dispatch(fetchDokumentiById(dokumentId));
+        dispatch(fetchNacinPlacanja())
     }, [dispatch, companyId, dokumentId]);
 
     useEffect(() => {
@@ -103,15 +111,12 @@ export function EditVeleprodajneKalkulacija() {
         }
     }, [poslovniceId, skladista]);
 
-    // useEffect(() => {
-    //     const aktivni = pdv.find((p) => p.Aktivan);
-    //     setAktivniPdv(aktivni);
-    // }, [pdv]);
+    useEffect(() => {
+        const aktivni = pdv.find((p) => p.Aktivan);
+        setAktivniPdv(aktivni);
+    }, [pdv]);
 
-    // Funkcija za rukovanje promjenom fajla
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-    };
+
 
     useEffect(() => {
         if (dokument && dokument.dokument) {
@@ -120,12 +125,12 @@ export function EditVeleprodajneKalkulacija() {
             setSkladisteId(dokument.dokument.skladisteId);
             setVrstaDokumentaId(dokument.dokument.vrstaDokumentaId);
             setArtikli(dokument.dokument.DokumentiArtikli || []);
-            setDobavljacId(dokument.dokument.kupacDobavljacId);
-            // setAktivniPdv(dokument.dokument.pDVId);
+            setKupacId(dokument.dokument.kupacDobavljacId);
+            setAktivniPdv(dokument.dokument.pDVId);
             setDatumIzdavanjaDokumenta(dokument.dokument.datumIzdavanjaDokumenta);
             setDatumKreiranjaKalkulacije(dokument.dokument.datumKreiranjaKalkulacije);
             setValutaId(dokument.dokument.valutaId);
-            setFile(dokument.dokument.file);
+            setNacinPlacanjaId(dokument.dokument.nacinPlacanjaId)
         }
     }, [dokumentId, dokument]);
 
@@ -139,15 +144,15 @@ export function EditVeleprodajneKalkulacija() {
         formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
         formData.append("artikli", JSON.stringify(artikli));
         formData.append("companyId", companyId);
-        formData.append("kupacDobavljacId", parseInt(dobavljacId, 10));
-        // formData.append("pDVId", parseInt(aktivniPdv.id, 10));
+        formData.append("kupacDobavljacId", parseInt(kupacId, 10));
+        formData.append("nacinPlacanjaId", parseInt(nacinPlacanjaId, 10))
+        formData.append("pDVId", parseInt(aktivniPdv?.id, 10));
         formData.append("datumIzdavanjaDokumenta", datumIzdavanjaDokumenta);
         formData.append("datumKreiranjaKalkulacije", datumKreiranjaKalkulacije);
         formData.append("valutaId", parseInt(valutaId, 10));
-        if (file) {
-            formData.append("file", file);
-        }
-        dispatch(updateDokumentKalkulacije({ dokumentId, formData }));
+        formData.append("popust", parseFloat(popust, 10))
+
+        dispatch(updateDokumentFakture({ dokumentId, formData }));
         dispatch(fetchDokumentiById(dokumentId));
     };
 
@@ -161,7 +166,6 @@ export function EditVeleprodajneKalkulacija() {
                 ...selectedArtikl,
                 kolicina: 0, // Resetiramo količinu prilikom odabira novog artikla
                 cijena: selectedArtikl.ArtikliCijene[0]?.cijena || 0,
-                vpcijena: selectedArtikl.ArtikliCijene[0]?.vpcijena || 0,
             });
         }
     };
@@ -171,10 +175,7 @@ export function EditVeleprodajneKalkulacija() {
             // Nađi zadnju cijenu iz liste cijena
             const zadnjaCijena =
                 odabraniArtikl.ArtikliCijene.slice(-1)[0]?.cijena || 0;
-            const zadnjaVPCijena =
-                odabraniArtikl.ArtikliCijene.slice(-1)[0]?.vpcijena || 0;
             setCijena(zadnjaCijena);
-            setVpCijena(zadnjaVPCijena);
         }
     }, [odabraniArtikl, editMode]);
 
@@ -225,12 +226,12 @@ export function EditVeleprodajneKalkulacija() {
                 ...artikl.artikli, // Provjerite da li ovo odgovara strukturi vaših podataka
                 kolicina: artikl.kolicina,
                 cijena: artikl.cijena,
-                vpcijena: artikl.vpcijena,
+                popust: artikl.popust
             });
 
             setKolicina(artikl.kolicina);
             setCijena(artikl.cijena);
-            setVpCijena(artikl.vpcijena);
+            setPopust(artikl.popust)
             dispatch(setEditMode(true));
             setEditIndex(index);
         }
@@ -265,7 +266,8 @@ export function EditVeleprodajneKalkulacija() {
                                 placeholderText='Odaberi datum'
                                 className='w-72 h-9 p-2 pl-10 border border-gray-300 rounded-sm bg-white'
                             />
-                            <FaCalendarAlt className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500' />
+                            <FaCalendarAlt
+                                className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500'/>
                         </div>
                     </div>
                     <div className='flex items-center space-x-5'>
@@ -280,7 +282,8 @@ export function EditVeleprodajneKalkulacija() {
                                 placeholderText='Odaberi datum'
                                 className='w-72 h-9 p-2 pl-10 border border-gray-300 rounded-sm bg-white'
                             />
-                            <FaCalendarAlt className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500' />
+                            <FaCalendarAlt
+                                className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500'/>
                         </div>
                     </div>
                 </div>
@@ -313,14 +316,14 @@ export function EditVeleprodajneKalkulacija() {
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-32 mb-6'>
                     <div className='flex items-center space-x-5'>
                         <label className='block text-gray-700 text-sm font-medium'>
-                            Dobavljač
+                            Kupac
                         </label>
-                        <SelectDobavljaci
+                        <SelectKupac
                             kupciDobavljaci={kupciDobavljaci}
                             openDrawer={openDrawer}
-                            dobavljacId={dobavljacId}
-                            setDobavljacId={setDobavljacId}
-                            placeholder='Odaberite dobavljaca'
+                            kupacId={kupacId}
+                            setKupacId={setKupacId}
+                            placeholder='Odaberite kupca'
                             className='w-80 h-9 p-2 rounded-sm mb-3.5'
                         />
                     </div>
@@ -337,27 +340,18 @@ export function EditVeleprodajneKalkulacija() {
                     </div>
                 </div>
 
-                <div className='flex items-center space-x-5 mb-6'>
+                <div className='flex items-center space-x-5'>
                     <label className='block text-gray-700 text-sm font-medium'>
-                        Zakaci dokument
+                        Nacin placanja
                     </label>
-
-                    <div className='relative'>
-                        <input
-                            id='fileUpload'
-                            type='file'
-                            onChange={handleFileChange}
-                            className='absolute inset-0 w-full h-full opacity-0 cursor-pointer'
-                        />
-
-                        <button
-                            type='button'
-                            className='p-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 transition duration-300 ease-in-out'
-                        >
-                            Odaberi dokument
-                        </button>
-                    </div>
+                    <SelectNacinPlacanja
+                        nacinPlacanja={nacinPlacanja}
+                        nacinPlacanjaId={nacinPlacanjaId}
+                        setNacinPlacanjaId={setNacinPlacanjaId}
+                        openDrawer={openDrawer}
+                    />
                 </div>
+
                 <div className='border-t border-gray-300 my-4'></div>
 
                 <div className='mb-6'>
@@ -387,7 +381,7 @@ export function EditVeleprodajneKalkulacija() {
                             </div>
                             <div className='flex items-center space-x-5'>
                                 <label className='block text-gray-700 text-sm font-medium'>
-                                    Nabavna cijena:
+                                    Cijena:
                                 </label>
                                 <input
                                     type='number'
@@ -399,27 +393,27 @@ export function EditVeleprodajneKalkulacija() {
                             </div>
                             <div className='flex items-center space-x-5'>
                                 <label className='block text-gray-700 text-sm font-medium'>
-                                    Veleprodajna cijena:
+                                    Popust:
                                 </label>
                                 <input
                                     type='number'
-                                    value={vpcijena}
-                                    onChange={(e) => setVpCijena(e.target.value)}
-                                    placeholder='Veleprodajna cijena'
+                                    value={popust}
+                                    onChange={(e) => setPopust(e.target.value)}
+                                    placeholder='Popust'
                                     className='flex-1 h-9 p-2 border border-gray-300 rounded-sm'
                                 />
                             </div>
-                            <HandleAddArtikliVeleprodaja
+                            <HandleAddArtiklIzlaznakalkulacija
                                 odabraniArtikl={odabraniArtikl}
                                 kolicina={kolicina}
                                 cijena={cijena}
-                                vpCijena={vpcijena}
+                                popust={popust}
                                 artikli={artikli}
                                 setArtikli={setArtikli}
                                 setOdabraniArtikl={setOdabraniArtikl}
                                 setKolicina={setKolicina}
                                 setCijena={setCijena}
-                                setVpCijena={setVpCijena}
+                                setPopust={setPopust}
                                 editIndex={editIndex}
                                 setEditIndex={setEditIndex}
                                 dokumentId={dokumentId}
@@ -430,7 +424,7 @@ export function EditVeleprodajneKalkulacija() {
 
                 <div className='mb-6'>
                     <h3 className='text-xl font-semibold mb-4'>Uneseni Artikli</h3>
-                    {artikli?.length > 0 ? (
+                    {artikli.length > 0 ? (
                         <table className='w-full border-collapse border border-gray-300'>
                             <thead>
                             <tr>
@@ -450,40 +444,16 @@ export function EditVeleprodajneKalkulacija() {
                                     Količina
                                 </th>
                                 <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Fakturna cijena bez PDV-a
+                                    Cijena bez PDV-a
                                 </th>
                                 <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Fakturna vrijednost bez PDV-a
+                                    Popust
                                 </th>
                                 <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Zavisni troskovi bez PDV-a
+                                    Cijena sa PDV-om
                                 </th>
                                 <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm '>
-                                    Nabavna cijena po jedinici mjere
-                                </th>
-                                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Nabavna vrijednost bez PDV-a
-                                </th>
-                                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Stopa razlike u cijeni
-                                </th>
-                                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Iznos razlike u cijeni
-                                </th>
-                                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Prodajna vrijednost proizvoda bez PDV-a
-                                </th>
-                                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Stopa PDV-a
-                                </th>
-                                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Iznos PDV-a
-                                </th>
-                                <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                    Veleprodajna vrijednost sa PDV-om
-                                </th>
-                                <th className='border border-gray-300 bt p-3 bg-gray-100 font-normal text-sm'>
-                                    Veleprodajna cijena sa PDV-om
+                                    Iznos
                                 </th>
                                 <th className='border border-gray-300 p-3 bg-gray-100 '></th>
                             </tr>
@@ -493,13 +463,13 @@ export function EditVeleprodajneKalkulacija() {
                                 <tr key={index}>
                                     <td className='border border-gray-300 p-3'>{index + 1}</td>
                                     <td className='border border-gray-300 p-3'>
-                                        {artikl.artikli?.sifra}
+                                        {artikl.artikli.sifra}
                                     </td>
                                     <td className='border border-gray-300 p-3'>
-                                        {artikl.artikli?.naziv}
+                                        {artikl.artikli.naziv}
                                     </td>
                                     <td className='border border-gray-300 p-3 text-right'>
-                                        {artikl.artikli?.jedinicaMjere}
+                                        {artikl.artikli.jedinicaMjere}
                                     </td>
                                     <td className='border border-gray-300 p-3 text-right'>
                                         {roundTo(artikl.kolicina, 2)}
@@ -508,52 +478,23 @@ export function EditVeleprodajneKalkulacija() {
                                         {roundTo(artikl.cijena, 2)}
                                     </td>
                                     <td className='border border-gray-300 p-3 text-right'>
-                                        {roundTo(artikl.kolicina * artikl.cijena, 2)}
-                                    </td>
-                                    <td className='border border-gray-300 p-3 text-right'>
-                                        {roundTo(0, 2)}
-                                    </td>
-                                    <td className='border border-gray-300 p-3 text-right'>
-                                        {roundTo(artikl.cijena, 2)}
-                                    </td>
-                                    <td className='border border-gray-300 p-3 text-right'>
-                                        {roundTo(artikl.kolicina * artikl.cijena, 2)}
+                                        {artikl.popust || roundTo(0, 2)}%
                                     </td>
                                     <td className='border border-gray-300 p-3 text-right'>
                                         {roundTo(
-                                            ((artikl.kolicina * artikl.vpcijena -
-                                                    artikl.kolicina * artikl.cijena) /
-                                                (artikl.kolicina * artikl.vpcijena)) *
-                                            100,
-                                            2
-                                        )}
-                                        %
-                                    </td>
-                                    <td className='border border-gray-300 p-3 text-right'>
-                                        {roundTo(
-                                            artikl.kolicina * artikl.vpcijena -
-                                            artikl.kolicina * artikl.cijena,
+                                            artikl.popust === null
+                                                ? (artikl.cijena + (artikl.cijena * 17) / 100) // Ako je popust 0, računa cijenu sa PDV-om
+                                                : (artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17, // Ako ima popusta, računa s popustom i PDV-om
                                             2
                                         )}
                                     </td>
                                     <td className='border border-gray-300 p-3 text-right'>
                                         {roundTo(
-                                            artikl.kolicina * artikl.vpcijena -
-                                            (artikl.kolicina * artikl.vpcijena * 17) / 100,
+                                            artikl.popust === 0
+                                                ? (artikl.cijena * 1.17) * artikl.kolicina // Ako je popust 0, računa cijenu s PDV-om i množi s količinom
+                                                : ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17) * artikl.kolicina, // Ako ima popusta, računa cijenu s popustom, dodaje PDV i množi s količinom
                                             2
                                         )}
-                                    </td>
-                                    <td className='border border-gray-300 p-3 text-right'>
-                                        0%
-                                    </td>
-                                    <td className='border border-gray-300 p-3 text-right'>
-                                       0
-                                    </td>
-                                    <td className='border border-gray-300 p-3 text-right'>
-                                        {roundTo(artikl.kolicina * artikl.vpcijena, 2)}
-                                    </td>
-                                    <td className='border border-gray-300 p-3 text-right'>
-                                        {roundTo(artikl.vpcijena, 2)}
                                     </td>
                                     <td className='border border-gray-300 p-3 text-right'>
                                         <button
@@ -586,7 +527,7 @@ export function EditVeleprodajneKalkulacija() {
                             <p className='text-xl'>
                                 {roundTo(
                                     artikli?.reduce(
-                                        (acc, artikl) => acc + artikl.vpcijena * artikl.kolicina,
+                                        (acc, artikl) => acc + artikl.cijena * artikl.kolicina,
                                         0
                                     ),
                                     2
@@ -594,19 +535,19 @@ export function EditVeleprodajneKalkulacija() {
                                 KM
                             </p>
                         </div>
-                        {/*<div className='flex justify-between'>*/}
-                        {/*    <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>*/}
-                        {/*    <p className='text-xl'>*/}
-                        {/*        {roundTo(*/}
-                        {/*            artikli?.reduce(*/}
-                        {/*                (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,*/}
-                        {/*                0*/}
-                        {/*            ),*/}
-                        {/*            2*/}
-                        {/*        )}*/}
-                        {/*        KM*/}
-                        {/*    </p>*/}
-                        {/*</div>*/}
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>
+                            <p className='text-xl'>
+                                {roundTo(
+                                    artikli?.reduce(
+                                        (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,
+                                        0
+                                    ),
+                                    2
+                                )}
+                                KM
+                            </p>
+                        </div>
                         <div className='border-t border-gray-400'></div>
                     </div>
                 </div>

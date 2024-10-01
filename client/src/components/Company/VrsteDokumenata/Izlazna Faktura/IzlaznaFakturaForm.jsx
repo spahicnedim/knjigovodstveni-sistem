@@ -56,7 +56,6 @@ const IzlaznaFakturaForm = ({
     const [odabraniArtikl, setOdabraniArtikl] = useState(null); // Odabrani artikl iz dropdowna
     const [kolicina, setKolicina] = useState(0);
     const [cijena, setCijena] = useState(0);
-    const [mpcijena, setMpCijena] = useState(0);
     const [popust, setPopust] = useState(null)
 
     const [uneseniIznos, setUneseniIznos] = useState('');

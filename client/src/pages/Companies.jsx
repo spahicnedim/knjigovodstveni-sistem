@@ -18,6 +18,7 @@ import {
   EditVeleprodajneKalkulacija
 } from "../components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx";
 import {Knjige} from "../components/Company/Knjige/Knjige.jsx";
+import {EditIzlazneFakture} from "../components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx";
 
 const Companies = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,10 @@ const Companies = () => {
             <Route
                 path='lista-dokumenata/VP/:dokumentId'
                 element={<EditVeleprodajneKalkulacija />}
+            />
+            <Route
+                path='lista-dokumenata/izlazna-faktura/:dokumentId'
+                element={<EditIzlazneFakture />}
             />
             <Route
                 path='knjige/*'
