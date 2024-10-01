@@ -23,6 +23,7 @@ import HandleAddArtikliMaloprodaja from "../../Assets/HandleAddArtikliMaloprodaj
 import SelectNacinPlacanja from "../../SelectSearch/SelectNacinPlacanja.jsx";
 import {fetchNacinPlacanja} from "../../../../features/nacinPlacanja/nacinPlacanjaThunks.js";
 import HandleAddArtiklIzlaznakalkulacija from "../../Assets/HandleAddArtikliIzlaznaKalkulacija.jsx";
+import SelectKupac from "../../SelectSearch/SelectKupac.jsx";
 
 
 const IzlaznaFakturaForm = ({
@@ -34,8 +35,8 @@ const IzlaznaFakturaForm = ({
                                          setSkladisteId,
                                          artikli,
                                          setArtikli,
-                                         dobavljacId,
-                                         setDobavljacId,
+                                kupacId,
+                                setKupacId,
                                          aktivniPdv,
                                          setAktivniPdv,
                                          datumIzdavanjaDokumenta,
@@ -270,14 +271,14 @@ const IzlaznaFakturaForm = ({
             <div className='grid grid-cols-1 md:grid-cols-3 gap-32 mb-6'>
                 <div className='flex items-center space-x-5'>
                     <label className='block text-gray-700 text-sm font-medium'>
-                        Dobavljač
+                        Kupac
                     </label>
-                    <SelectDobavljaci
+                    <SelectKupac
                         kupciDobavljaci={kupciDobavljaci}
                         openDrawer={openDrawer}
-                        dobavljacId={dobavljacId}
-                        setDobavljacId={setDobavljacId}
-                        placeholder='Odaberite dobavljaca'
+                        kupacId={kupacId}
+                        setKupacId={setKupacId}
+                        placeholder='Odaberite kupca'
                         className='w-80 h-9 p-2 rounded-sm mb-3.5'
                     />
                 </div>

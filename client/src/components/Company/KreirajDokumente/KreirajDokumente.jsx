@@ -17,6 +17,7 @@ export const KreirajDokumente = () => {
   const [vrstaDokumentaId, setVrstaDokumentaId] = useState(null);
   const [artikli, setArtikli] = useState([]);
   const [dobavljacId, setDobavljacId] = useState(null);
+  const [kupacId, setKupacId] = useState(null)
   const [aktivniPdv, setAktivniPdv] = useState(null);
   const [datumIzdavanjaDokumenta, setDatumIzdavanjaDokumenta] = useState("");
   const [datumKreiranjaKalkulacije, setDatumKreiranjaKalkulacije] =
@@ -83,7 +84,7 @@ export const KreirajDokumente = () => {
     formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
     formData.append("artikli", JSON.stringify(artikli));
     formData.append("companyId", companyId);
-    formData.append("kupacDobavljacId", parseInt(dobavljacId, 10));
+    formData.append("kupacDobavljacId", parseInt(kupacId, 10));
     formData.append("datumIzdavanjaDokumenta", datumIzdavanjaDokumenta);
     formData.append("datumKreiranjaKalkulacije", datumKreiranjaKalkulacije);
     formData.append("valutaId", parseInt(valutaId, 10));
@@ -193,8 +194,8 @@ export const KreirajDokumente = () => {
                 vrstaDokumentaId={vrstaDokumentaId}
                 artikli={artikli}
                 setArtikli={setArtikli}
-                dobavljacId={dobavljacId}
-                setDobavljacId={setDobavljacId}
+                kupacId={kupacId}
+                setKupacId={setKupacId}
                 aktivniPdv={aktivniPdv}
                 setAktivniPdv={setAktivniPdv}
                 datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
