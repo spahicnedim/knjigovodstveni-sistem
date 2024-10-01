@@ -1,5 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import {KUF} from "./KUF.jsx";
+import {KIF} from "./KIF.jsx";
 
 
 export const Knjige = () => {
@@ -14,7 +15,8 @@ export const Knjige = () => {
             </Routes>
             <Routes>
                 <Route
-                    path='KIF'
+                    path='KIF/:knjigeId'
+                    element={<KIF />}
                 />
 
             </Routes>

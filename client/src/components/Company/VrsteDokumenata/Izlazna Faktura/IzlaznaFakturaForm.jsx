@@ -81,24 +81,8 @@ const IzlaznaFakturaForm = ({
 
     const { companyId } = useParams();
 
-    const iznosRacuna = roundTo(
-        artikli.reduce((acc, artikl) => acc + artikl.cijena * artikl.kolicina, 0),
-        2
-    );
 
 
-    useEffect(() => {
-        // Zaokružujemo unesene vrijednosti na dvije decimale i uspoređujemo sa proračunatim vrijednostima
-        const uneseniIznosRounded = roundTo(parseFloat(uneseniIznos), 2);
-
-        if (uneseniIznosRounded === iznosRacuna) {
-            setPoruka('');
-            setIsDisabled(false); // Aktiviramo dugme ako su vrijednosti tačne
-        } else {
-            setPoruka('Unesene vrijednosti ne odgovaraju proračunatim vrijednostima.');
-            setIsDisabled(true); // Dugme ostaje neaktivno
-        }
-    }, [uneseniIznos, uneseniIznosSaPdv, iznosRacuna]);
 
 
     const openDrawer = (content) => {
@@ -443,8 +427,8 @@ const IzlaznaFakturaForm = ({
                                 <td className='border border-gray-300 p-3 text-right'>
                                     {roundTo(
                                         artikl.popust === 0
-                                            ? (artikl.cijena * 1.17) * artikl.kolicina // Ako je popust 0, računa cijenu s PDV-om i množi s količinom
-                                            : ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17) * artikl.kolicina, // Ako ima popusta, računa cijenu s popustom, dodaje PDV i množi s količinom
+                                            ? artikl.cijena * artikl.kolicina // Ako je popust 0, računa cijenu s PDV-om i množi s količinom
+                                            : (artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina, // Ako ima popusta, računa cijenu s popustom, dodaje PDV i množi s količinom
                                         2
                                     )}
                                 </td>
@@ -476,35 +460,60 @@ const IzlaznaFakturaForm = ({
                 <div className='flex justify-end'>
                     <div className='mt-4 p-5 flex gap-4 w-1/3 h-auto bg-gray-50 drop-shadow-md flex-col'>
                         <div className='flex justify-between'>
-                            <h4 className='text-lg font-semibold'>Iznos racuna:</h4>
-                            <p className='text-xl'>{iznosRacuna} KM</p>
+                            <h4 className='text-lg font-semibold'>Ukupno bez popusta:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikli.reduce((acc, artikl) =>
+                                       acc + artikl.cijena * artikl.kolicina,
+                                    0),
+                                2
+                            )} KM</p>
+                        </div>
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>Popust:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikli.reduce((acc, artikl) =>
+                                       acc + (artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina),
+                                    0),
+                                2
+                            )} KM</p>
                         </div>
                         <div className='border-t border-gray-400'></div>
-
-                        {/* Input za unos iznosa */}
-                        <div className='flex justify-between mt-4'>
-                            <label className='text-lg font-semibold'>Unesite iznos racuna:</label>
-                            <input
-                                type='number'
-                                value={uneseniIznos}
-                                onChange={(e) => setUneseniIznos(e.target.value)}
-                                className='border border-gray-300 rounded-lg p-2'
-                            />
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>Ukupno KM bez PDV-a:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikli.reduce((acc, artikl) =>
+                                       acc + (artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina)),
+                                    0),
+                                2
+                            )} KM</p>
                         </div>
-
-                        {/* Poruka o neusklađenosti */}
-                        {poruka && <p className='text-red-500 mt-2'>{poruka}</p>}
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>PDV po stopi 17%:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikli.reduce((acc, artikl) =>
+                                        acc + ((artikl.cijena * 1.17) * artikl.kolicina) - (artikl.cijena * artikl.kolicina),
+                                    0),
+                                2
+                            )} KM</p>
+                        </div>
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>Ukupno KM:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikli.reduce((acc, artikl) =>
+                                        artikl.popust === 0
+                                            ?  acc + (artikl.cijena * 1.17) * artikl.kolicina // Ako je popust 0, računa cijenu s PDV-om i množi s količinom
+                                            : acc + ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17) * artikl.kolicina, // Ako ima popusta, računa cijenu s popustom, dodaje PDV i množi s količinom
+                                    0),
+                                2
+                            )} KM</p>
+                        </div>
                     </div>
                 </div>
 
-                {/* Dugme za čuvanje */}
-                <div className='flex justify-end space-x-4'>
+                <div className='flex justify-end space-x-4 mt-4'>
                     <button
                         type='submit'
-                        disabled={isDisabled}
-                        className={`bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg ${
-                            isDisabled ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
                     >
                         Sačuvaj
                     </button>

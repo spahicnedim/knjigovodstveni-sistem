@@ -57,7 +57,7 @@ export function DetaljiIzlazneFakture({ dokumentId }) {
         content: () => contentRef.current,
         pageStyle: `
       @page {
-        size: A4 landscape;
+        size: A4 portrait;
         counter-increment: page;
       }
       body {
@@ -199,35 +199,58 @@ export function DetaljiIzlazneFakture({ dokumentId }) {
                 ))}
                 </tbody>
             </table>
-            <div className='flex justify-end'>
-                <div className='mt-4 p-5 flex gap-4 w-1/2 h-32 bg-gray-50 drop-shadow-md flex-col'>
-                    <div className='flex justify-between'>
-                        <h4 className='text-lg font-semibold'>Iznos racuna:</h4>
-                        <p className='text-xl'>
-                            {roundTo(
-                                artikliDokumenta.reduce(
-                                    (acc, artikl) => acc + artikl.cijena * artikl.kolicina,
-                                    0
-                                ),
+            <div>
+                <div className='flex justify-end'>
+                    <div className='mt-4 p-5 flex gap-4 w-1/2 h-auto bg-gray-50 drop-shadow-md flex-col'>
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>Ukupno bez popusta:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikliDokumenta.reduce((acc, artikl) =>
+                                        acc + artikl.cijena * artikl.kolicina,
+                                    0),
                                 2
-                            )}
-                            KM
-                        </p>
-                    </div>
-                    <div className='flex justify-between'>
-                        <h4 className='text-lg font-semibold'>Iznos racuna sa PDV-om:</h4>
-                        <p className='text-xl'>
-                            {roundTo(
-                                artikliDokumenta.reduce(
-                                    (acc, artikl) => acc + artikl.mpcijena * artikl.kolicina,
-                                    0
-                                ),
+                            )} KM</p>
+                        </div>
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>Popust:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikliDokumenta.reduce((acc, artikl) =>
+                                        acc + (artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina),
+                                    0),
                                 2
-                            )}
-                            KM
-                        </p>
+                            )} KM</p>
+                        </div>
+                        <div className='border-t border-gray-400'></div>
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>Ukupno KM bez PDV-a:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikliDokumenta.reduce((acc, artikl) =>
+                                        acc + (artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina)),
+                                    0),
+                                2
+                            )} KM</p>
+                        </div>
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>PDV po stopi 17%:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikliDokumenta.reduce((acc, artikl) =>
+                                        acc + ((artikl.cijena * 1.17) * artikl.kolicina) - (artikl.cijena * artikl.kolicina),
+                                    0),
+                                2
+                            )} KM</p>
+                        </div>
+                        <div className='flex justify-between'>
+                            <h4 className='text-lg font-semibold'>Ukupno KM:</h4>
+                            <p className='text-xl'>{roundTo(
+                                artikliDokumenta.reduce((acc, artikl) =>
+                                        artikl.popust === 0
+                                            ? acc + (artikl.cijena * 1.17) * artikl.kolicina // Ako je popust 0, računa cijenu s PDV-om i množi s količinom
+                                            : acc + ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17) * artikl.kolicina, // Ako ima popusta, računa cijenu s popustom, dodaje PDV i množi s količinom
+                                    0),
+                                2
+                            )} KM</p>
+                        </div>
                     </div>
-                    <div className='border-t border-gray-400'></div>
                 </div>
             </div>
         </div>

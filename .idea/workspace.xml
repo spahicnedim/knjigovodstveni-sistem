@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodan delete fakture">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/PDFLayout/PDFIzlaznaFaktura.jsx" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodan pdf fakture">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/KIF.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Knjige/Knjige.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/Knjige.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/PDFLayout/PDFIzlaznaFaktura.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/PDFLayout/PDFIzlaznaFaktura.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +134,7 @@
       <workItem from="1727430184399" duration="416000" />
       <workItem from="1727450637589" duration="4478000" />
       <workItem from="1727704498878" duration="16020000" />
-      <workItem from="1727770937125" duration="9951000" />
+      <workItem from="1727770937125" duration="13787000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -516,7 +520,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727799972013</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="dodan pdf fakture">
+      <option name="closed" value="true" />
+      <created>1727804701682</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1727804701682</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -535,7 +547,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="rijeseni datumi za dokumente" />
     <MESSAGE value="dodana valuta" />
     <MESSAGE value="updejtan search" />
     <MESSAGE value="dodana pretraga dokumenata po skladistu" />
@@ -560,6 +571,7 @@
     <MESSAGE value="ispravljena greska kada je popust nula" />
     <MESSAGE value="dodan edit fakture" />
     <MESSAGE value="dodan delete fakture" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodan delete fakture" />
+    <MESSAGE value="dodan pdf fakture" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodan pdf fakture" />
   </component>
 </project>

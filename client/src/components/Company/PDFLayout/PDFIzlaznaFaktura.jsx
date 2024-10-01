@@ -104,6 +104,60 @@ const PDFIzlaznaFaktura = React.forwardRef(
                         ))}
                         </tbody>
                     </table>
+                    <div>
+                        <div className='flex justify-end'>
+                            <div className='mt-4 p-5 flex gap-1 w-1/2 h-auto flex-col'>
+                                <div className='flex justify-between'>
+                                    <h4 className='text-md font-semibold'>Ukupno bez popusta:</h4>
+                                    <p className='text-md'>{roundTo(
+                                        artikli.reduce((acc, artikl) =>
+                                                acc + artikl.cijena * artikl.kolicina,
+                                            0),
+                                        2
+                                    )} KM</p>
+                                </div>
+                                <div className='flex justify-between'>
+                                    <h4 className='text-md font-semibold'>Popust:</h4>
+                                    <p className='text-md'>{roundTo(
+                                        artikli.reduce((acc, artikl) =>
+                                                acc + (artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina),
+                                            0),
+                                        2
+                                    )} KM</p>
+                                </div>
+                                <div className='border-t border-gray-400'></div>
+                                <div className='flex justify-between'>
+                                    <h4 className='text-md font-semibold'>Ukupno KM bez PDV-a:</h4>
+                                    <p className='text-md'>{roundTo(
+                                        artikli.reduce((acc, artikl) =>
+                                                acc + (artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina)),
+                                            0),
+                                        2
+                                    )} KM</p>
+                                </div>
+                                <div className='flex justify-between'>
+                                    <h4 className='text-md font-semibold'>PDV po stopi 17%:</h4>
+                                    <p className='text-md'>{roundTo(
+                                        artikli.reduce((acc, artikl) =>
+                                                acc + ((artikl.cijena * 1.17) * artikl.kolicina) - (artikl.cijena * artikl.kolicina),
+                                            0),
+                                        2
+                                    )} KM</p>
+                                </div>
+                                <div className='flex justify-between'>
+                                    <h4 className='text-md font-semibold'>Ukupno KM:</h4>
+                                    <p className='text-md'>{roundTo(
+                                        artikli.reduce((acc, artikl) =>
+                                                artikl.popust === 0
+                                                    ? acc + (artikl.cijena * 1.17) * artikl.kolicina // Ako je popust 0, računa cijenu s PDV-om i množi s količinom
+                                                    : acc + ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17) * artikl.kolicina, // Ako ima popusta, računa cijenu s popustom, dodaje PDV i množi s količinom
+                                            0),
+                                        2
+                                    )} KM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className='flex justify-between mt-4'>
                         <span className='text-sm'>M.P.</span>
                         <span className='text-sm'>Odgovorno lice</span>

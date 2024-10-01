@@ -77,7 +77,7 @@ const CompanySidebar = ({ setPageTitle }) => {
             KUF
           </MenuItem>
           <MenuItem
-              component={<Link to='knjige/KIF' />}
+              component={<Link to='knjige/KIF/2' />}
               icon={<FaHome />}
               className='text-white hover:text-black'
               onClick={() => setPageTitle("KIF")}
