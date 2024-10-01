@@ -7,7 +7,8 @@ import {
   fetchDokumentiById,
   updateDokumentKalkulacije,
   deleteDokument,
-  updateDokumentFakture
+  updateDokumentFakture,
+  deleteDokumentFakture
 } from "./dokumentThunks.js";
 
 const dokumentSlice = createSlice({
@@ -73,6 +74,11 @@ const dokumentSlice = createSlice({
           }
         })
         .addCase(deleteDokument.fulfilled, (state, action) => {
+          state.dokumenti = state.dokumenti.filter(
+              (dokument) => dokument.id !== action.meta.arg
+          );
+        })
+        .addCase(deleteDokumentFakture.fulfilled, (state, action) => {
           state.dokumenti = state.dokumenti.filter(
               (dokument) => dokument.id !== action.meta.arg
           );

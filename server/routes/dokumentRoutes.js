@@ -7,7 +7,7 @@ const {
   getDokumentById,
   deleteDokument,
 } = require("../controllers/dokumentiController");
-const {createFakture, updateFakture} = require("../controllers/izlaznaFakturaController");
+const {createFakture, updateFakture, deleteFakturu} = require("../controllers/izlaznaFakturaController");
 const upload = require("../utils/multerConfig");
 
 router.post("/kalkulacije", upload.single("file"), createKalkulacije);
@@ -16,6 +16,7 @@ router.put("/kalkulacije/:dokumentId", upload.single("file"), updateDokumenta);
 router.put("/fakture/:dokumentId", upload.none(), updateFakture);
 router.get("/", getAllDokumenti);
 router.get("/:dokumentId", getDokumentById);
-router.delete('/:dokumentId', deleteDokument);
+router.delete('/kalkulacije/:dokumentId', deleteDokument);
+router.delete("/fakture/:dokumentId", deleteFakturu)
 
 module.exports = router;

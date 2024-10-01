@@ -104,7 +104,19 @@ export const deleteDokument = createAsyncThunk(
     "dokumenti/deleteDokument",
     async (dokumentId, thunkAPI) => {
         try {
-            const response = await api.delete(`/dokument/${dokumentId}`);
+            const response = await api.delete(`/dokument/kalkulacije/${dokumentId}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const deleteDokumentFakture = createAsyncThunk(
+    "dokumenti/deleteDokumentFakture",
+    async (dokumentId, thunkAPI) => {
+        try {
+            const response = await api.delete(`/dokument/fakture/${dokumentId}`);
             return response.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);

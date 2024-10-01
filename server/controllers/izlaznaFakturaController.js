@@ -260,7 +260,68 @@ const updateFakture = async (req, res) => {
     }
 };
 
+
+const deleteFakturu = async (req, res) => {
+    const { dokumentId } = req.params;
+
+    try {
+        // Pokrenite transakciju kako biste osigurali da se svi povezani podaci brišu zajedno
+        await prisma.$transaction(async (prisma) => {
+            // Pronađi dokument i sve povezane artikle
+            const dokument = await prisma.dokumenti.findUnique({
+                where: { id: parseInt(dokumentId, 10) },
+                include: {
+                    DokumentiArtikli: true,
+                },
+            });
+
+            if (!dokument) {
+                return res.status(404).json({ error: "Dokument nije pronađen." });
+            }
+
+            // Za svaki artikl koji je povezan s dokumentom
+            for (const dokumentArtikl of dokument.DokumentiArtikli) {
+                // Smanji količinu u skladištu za svaki artikl koji je povezan s dokumentom
+                await prisma.skladisteArtikli.update({
+                    where: {
+                        skladisteId_artikliId: {
+                            skladisteId: dokument.skladisteId,
+                            artikliId: dokumentArtikl.artikliId,
+                        },
+                    },
+                    data: {
+                        kolicina: {
+                            increment: dokumentArtikl.kolicina, // Smanji količinu
+                        },
+                    },
+                });
+
+                // Obriši artikl iz "DokumentiArtikli" tabele
+                await prisma.dokumentiArtikli.delete({
+                    where: { id: dokumentArtikl.id },
+                });
+            }
+
+            // Obriši sam dokument
+            await prisma.dokumenti.delete({
+                where: { id: parseInt(dokumentId, 10) },
+            });
+
+
+        });
+
+        res.status(200).json({ message: "Dokument i svi povezani podaci su obrisani." });
+    } catch (error) {
+        console.error("Error deleting dokument:", error.message);
+        res.status(400).json({
+            error: "Error deleting dokument",
+            details: error.message,
+        });
+    }
+};
+
 module.exports = {
     createFakture,
-    updateFakture
+    updateFakture,
+    deleteFakturu
 }

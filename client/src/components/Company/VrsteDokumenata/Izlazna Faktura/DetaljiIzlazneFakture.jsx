@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
 import { MdEdit, MdEmail, MdDelete } from "react-icons/md";
 import { IoMdPrint } from "react-icons/io";
 import { useReactToPrint } from "react-to-print";
@@ -9,8 +8,8 @@ import PDFMaloprodajneKalkulacije from "../../PDFLayout/PDFMaloprodajnaKalkulaci
 import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
-import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
-import { fetchDokumentiById, deleteDokument } from "../../../../features/dokumenti/dokumentThunks.js";
+import {deleteDokumentFakture, fetchPdv} from "../../../../features/dokumenti/dokumentThunks.js";
+import { fetchDokumentiById } from "../../../../features/dokumenti/dokumentThunks.js";
 
 export function DetaljiIzlazneFakture({ dokumentId }) {
     const contentRef = useRef();
@@ -86,9 +85,9 @@ export function DetaljiIzlazneFakture({ dokumentId }) {
     }
 
     const handleDelete = () => {
-        dispatch(deleteDokument(dokumentId))
+        dispatch(deleteDokumentFakture(dokumentId))
     };
-    console.log(artikliDokumenta)
+
 
     return (
         <div>
