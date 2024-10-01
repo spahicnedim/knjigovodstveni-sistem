@@ -10,6 +10,7 @@ import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import {deleteDokumentFakture, fetchPdv} from "../../../../features/dokumenti/dokumentThunks.js";
 import { fetchDokumentiById } from "../../../../features/dokumenti/dokumentThunks.js";
+import PDFIzlaznaFaktura from "../../PDFLayout/PDFIzlaznaFaktura.jsx";
 
 export function DetaljiIzlazneFakture({ dokumentId }) {
     const contentRef = useRef();
@@ -121,7 +122,7 @@ export function DetaljiIzlazneFakture({ dokumentId }) {
             </div>
             <div className='border-b border-gray-300 pt-2' />
             <div className='mt-4'>
-                <PDFMaloprodajneKalkulacije
+                <PDFIzlaznaFaktura
                     ref={contentRef}
                     artikli={artikliDokumenta}
                     aktivniPdv={aktivniPdv}
