@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="napravljena izlazna kalkulacija">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectKupac.jsx" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="promijenjen dobavljac u kupac u fakturi">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -131,7 +129,7 @@
       <workItem from="1727430184399" duration="416000" />
       <workItem from="1727450637589" duration="4478000" />
       <workItem from="1727704498878" duration="16020000" />
-      <workItem from="1727770937125" duration="833000" />
+      <workItem from="1727770937125" duration="1496000" />
     </task>
     <task id="LOCAL-00001" summary="skladiste controller and routes">
       <option name="closed" value="true" />
@@ -485,7 +483,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727726931069</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="promijenjen dobavljac u kupac u fakturi">
+      <option name="closed" value="true" />
+      <created>1727771810037</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1727771810037</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -504,7 +510,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="pdf osnovna struktura" />
     <MESSAGE value="doradjen pdf i osnovne neke izmjene dokumenta" />
     <MESSAGE value="sitne izmjene u artiklima" />
     <MESSAGE value="osnova za listu dokumenata" />
@@ -529,6 +534,7 @@
     <MESSAGE value="dodan delete dokumenta" />
     <MESSAGE value="djelimicno napravljen kuf" />
     <MESSAGE value="napravljena izlazna kalkulacija" />
-    <option name="LAST_COMMIT_MESSAGE" value="napravljena izlazna kalkulacija" />
+    <MESSAGE value="promijenjen dobavljac u kupac u fakturi" />
+    <option name="LAST_COMMIT_MESSAGE" value="promijenjen dobavljac u kupac u fakturi" />
   </component>
 </project>

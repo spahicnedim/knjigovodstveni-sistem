@@ -194,7 +194,6 @@ const IzlaznaFakturaForm = ({
         }
     };
 
-
     return (
         <div className='p-6 bg-white rounded-lg shadow-md space-y-6'>
             <div className='flex items-center space-x-5 mb-6'>
@@ -432,16 +431,23 @@ const IzlaznaFakturaForm = ({
                                     {roundTo(artikl.cijena, 2)}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
-                                    {artikl.popust || 0}%
+                                    {artikl.popust || roundTo(0, 2)}%
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
                                     {roundTo(
-                                        (artikl.cijena - ((artikl.cijena * artikl.popust) / 100)) + ((artikl.cijena - ((artikl.cijena * artikl.popust) / 100)) * 17)/100,
+                                        artikl.popust === null
+                                            ? (artikl.cijena + (artikl.cijena * 17) / 100) // Ako je popust 0, računa cijenu sa PDV-om
+                                            : (artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17, // Ako ima popusta, računa s popustom i PDV-om
                                         2
                                     )}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
-                                    {roundTo(((artikl.cijena - ((artikl.cijena * artikl.popust) / 100)) * 1.17) * artikl.kolicina, 2)}
+                                    {roundTo(
+                                        artikl.popust === 0
+                                            ? (artikl.cijena * 1.17) * artikl.kolicina // Ako je popust 0, računa cijenu s PDV-om i množi s količinom
+                                            : ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17) * artikl.kolicina, // Ako ima popusta, računa cijenu s popustom, dodaje PDV i množi s količinom
+                                        2
+                                    )}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
                                     <button
