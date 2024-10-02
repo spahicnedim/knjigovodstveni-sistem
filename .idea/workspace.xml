@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="sitna izmjena">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="napravljena tabela za kuf">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Knjige/KUF.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/KUF.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Knjige/KIF.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/KIF.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,15 +133,7 @@
       <workItem from="1727450637589" duration="4478000" />
       <workItem from="1727704498878" duration="16020000" />
       <workItem from="1727770937125" duration="15000000" />
-      <workItem from="1727864496237" duration="4731000" />
-    </task>
-    <task id="LOCAL-00003" summary="transfer controller and routes">
-      <option name="closed" value="true" />
-      <created>1723064136945</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1723064136945</updated>
+      <workItem from="1727864496237" duration="10263000" />
     </task>
     <task id="LOCAL-00004" summary="added kupacDobavljac form and gradovi redux">
       <option name="closed" value="true" />
@@ -524,7 +519,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727812416262</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="napravljena tabela za kuf">
+      <option name="closed" value="true" />
+      <created>1727884004086</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1727884004086</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -543,7 +546,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="dodana pretraga dokumenata po skladistu" />
     <MESSAGE value="dodan upload fajla" />
     <MESSAGE value="fix na sidebaru" />
     <MESSAGE value="dodan navbar i rijesene neke sitnice" />
@@ -568,6 +570,7 @@
     <MESSAGE value="dodan pdf fakture" />
     <MESSAGE value="ispravljene neke greske prilikom racunanja" />
     <MESSAGE value="sitna izmjena" />
-    <option name="LAST_COMMIT_MESSAGE" value="sitna izmjena" />
+    <MESSAGE value="napravljena tabela za kuf" />
+    <option name="LAST_COMMIT_MESSAGE" value="napravljena tabela za kuf" />
   </component>
 </project>

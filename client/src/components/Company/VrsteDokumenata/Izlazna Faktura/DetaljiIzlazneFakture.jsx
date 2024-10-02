@@ -24,7 +24,7 @@ export function DetaljiIzlazneFakture({ dokumentId }) {
         dispatch(fetchArtikli());
         dispatch(fetchKupciDobavljaci(companyId));
         dispatch(fetchPdv());
-    }, [dispatch, dokumentId]);
+    }, [dispatch, dokumentId, companyId]);
 
     const dokument = useSelector((state) => state.dokument.current || {});
 
@@ -234,7 +234,7 @@ export function DetaljiIzlazneFakture({ dokumentId }) {
                             <h4 className='text-lg font-semibold'>PDV po stopi 17%:</h4>
                             <p className='text-xl'>{roundTo(
                                 artikliDokumenta.reduce((acc, artikl) =>
-                                        acc + ((artikl.cijena * 1.17) * artikl.kolicina) - (artikl.cijena * artikl.kolicina),
+                                        acc + ((((artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina))) * 1.17) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina)))),
                                     0),
                                 2
                             )} KM</p>

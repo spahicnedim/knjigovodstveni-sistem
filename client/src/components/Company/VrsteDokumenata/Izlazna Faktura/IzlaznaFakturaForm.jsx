@@ -491,7 +491,7 @@ const IzlaznaFakturaForm = ({
                             <h4 className='text-lg font-semibold'>PDV po stopi 17%:</h4>
                             <p className='text-xl'>{roundTo(
                                 artikli.reduce((acc, artikl) =>
-                                        acc + ((artikl.cijena * 1.17) * artikl.kolicina) - (artikl.cijena * artikl.kolicina),
+                                        acc + ((((artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina))) * 1.17) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina)))),
                                     0),
                                 2
                             )} KM</p>

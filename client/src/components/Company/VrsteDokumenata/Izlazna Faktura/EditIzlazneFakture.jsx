@@ -152,8 +152,10 @@ export function EditIzlazneFakture() {
         formData.append("valutaId", parseInt(valutaId, 10));
         formData.append("popust", parseFloat(popust, 10))
 
-        dispatch(updateDokumentFakture({ dokumentId, formData }));
-        dispatch(fetchDokumentiById(dokumentId));
+        dispatch(updateDokumentFakture({ dokumentId, formData }))
+            .then(() => {
+                dispatch(fetchDokumentiById(dokumentId));
+            });
     };
 
     const handleOdabraniArtiklChange = (e) => {
@@ -555,7 +557,7 @@ export function EditIzlazneFakture() {
                                 <h4 className='text-lg font-semibold'>PDV po stopi 17%:</h4>
                                 <p className='text-xl'>{roundTo(
                                     artikli.reduce((acc, artikl) =>
-                                            acc + ((artikl.cijena * 1.17) * artikl.kolicina) - (artikl.cijena * artikl.kolicina),
+                                            acc + ((((artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina))) * 1.17) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina)))),
                                         0),
                                     2
                                 )} KM</p>
@@ -573,7 +575,6 @@ export function EditIzlazneFakture() {
                             </div>
                         </div>
                     </div>
-
                     <div className='flex justify-end space-x-4 mt-4'>
                         <button
                             type='submit'
@@ -583,7 +584,8 @@ export function EditIzlazneFakture() {
                         </button>
                     </div>
                 </div>
-                </div>
+            </div>
+
         </form>
-);
+    );
 }
