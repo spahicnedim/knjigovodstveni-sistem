@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="ispravljene neke greske prilikom racunanja">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="sitna izmjena">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Knjige/KUF.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/KUF.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,15 +129,8 @@
       <workItem from="1727430184399" duration="416000" />
       <workItem from="1727450637589" duration="4478000" />
       <workItem from="1727704498878" duration="16020000" />
-      <workItem from="1727770937125" duration="14312000" />
-    </task>
-    <task id="LOCAL-00002" summary="artikli controller and routes">
-      <option name="closed" value="true" />
-      <created>1723062207477</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1723062207477</updated>
+      <workItem from="1727770937125" duration="15000000" />
+      <workItem from="1727864496237" duration="4731000" />
     </task>
     <task id="LOCAL-00003" summary="transfer controller and routes">
       <option name="closed" value="true" />
@@ -523,7 +516,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727812253054</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="sitna izmjena">
+      <option name="closed" value="true" />
+      <created>1727812416262</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1727812416262</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -542,7 +543,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="updejtan search" />
     <MESSAGE value="dodana pretraga dokumenata po skladistu" />
     <MESSAGE value="dodan upload fajla" />
     <MESSAGE value="fix na sidebaru" />
@@ -567,6 +567,7 @@
     <MESSAGE value="dodan delete fakture" />
     <MESSAGE value="dodan pdf fakture" />
     <MESSAGE value="ispravljene neke greske prilikom racunanja" />
-    <option name="LAST_COMMIT_MESSAGE" value="ispravljene neke greske prilikom racunanja" />
+    <MESSAGE value="sitna izmjena" />
+    <option name="LAST_COMMIT_MESSAGE" value="sitna izmjena" />
   </component>
 </project>
