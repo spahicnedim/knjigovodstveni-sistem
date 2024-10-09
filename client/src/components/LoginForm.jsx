@@ -45,14 +45,10 @@ const LoginForm = () => {
     if (userCompanies?.length > 0) {
       const company = userCompanies.find((company) => company.id);
       console.log(company.id);
-      navigate(`/service/${company.serviceId}/company/${company.serviceId}`);
+      navigate(`/service/${company.serviceId}/company/${company.id}/home`);
     }
   }, [user, services, userCompanies, navigate]);
 
-  // const handleLogout = (e) => {
-  //   e.preventDefault();
-  //   dispatch(logout());
-  // };
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
       <div className='bg-white p-8 rounded shadow-md w-full max-w-sm'>

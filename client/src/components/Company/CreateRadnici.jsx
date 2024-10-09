@@ -11,7 +11,7 @@ const CreateRadnici = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [roleName, setRoleName] = useState("");
-  const { id } = useParams();
+  const { id, companyId } = useParams();
   const dispatch = useDispatch();
   const service = useSelector((state) => state.service.current);
   const user = useSelector((state) => state.auth.user);
@@ -31,7 +31,6 @@ const CreateRadnici = () => {
       dispatch(fetchUsers(service.id));
     }
   }, [service, dispatch]);
-
   const handleCreateUser = (e) => {
     e.preventDefault();
     dispatch(
@@ -40,7 +39,7 @@ const CreateRadnici = () => {
         password,
         username,
         roleName,
-        serviceId: service.id,
+        companyId: parseInt(companyId),
       })
     );
     setEmail("");

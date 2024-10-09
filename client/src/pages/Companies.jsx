@@ -19,6 +19,7 @@ import {
 } from "../components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx";
 import {Knjige} from "../components/Company/Knjige/Knjige.jsx";
 import {EditIzlazneFakture} from "../components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx";
+import {POSKasa} from "../components/Company/POSKasa.jsx";
 
 const Companies = () => {
   const dispatch = useDispatch();
@@ -70,6 +71,10 @@ const Companies = () => {
             <Route
                 path='knjige/*'
                 element={<Knjige />}
+            />
+            <Route
+                path='kasa/'
+                element={<POSKasa />}
             />
           </Routes>
         </div>

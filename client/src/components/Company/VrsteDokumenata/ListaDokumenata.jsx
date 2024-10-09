@@ -29,6 +29,7 @@ import {
 import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 import {DetaljiVeleprodajneKalkulacije} from "./VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx";
 import {DetaljiIzlazneFakture} from "./Izlazna Faktura/DetaljiIzlazneFakture.jsx";
+import SelectPoslovnice from "../SelectSearch/SelectPoslovnice.jsx";
 
 // Definiši jednostavan text input filter za kolonu
 function DefaultColumnFilter({
@@ -248,19 +249,12 @@ export function ListaDokumenata() {
             <label className='block text-gray-700 text-sm font-medium mb-2'>
               Poslovnica
             </label>
-            <select
-              value={poslovniceId || ""}
-              onChange={(e) => setPoslovnicaId(e.target.value)}
-              className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
-              required
-            >
-              <option value=''>Odaberite poslovnicu</option>
-              {poslovnice.map((poslovnica) => (
-                <option key={poslovnica.id} value={poslovnica.id}>
-                  {poslovnica.naziv}
-                </option>
-              ))}
-            </select>
+            <SelectPoslovnice
+                poslovnice={poslovnice}
+                poslovniceId={poslovniceId}
+                setPoslovnicaId={setPoslovnicaId}
+                openDrawer={openDrawer}
+            />
           </div>
 
           <div className='w-1/7'>

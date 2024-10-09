@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const prisma = require("../prismaClient");
 
 const createUser = async (req, res) => {
-  const { email, password, username, roleName, serviceId, companyId } =
+  const { email, password, username, roleName, serviceId, companyId, poslovnicaId } =
     req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const role = await prisma.role.findUnique({
@@ -19,6 +19,7 @@ const createUser = async (req, res) => {
         },
         service: serviceId ? { connect: { id: serviceId } } : undefined,
         companies: companyId ? { connect: { id: companyId } } : undefined,
+        poslovnice: poslovnicaId ? {connect: {id: poslovnicaId}} : undefined
       },
     });
 

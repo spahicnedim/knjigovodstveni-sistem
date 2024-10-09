@@ -165,15 +165,23 @@ const CompanySidebar = ({ setPageTitle }) => {
               Prava Zaposlenih
             </MenuItem>
             <MenuItem
-              component={<Link to='dashboard/dodaj-zaposlenog' />}
+              component={<Link to='dashboard/dodaj-radnika' />}
               icon={<FaUserPlus />}
               className='text-white hover:text-black'
               onClick={() => setPageTitle("Dodaj Zaposlenog")}
             >
-              Dodaj Zaposlenog
+              Dodaj Radnika
             </MenuItem>
           </SubMenu>
         )}
+        <MenuItem
+          component={<Link to='kasa' />}
+          icon={<FaUserPlus />}
+          className='text-white hover:text-black'
+          onClick={() => setPageTitle("POS Kasa")}
+        >
+          POS Kasa
+        </MenuItem>
         {isAdmin && (
           <MenuItem
             component={<Link to='/admin/services' />}

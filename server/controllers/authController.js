@@ -35,16 +35,16 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await prisma.user.findUnique({ where: { email } });
-
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
+    console.log(user)
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
       return res.status(401).json({ error: "Invalid password" });
     }
+
     jwt.sign(
       {
         userId: user.id,
@@ -60,6 +60,7 @@ const login = async (req, res) => {
           email: user.email,
           username: user.username,
           serviceId: user.serviceId,
+          poslovniceId: user.poslovniceId
         });
       }
     );

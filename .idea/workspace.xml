@@ -4,12 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="napravljena tabela za kuf">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="napravljena tabela za kif">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/POSKasa.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241008201334_povezani_korisnici_sa_poslovnicama/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Knjige/KIF.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/KIF.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/CreateRadnici.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/CreateRadnici.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/LoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoginForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/authController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/authController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/userController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,15 +140,12 @@
       <workItem from="1727450637589" duration="4478000" />
       <workItem from="1727704498878" duration="16020000" />
       <workItem from="1727770937125" duration="15000000" />
-      <workItem from="1727864496237" duration="10263000" />
-    </task>
-    <task id="LOCAL-00004" summary="added kupacDobavljac form and gradovi redux">
-      <option name="closed" value="true" />
-      <created>1723186779796</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1723186779796</updated>
+      <workItem from="1727864496237" duration="10884000" />
+      <workItem from="1727948214058" duration="3385000" />
+      <workItem from="1727968102726" duration="3060000" />
+      <workItem from="1728119348003" duration="4676000" />
+      <workItem from="1728415984653" duration="4961000" />
+      <workItem from="1728469510648" duration="7761000" />
     </task>
     <task id="LOCAL-00005" summary="redux organized">
       <option name="closed" value="true" />
@@ -527,7 +531,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727884004086</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="napravljena tabela za kif">
+      <option name="closed" value="true" />
+      <created>1727900881121</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1727900881121</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -546,7 +558,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="dodan upload fajla" />
     <MESSAGE value="fix na sidebaru" />
     <MESSAGE value="dodan navbar i rijesene neke sitnice" />
     <MESSAGE value=" dodan select search custom" />
@@ -571,6 +582,7 @@
     <MESSAGE value="ispravljene neke greske prilikom racunanja" />
     <MESSAGE value="sitna izmjena" />
     <MESSAGE value="napravljena tabela za kuf" />
-    <option name="LAST_COMMIT_MESSAGE" value="napravljena tabela za kuf" />
+    <MESSAGE value="napravljena tabela za kif" />
+    <option name="LAST_COMMIT_MESSAGE" value="napravljena tabela za kif" />
   </component>
 </project>
