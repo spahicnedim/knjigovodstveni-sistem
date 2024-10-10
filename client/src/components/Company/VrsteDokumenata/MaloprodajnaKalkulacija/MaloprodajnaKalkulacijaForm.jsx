@@ -111,7 +111,6 @@ const MaloprodajnaKalkulacijaForm = ({
   useEffect(() => {
     dispatch(fetchPoslovnice(companyId));
     dispatch(fetchSkladista());
-    dispatch(fetchArtikli());
     dispatch(fetchKupciDobavljaci(companyId));
     dispatch(fetchPdv());
     dispatch(fetchValuta());
@@ -128,6 +127,13 @@ const MaloprodajnaKalkulacijaForm = ({
       setFilteredSkladista([]);
     }
   }, [poslovniceId, skladista]);
+
+  useEffect(() => {
+    if (poslovniceId) {
+      dispatch(fetchArtikli(poslovniceId));
+    }
+  }, [dispatch, poslovniceId]);
+  
 
   useEffect(() => {
     const aktivni = pdv.find((p) => p.Aktivan);

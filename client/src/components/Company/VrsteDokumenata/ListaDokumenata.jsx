@@ -30,6 +30,7 @@ import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokum
 import {DetaljiVeleprodajneKalkulacije} from "./VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx";
 import {DetaljiIzlazneFakture} from "./Izlazna Faktura/DetaljiIzlazneFakture.jsx";
 import SelectPoslovnice from "../SelectSearch/SelectPoslovnice.jsx";
+import SelectSkladista from "../SelectSearch/SelectSkladista.jsx";
 
 // Definiši jednostavan text input filter za kolonu
 function DefaultColumnFilter({
@@ -280,19 +281,12 @@ export function ListaDokumenata() {
           <label className='block text-gray-700 text-sm font-medium mb-2'>
             Skladište
           </label>
-          <select
-            value={skladisteId || ""}
-            onChange={(e) => setSkladisteId(e.target.value)}
-            className='w-72 h-9 pl-2 border border-gray-300 rounded-sm'
-            required
-          >
-            <option value=''>Odaberite skladište</option>
-            {filteredSkladista.map((skladiste) => (
-              <option key={skladiste.id} value={skladiste.id}>
-                {skladiste.naziv}
-              </option>
-            ))}
-          </select>
+          <SelectSkladista
+              filteredSkladista={filteredSkladista}
+              skladisteId={skladisteId}
+              setSkladisteId={setSkladisteId}
+              openDrawer={openDrawer}
+          />
         </div>
         <div className='mb-6'>
           <label className='block text-gray-700 text-sm font-medium mb-2'>
@@ -432,14 +426,14 @@ export function ListaDokumenata() {
           }
       >
         {vrstaDokumentaId == 1 && drawerContent && (
-            <DetaljiMaloprodajneKalkulacije dokumentId={drawerContent} />
+            <DetaljiMaloprodajneKalkulacije dokumentId={drawerContent} poslovniceId={poslovniceId} />
         )}
 
         {vrstaDokumentaId == 2 && drawerContent && (
-            <DetaljiVeleprodajneKalkulacije dokumentId={drawerContent} />
+            <DetaljiVeleprodajneKalkulacije dokumentId={drawerContent} poslovniceId={poslovniceId} />
         )}
         {vrstaDokumentaId == 3 && drawerContent && (
-            <DetaljiIzlazneFakture dokumentId={drawerContent} />
+            <DetaljiIzlazneFakture dokumentId={drawerContent} poslovniceId={poslovniceId} />
         )}
       </DrawerDokument>
     </div>

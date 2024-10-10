@@ -15,9 +15,9 @@ export const createArtikli = createAsyncThunk(
 
 export const fetchArtikli = createAsyncThunk(
     "artikli/fetchArtikli",
-    async (_, thunkAPI) => {
+    async (poslovniceId, thunkAPI) => {
         try {
-            const response = await api.get("/artikli");
+            const response = await api.get(`/artikli?poslovniceId=${poslovniceId}`);
             return response.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);

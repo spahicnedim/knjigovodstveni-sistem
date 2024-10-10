@@ -4,18 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="napravljena tabela za kif">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/POSKasa.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241008201334_povezani_korisnici_sa_poslovnicama/migration.sql" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="povezan korisnik sa poslovnicom">
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241009133026_izmjene_u_poslovnici/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/CreateRadnici.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/CreateRadnici.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoginForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/authController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/authController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/userController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/artikli/artikliThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/artikli/artikliThunks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/artikliController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -145,15 +149,7 @@
       <workItem from="1727968102726" duration="3060000" />
       <workItem from="1728119348003" duration="4676000" />
       <workItem from="1728415984653" duration="4961000" />
-      <workItem from="1728469510648" duration="7761000" />
-    </task>
-    <task id="LOCAL-00005" summary="redux organized">
-      <option name="closed" value="true" />
-      <created>1723188542979</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1723188542979</updated>
+      <workItem from="1728469510648" duration="19599000" />
     </task>
     <task id="LOCAL-00006" summary="redux organized">
       <option name="closed" value="true" />
@@ -539,7 +535,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727900881121</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="povezan korisnik sa poslovnicom">
+      <option name="closed" value="true" />
+      <created>1728488337618</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1728488337619</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -558,7 +562,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix na sidebaru" />
     <MESSAGE value="dodan navbar i rijesene neke sitnice" />
     <MESSAGE value=" dodan select search custom" />
     <MESSAGE value="sitne promjene" />
@@ -583,6 +586,7 @@
     <MESSAGE value="sitna izmjena" />
     <MESSAGE value="napravljena tabela za kuf" />
     <MESSAGE value="napravljena tabela za kif" />
-    <option name="LAST_COMMIT_MESSAGE" value="napravljena tabela za kif" />
+    <MESSAGE value="povezan korisnik sa poslovnicom" />
+    <option name="LAST_COMMIT_MESSAGE" value="povezan korisnik sa poslovnicom" />
   </component>
 </project>

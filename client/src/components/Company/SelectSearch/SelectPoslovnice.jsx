@@ -19,7 +19,6 @@ const SelectPoslovnice = ({
       label: poslovnica.naziv,
     }));
 
-    // Dodaj opciju "Create" ako unos ne postoji u opcijama
     if (
       inputValue &&
       !poslovniceOptions.some(
@@ -37,7 +36,7 @@ const SelectPoslovnice = ({
   }, [inputValue, poslovnice]);
 
   useEffect(() => {
-    // Ako korisnik ima vezanu poslovnicu, automatski je postavi
+
     if (userPoslovnicaId) {
       setPoslovnicaId(userPoslovnicaId);
     }
@@ -52,7 +51,7 @@ const SelectPoslovnice = ({
     }
   };
   const isBusinessSelected = !!userPoslovnicaId;
-// Pronađite poslovnicu na osnovu userPoslovnicaId
+
   const selectedBusiness = poslovnice.find((poslovnica) => poslovnica.id === userPoslovnicaId);
 
   return (
@@ -61,7 +60,7 @@ const SelectPoslovnice = ({
             isBusinessSelected
                 ? {
                   value: userPoslovnicaId,
-                  label: selectedBusiness ? selectedBusiness.naziv : "Nepoznata poslovnica", // Proverite da li je poslovnica pronađena
+                  label: selectedBusiness ? selectedBusiness.naziv : "Nepoznata poslovnica",
                 }
                 : poslovnice.find((poslovnica) => poslovnica.id === poslovniceId)
                     ? {
@@ -77,7 +76,7 @@ const SelectPoslovnice = ({
           onChange={handleSelectChange}
           placeholder='Odaberite poslovnicu'
           className='w-72 h-9 rounded-sm'
-          isDisabled={isBusinessSelected} // Onemogućava izbor ako je poslovnica postavljena
+          isDisabled={isBusinessSelected}
       />
   );
 };

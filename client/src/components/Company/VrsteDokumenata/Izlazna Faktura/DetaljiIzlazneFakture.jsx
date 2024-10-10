@@ -12,7 +12,7 @@ import {deleteDokumentFakture, fetchPdv} from "../../../../features/dokumenti/do
 import { fetchDokumentiById } from "../../../../features/dokumenti/dokumentThunks.js";
 import PDFIzlaznaFaktura from "../../PDFLayout/PDFIzlaznaFaktura.jsx";
 
-export function DetaljiIzlazneFakture({ dokumentId }) {
+export function DetaljiIzlazneFakture({ dokumentId, poslovniceId }) {
     const contentRef = useRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -21,10 +21,15 @@ export function DetaljiIzlazneFakture({ dokumentId }) {
 
     useEffect(() => {
         dispatch(fetchDokumentiById(dokumentId));
-        dispatch(fetchArtikli());
         dispatch(fetchKupciDobavljaci(companyId));
         dispatch(fetchPdv());
     }, [dispatch, dokumentId, companyId]);
+
+    useEffect(() => {
+        if (poslovniceId) {
+            dispatch(fetchArtikli(poslovniceId));
+        }
+    }, [dispatch, poslovniceId]);
 
     const dokument = useSelector((state) => state.dokument.current || {});
 

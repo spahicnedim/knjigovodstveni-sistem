@@ -94,7 +94,6 @@ const IzlaznaFakturaForm = ({
     useEffect(() => {
         dispatch(fetchPoslovnice(companyId));
         dispatch(fetchSkladista());
-        dispatch(fetchArtikli());
         dispatch(fetchKupciDobavljaci(companyId));
         dispatch(fetchPdv());
         dispatch(fetchValuta());
@@ -112,6 +111,12 @@ const IzlaznaFakturaForm = ({
             setFilteredSkladista([]);
         }
     }, [poslovniceId, skladista]);
+
+    useEffect(() => {
+        if (poslovniceId) {
+            dispatch(fetchArtikli(poslovniceId));
+        }
+    }, [dispatch, poslovniceId]);
 
     useEffect(() => {
         const aktivni = pdv.find((p) => p.Aktivan);

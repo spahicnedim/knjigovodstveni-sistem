@@ -12,7 +12,7 @@ import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacD
 import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
 import { fetchDokumentiById, deleteDokument } from "../../../../features/dokumenti/dokumentThunks.js";
 
-export function DetaljiMaloprodajneKalkulacije({ dokumentId }) {
+export function DetaljiMaloprodajneKalkulacije({ dokumentId, poslovniceId }) {
   const contentRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,10 +21,15 @@ export function DetaljiMaloprodajneKalkulacije({ dokumentId }) {
 
   useEffect(() => {
     dispatch(fetchDokumentiById(dokumentId));
-    dispatch(fetchArtikli());
     dispatch(fetchKupciDobavljaci(companyId));
     dispatch(fetchPdv());
   }, [dispatch, dokumentId]);
+
+  useEffect(() => {
+    if (poslovniceId) {
+      dispatch(fetchArtikli(poslovniceId));
+    }
+  }, [dispatch, poslovniceId]);
 
   const dokument = useSelector((state) => state.dokument.current || {});
 

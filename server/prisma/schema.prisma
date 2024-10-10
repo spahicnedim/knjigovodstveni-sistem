@@ -101,6 +101,7 @@ model Poslovnice {
   SjedisteFirme   SjedisteFirme? @relation(fields: [sjedisteFirmeId], references: [id])
   sjedisteFirmeId Int?
   User            User[]         @relation("PoslovniceWorkers")
+  artikli         Artikli[]
 }
 
 model Skladiste {
@@ -139,6 +140,8 @@ model Artikli {
 
   ArtikliCijene    ArtikliCijene[]
   DokumentiArtikli DokumentiArtikli[]
+  Poslovnice       Poslovnice?        @relation(fields: [poslovniceId], references: [id])
+  poslovniceId     Int?
 }
 
 model ArtikliCijene {

@@ -84,7 +84,6 @@ export function EditMaloprodajnaKalkulacija() {
     dispatch(fetchPoslovnice(companyId));
     dispatch(fetchSkladista());
     dispatch(fetchVrstaDokumenta());
-    dispatch(fetchArtikli());
     dispatch(fetchKupciDobavljaci(companyId));
     dispatch(fetchPdv());
     dispatch(fetchValuta());
@@ -102,6 +101,12 @@ export function EditMaloprodajnaKalkulacija() {
       setFilteredSkladista([]);
     }
   }, [poslovniceId, skladista]);
+
+  useEffect(() => {
+    if (poslovniceId) {
+      dispatch(fetchArtikli(poslovniceId));
+    }
+  }, [dispatch, poslovniceId]);
 
   useEffect(() => {
     const aktivni = pdv.find((p) => p.Aktivan);

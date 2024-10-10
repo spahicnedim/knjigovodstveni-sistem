@@ -1,14 +1,24 @@
 const prisma = require("../prismaClient");
 
-// Dohvati sve artikle
+// Dohvati artikle iz određene poslovnice
 const getArtikli = async (req, res) => {
+    const { poslovniceId } = req.query; // Preuzimanje poslovniceId iz query parametra
+
+    if (!poslovniceId) {
+        return res.status(400).json({ error: "Poslovnice ID is required" });
+    }
+
     try {
         const artikli = await prisma.artikli.findMany({
+            where: {
+                poslovniceId: parseInt(poslovniceId), // Filtriranje prema poslovniceId
+            },
             include: {
                 ArtikliCijene: true,  // Uključivanje povezane tabele ArtikliCijene
                 skladisteArtikli: true // Uključivanje povezane tabele skladisteArtikli
             }
         });
+
         res.status(200).json(artikli);
     } catch (error) {
         console.error("Error fetching artikli:", error);
@@ -18,14 +28,15 @@ const getArtikli = async (req, res) => {
 
 // Kreiraj novi artikl
 const createArtikl = async (req, res) => {
-    const { naziv, sifra, jedinicaMjere } = req.body;
+    const { naziv, sifra, jedinicaMjere, poslovniceId } = req.body;
 
     try {
         const artikl = await prisma.artikli.create({
             data: {
                 naziv,
                 sifra,
-                jedinicaMjere
+                jedinicaMjere,
+                poslovniceId: parseInt(poslovniceId), // Povezivanje artikla s poslovnicom
             },
         });
 

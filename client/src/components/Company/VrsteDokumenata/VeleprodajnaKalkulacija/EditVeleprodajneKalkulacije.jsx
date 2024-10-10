@@ -84,9 +84,7 @@ export function EditVeleprodajneKalkulacija() {
         dispatch(fetchPoslovnice(companyId));
         dispatch(fetchSkladista());
         dispatch(fetchVrstaDokumenta());
-        dispatch(fetchArtikli());
         dispatch(fetchKupciDobavljaci(companyId));
-        // dispatch(fetchPdv());
         dispatch(fetchValuta());
         dispatch(fetchDokumentiById(dokumentId));
     }, [dispatch, companyId, dokumentId]);
@@ -103,10 +101,12 @@ export function EditVeleprodajneKalkulacija() {
         }
     }, [poslovniceId, skladista]);
 
-    // useEffect(() => {
-    //     const aktivni = pdv.find((p) => p.Aktivan);
-    //     setAktivniPdv(aktivni);
-    // }, [pdv]);
+    useEffect(() => {
+        if (poslovniceId) {
+            dispatch(fetchArtikli(poslovniceId));
+        }
+    }, [dispatch, poslovniceId]);
+
 
     // Funkcija za rukovanje promjenom fajla
     const handleFileChange = (e) => {
