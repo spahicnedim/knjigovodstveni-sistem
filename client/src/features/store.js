@@ -22,6 +22,7 @@ import editModeReducer from './editModeSlice';
 import godineReducer from "./godine/godineSlice.js";
 import knjigeReducer from "./knjige/knjigeSlice.js"
 import nacinPlacanjaReducer from "./nacinPlacanja/nacinPlacanjaSlice.js"
+import posReducer from "./POS/posSlice.js"
 
 const persistConfig = {
   key: "auth", // Specify a different key for each reducer
@@ -74,7 +75,8 @@ const store = configureStore({
     editMode: editModeReducer,
     godina: godineReducer,
     knjige: knjigeReducer,
-    nacinPlacanja: nacinPlacanjaReducer
+    nacinPlacanja: nacinPlacanjaReducer,
+    pos: posReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
