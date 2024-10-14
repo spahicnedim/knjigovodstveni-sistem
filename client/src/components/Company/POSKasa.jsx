@@ -72,18 +72,64 @@ export function POSKasa() {
         }, 0);
     };
 
-    // Funkcija za slanje zahtjeva za skidanje sa stanja
+    const getKolicinaForSkladiste = (artikal) => {
+        const skladisteArtikal = artikal.skladisteArtikli.find(
+            (skladisteArtikal) =>
+                filteredSkladista.some(
+                    (skladiste) => skladiste.id === skladisteArtikal.skladisteId
+                )
+        );
+        return skladisteArtikal ? skladisteArtikal.kolicina : "Nema na stanju";
+    };
+
     const handleSubmitPOS = () => {
-        const posData = {
-            skladisteId: filteredSkladista[0]?.id, // Pretpostavljamo da uzima iz prvog relevantnog skladišta
-            artikli: selectedArtikli.map((item) => ({
-                artikliId: item.id,
-                kolicina: item.quantity,
-            })),
+        // Funkcija za dohvaćanje skladišta vezanog za poslovnicu
+        const getSkladisteForPoslovnicu = () => {
+            const skladisteArtikal = selectedArtikli.map((item) => {
+                return item.skladisteArtikli.find((skladisteArtikal) =>
+                    filteredSkladista.some(
+                        (skladiste) => skladiste.id === skladisteArtikal.skladisteId
+                    )
+                );
+            });
+
+            // Vraćamo prvo skladište koje se pronađe, ako postoji
+            const validSkladiste = skladisteArtikal.find(s => s);
+            return validSkladiste ? validSkladiste.skladisteId : null;
         };
 
+        const skladisteId = getSkladisteForPoslovnicu();
+
+        if (!skladisteId) {
+            console.error("Nema dostupnog skladišta za poslovnicu.");
+            return; // Ako nema skladišta, prekini
+        }
+
+        // Priprema podataka za POS
+        const posData = {
+            skladisteId: skladisteId, // Postavi skladište
+            artikli: selectedArtikli.map((item) => {
+                const kolicina = getKolicinaForSkladiste(item); // Proveri dostupnost količine
+                if (kolicina === "Nema na stanju") {
+                    console.error(`Artikal ${item.naziv} nije dostupan u skladištu.`);
+                    return null; // Ako artikal nema na stanju, preskoči ga
+                }
+                return {
+                    artikliId: item.id,
+                    kolicina: item.quantity,
+                };
+            }).filter(item => item !== null) // Filtriraj null vrednosti
+        };
+
+        if (posData.artikli.length === 0) {
+            console.error("Nema artikala dostupnih u skladištima vezanim za poslovnicu.");
+            return;
+        }
+
         console.log("POS Data za skidanje sa stanja:", posData);
-        dispatch(submitPOS(posData)); // Ovdje se dispatcha akcija za skidanje sa stanja
+        dispatch(submitPOS(posData));
+
+        setSelectedArtikli([]);
     };
 
     return (
@@ -100,7 +146,7 @@ export function POSKasa() {
                             >
                                 <h3 className="font-semibold">{artikal.naziv}</h3>
                                 <p>Cijena: {artikal.ArtikliCijene[0]?.mpcijena} KM</p>
-                                <p>Količina: {artikal.skladisteArtikli.length > 0 ? artikal.skladisteArtikli[0].kolicina : "Nema na stanju"}</p>
+                                <p>Količina: {getKolicinaForSkladiste(artikal)}</p>
                             </li>
                         ))}
                     </ul>
@@ -118,12 +164,19 @@ export function POSKasa() {
                                 <h3 className="font-semibold">{artikal.naziv}</h3>
                                 <p>Cijena: {artikal.ArtikliCijene[0]?.mpcijena} KM</p>
                                 <p>Količina: {artikal.quantity}</p>
+                                <button
+                                    onClick={() => handleRemoveFromCart(artikal.id)}
+                                    className="mt-2 p-1 bg-red-500 text-white rounded"
+                                >
+                                    Ukloni
+                                </button>
                             </li>
                         ))}
                     </ul>
                 ) : (
                     <p>Nema odabranih artikala.</p>
                 )}
+                <h3 className="font-bold mt-4">Ukupna cijena: {calculateTotalPrice()} KM</h3>
                 <button
                     onClick={handleSubmitPOS}
                     className="mt-4 p-2 bg-blue-500 text-white rounded"
