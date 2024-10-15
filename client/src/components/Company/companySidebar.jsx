@@ -120,6 +120,14 @@ const CompanySidebar = ({ setPageTitle }) => {
           >
             Poslovnica
           </MenuItem>
+          <MenuItem
+              component={<Link to='sifrarnik/artikli' />}
+              icon={<FaHome />}
+              className='text-white hover:text-black'
+              onClick={() => setPageTitle("Artikli")}
+          >
+            Artikli
+          </MenuItem>
         </SubMenu>
         {isVlasnik && (
           <SubMenu

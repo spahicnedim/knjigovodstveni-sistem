@@ -53,6 +53,8 @@ const MaloprodajnaKalkulacijaForm = ({
   const [kolicina, setKolicina] = useState(0);
   const [cijena, setCijena] = useState(0);
   const [mpcijena, setMpCijena] = useState(0);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState("");
 
   const [uneseniIznos, setUneseniIznos] = useState('');
   const [uneseniIznosSaPdv, setUneseniIznosSaPdv] = useState('');
@@ -264,7 +266,6 @@ const MaloprodajnaKalkulacijaForm = ({
             poslovnice={poslovnice}
             poslovniceId={poslovniceId}
             setPoslovnicaId={setPoslovnicaId}
-            openDrawer={openDrawer}
           />
         </div>
         <div className='flex items-center space-x-5'>
@@ -275,7 +276,6 @@ const MaloprodajnaKalkulacijaForm = ({
             filteredSkladista={filteredSkladista}
             skladisteId={skladisteId}
             setSkladisteId={setSkladisteId}
-            openDrawer={openDrawer}
           />
         </div>
       </div>

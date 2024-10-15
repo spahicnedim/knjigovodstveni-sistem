@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
+import Drawer from "../../Drawer.jsx";
+import {Skladiste} from "../Skladiste.jsx";
+import KupciDobavljaciForm from "../Forme/KupciDobavljaci.jsx";
 
 const SelectDobavljaci = ({
   kupciDobavljaci,
   dobavljacId,
   setDobavljacId,
-  openDrawer,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [drawerContent, setDrawerContent] = useState("");
+
+    const openDrawer = (content) => {
+        setDrawerContent(content);
+        setIsDrawerOpen(true);
+    };
+
+    const closeDrawer = () => {
+        setIsDrawerOpen(false);
+        setDrawerContent(null);
+    };
 
   useEffect(() => {
     const dobavljaciOptions = kupciDobavljaci
@@ -45,25 +59,34 @@ const SelectDobavljaci = ({
   };
 
   return (
-    <Select
-      value={
-        kupciDobavljaci.find(
-          (kupacDobavljac) => kupacDobavljac.id === dobavljacId
-        )
-          ? {
-              value: dobavljacId,
-              label: kupciDobavljaci.find(
-                (kupacDobavljac) => kupacDobavljac.id === dobavljacId
-              ).name,
-            }
-          : null
-      }
-      options={options}
-      onInputChange={(value) => setInputValue(value)}
-      onChange={handleSelectChange}
-      placeholder='Odaberite dobavljača'
-      className='w-72 h-9 rounded-sm'
-    />
+      <>
+          <Select
+              value={
+                  kupciDobavljaci.find(
+                      (kupacDobavljac) => kupacDobavljac.id === dobavljacId
+                  )
+                      ? {
+                          value: dobavljacId,
+                          label: kupciDobavljaci.find(
+                              (kupacDobavljac) => kupacDobavljac.id === dobavljacId
+                          ).name,
+                      }
+                      : null
+              }
+              options={options}
+              onInputChange={(value) => setInputValue(value)}
+              onChange={handleSelectChange}
+              placeholder='Odaberite dobavljača'
+              className='w-72 h-9 rounded-sm'
+          />
+
+          <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+              {drawerContent === "dobavljaci" && (
+                  <KupciDobavljaciForm />
+              )}
+          </Drawer>
+      </>
+
   );
 };
 

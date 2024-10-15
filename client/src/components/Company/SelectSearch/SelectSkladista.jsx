@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
+import Drawer from "../../Drawer.jsx";
+import {Poslovnica} from "../Poslovnica.jsx";
+import {Skladiste} from "../Skladiste.jsx";
 
 const SelectSkladista = ({
   filteredSkladista,
   skladisteId,
   setSkladisteId,
-  openDrawer,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [drawerContent, setDrawerContent] = useState("");
+
+  const openDrawer = (content) => {
+    setDrawerContent(content);
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setDrawerContent(null);
+  };
 
   useEffect(() => {
     const skladistaOptions = filteredSkladista.map((skladiste) => ({
@@ -42,23 +56,31 @@ const SelectSkladista = ({
   };
 
   return (
-    <Select
-      value={
-        filteredSkladista.find((skladista) => skladista.id === skladisteId)
-          ? {
-              value: skladisteId,
-              label: filteredSkladista.find(
-                (skladista) => skladista.id === skladisteId
-              ).naziv,
+      <>
+        <Select
+            value={
+              filteredSkladista.find((skladista) => skladista.id === skladisteId)
+                  ? {
+                    value: skladisteId,
+                    label: filteredSkladista.find(
+                        (skladista) => skladista.id === skladisteId
+                    ).naziv,
+                  }
+                  : null
             }
-          : null
-      }
-      options={options}
-      onInputChange={(value) => setInputValue(value)}
-      onChange={handleSelectChange}
-      placeholder='Odaberite skladište'
-      className='w-72 h-9 rounded-sm'
-    />
+            options={options}
+            onInputChange={(value) => setInputValue(value)}
+            onChange={handleSelectChange}
+            placeholder='Odaberite skladište'
+            className='w-72 h-9 rounded-sm'
+        />
+        <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+          {drawerContent === "skladista" && (
+              <Skladiste />
+          )}
+        </Drawer>
+      </>
+
   );
 };
 

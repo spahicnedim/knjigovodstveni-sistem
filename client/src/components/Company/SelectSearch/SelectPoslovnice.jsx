@@ -1,83 +1,104 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import {useSelector} from "react-redux";
+import Drawer from "../../Drawer.jsx";
+import {Poslovnica} from "../Poslovnica.jsx";
 
 const SelectPoslovnice = ({
-  poslovnice,
-  poslovniceId,
-  setPoslovnicaId,
-  openDrawer,
-}) => {
-  const [inputValue, setInputValue] = useState("");
-  const [options, setOptions] = useState([]);
+                              poslovnice,
+                              poslovniceId,
+                              setPoslovnicaId,
+                          }) => {
+    const [inputValue, setInputValue] = useState("");
+    const [options, setOptions] = useState([]);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [drawerContent, setDrawerContent] = useState("");
 
-  const userPoslovnicaId = useSelector((state) => state.auth.user.poslovniceId)
+    const openDrawer = (content) => {
+        setDrawerContent(content);
+        setIsDrawerOpen(true);
+    };
 
-  useEffect(() => {
-    const poslovniceOptions = poslovnice.map((poslovnica) => ({
-      value: poslovnica.id,
-      label: poslovnica.naziv,
-    }));
+    const closeDrawer = () => {
+        setIsDrawerOpen(false);
+        setDrawerContent(null);
+    };
 
-    if (
-      inputValue &&
-      !poslovniceOptions.some(
-        (option) => option.label.toLowerCase() === inputValue.toLowerCase()
-      )
-    ) {
-      poslovniceOptions.push({
-        label: `Create "${inputValue}"`,
-        value: "create",
-        isCreateOption: true,
-      });
-    }
+    const userPoslovnicaId = useSelector((state) => state.auth.user.poslovniceId)
 
-    setOptions(poslovniceOptions);
-  }, [inputValue, poslovnice]);
+    useEffect(() => {
+        const poslovniceOptions = poslovnice.map((poslovnica) => ({
+            value: poslovnica.id,
+            label: poslovnica.naziv,
+        }));
 
-  useEffect(() => {
+        if (
+            inputValue &&
+            !poslovniceOptions.some(
+                (option) => option.label.toLowerCase() === inputValue.toLowerCase()
+            )
+        ) {
+            poslovniceOptions.push({
+                label: `Create "${inputValue}"`,
+                value: "create",
+                isCreateOption: true,
+            });
+        }
 
-    if (userPoslovnicaId) {
-      setPoslovnicaId(userPoslovnicaId);
-    }
-  }, [userPoslovnicaId, setPoslovnicaId]);
+        setOptions(poslovniceOptions);
+    }, [inputValue, poslovnice]);
 
-  const handleSelectChange = (selectedOption) => {
-    if (selectedOption?.isCreateOption) {
-      openDrawer("poslovnice");
-      console.log("Create new poslovnica with name:", inputValue);
-    } else {
-      setPoslovnicaId(selectedOption ? selectedOption.value : "");
-    }
-  };
-  const isBusinessSelected = !!userPoslovnicaId;
+    useEffect(() => {
 
-  const selectedBusiness = poslovnice.find((poslovnica) => poslovnica.id === userPoslovnicaId);
+        if (userPoslovnicaId) {
+            setPoslovnicaId(userPoslovnicaId);
+        }
+    }, [userPoslovnicaId, setPoslovnicaId]);
 
-  return (
-      <Select
-          value={
-            isBusinessSelected
-                ? {
-                  value: userPoslovnicaId,
-                  label: selectedBusiness ? selectedBusiness.naziv : "Nepoznata poslovnica",
+    const handleSelectChange = (selectedOption) => {
+        if (selectedOption?.isCreateOption) {
+            openDrawer("poslovnice");
+            console.log("Create new poslovnica with name:", inputValue);
+        } else {
+            setPoslovnicaId(selectedOption ? selectedOption.value : "");
+        }
+    };
+    const isBusinessSelected = !!userPoslovnicaId;
+
+    const selectedBusiness = poslovnice.find((poslovnica) => poslovnica.id === userPoslovnicaId);
+
+    return (
+        <>
+            <Select
+                value={
+                    isBusinessSelected
+                        ? {
+                            value: userPoslovnicaId,
+                            label: selectedBusiness ? selectedBusiness.naziv : "Nepoznata poslovnica",
+                        }
+                        : poslovnice.find((poslovnica) => poslovnica.id === poslovniceId)
+                            ? {
+                                value: poslovniceId,
+                                label: poslovnice.find(
+                                    (poslovnica) => poslovnica.id === poslovniceId
+                                ).naziv,
+                            }
+                            : null
                 }
-                : poslovnice.find((poslovnica) => poslovnica.id === poslovniceId)
-                    ? {
-                      value: poslovniceId,
-                      label: poslovnice.find(
-                          (poslovnica) => poslovnica.id === poslovniceId
-                      ).naziv,
-                    }
-                    : null
-          }
-          options={isBusinessSelected ? [{ value: userPoslovnicaId, label: selectedBusiness ? selectedBusiness.naziv : "Nepoznata poslovnica" }] : options}
-          onInputChange={(value) => setInputValue(value)}
-          onChange={handleSelectChange}
-          placeholder='Odaberite poslovnicu'
-          className='w-72 h-9 rounded-sm'
-          isDisabled={isBusinessSelected}
-      />
-  );
+                options={isBusinessSelected ? [{ value: userPoslovnicaId, label: selectedBusiness ? selectedBusiness.naziv : "Nepoznata poslovnica" }] : options}
+                onInputChange={(value) => setInputValue(value)}
+                onChange={handleSelectChange}
+                placeholder='Odaberite poslovnicu'
+                className='w-72 h-9 rounded-sm'
+                isDisabled={isBusinessSelected}
+            />
+            <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+                {drawerContent === "poslovnice" && (
+                    <Poslovnica />
+                )}
+            </Drawer>
+        </>
+
+    );
 };
 export default SelectPoslovnice;

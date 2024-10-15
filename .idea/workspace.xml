@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="dodana pos kasa osnovni model">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="ispravljen problem sa skladistima kod pos kase">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/POSKasa.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/POSKasa.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/POS/posThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/POS/posThunks.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectDobavljaci.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectDobavljaci.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectKupac.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectKupac.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladista.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladista.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Sifrarnik.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Sifrarnik.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,15 +145,8 @@
       <workItem from="1728469510648" duration="20527000" />
       <workItem from="1728664282634" duration="6901000" />
       <workItem from="1728746584648" duration="1877000" />
-      <workItem from="1728828402626" duration="12794000" />
-    </task>
-    <task id="LOCAL-00008" summary="prisma change">
-      <option name="closed" value="true" />
-      <created>1723400790790</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1723400790790</updated>
+      <workItem from="1728828402626" duration="14859000" />
+      <workItem from="1728983475378" duration="2450000" />
     </task>
     <task id="LOCAL-00009" summary="prisma change">
       <option name="closed" value="true" />
@@ -533,7 +532,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728833814110</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="ispravljen problem sa skladistima kod pos kase">
+      <option name="closed" value="true" />
+      <created>1728935307195</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1728935307195</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -552,7 +559,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="sitne promjene" />
     <MESSAGE value="dodan edit i delete artikla" />
     <MESSAGE value="izmjene u firmi" />
     <MESSAGE value="izmjene u firmi 2" />
@@ -577,6 +583,7 @@
     <MESSAGE value="povezan korisnik sa poslovnicom" />
     <MESSAGE value="ispravljeni artikli" />
     <MESSAGE value="dodana pos kasa osnovni model" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodana pos kasa osnovni model" />
+    <MESSAGE value="ispravljen problem sa skladistima kod pos kase" />
+    <option name="LAST_COMMIT_MESSAGE" value="ispravljen problem sa skladistima kod pos kase" />
   </component>
 </project>
