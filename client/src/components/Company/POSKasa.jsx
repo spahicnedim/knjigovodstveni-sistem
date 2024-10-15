@@ -2,12 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchArtikli } from "../../features/artikli/artikliThunks.js";
 import { fetchSkladista } from "../../features/skladista/skladisteThunks.js";
-import { submitPOS } from "../../features/POS/posThunks.js"; // Ovdje će biti funkcija za smanjenje količine
+import { submitPOS } from "../../features/POS/posThunks.js";
 
 export function POSKasa() {
     const dispatch = useDispatch();
     const [selectedArtikli, setSelectedArtikli] = useState([]);
     const [filteredSkladista, setFilteredSkladista] = useState([]);
+    const [inputValue, setInputValue] = useState(""); // Za unos količine
 
     // Dohvaćanje liste artikala i skladišta iz Redux store-a
     const artikliList = useSelector((state) => state.artikl.artikli);
@@ -64,6 +65,21 @@ export function POSKasa() {
         );
     };
 
+    const handleNumericPadClick = (num) => {
+        setInputValue(prev => prev + num);
+    };
+
+    const handleClearInput = () => {
+        setInputValue("");
+    };
+
+    const handleQuantityPadSubmit = (artikalId) => {
+        if (inputValue) {
+            handleQuantityChange(artikalId, inputValue);
+            handleClearInput();
+        }
+    };
+
     // Funkcija za izračunavanje ukupne cijene
     const calculateTotalPrice = () => {
         return selectedArtikli.reduce((total, item) => {
@@ -83,7 +99,6 @@ export function POSKasa() {
     };
 
     const handleSubmitPOS = () => {
-        // Funkcija za dohvaćanje skladišta vezanog za poslovnicu
         const getSkladisteForPoslovnicu = () => {
             const skladisteArtikal = selectedArtikli.map((item) => {
                 return item.skladisteArtikli.find((skladisteArtikal) =>
@@ -93,7 +108,6 @@ export function POSKasa() {
                 );
             });
 
-            // Vraćamo prvo skladište koje se pronađe, ako postoji
             const validSkladiste = skladisteArtikal.find(s => s);
             return validSkladiste ? validSkladiste.skladisteId : null;
         };
@@ -102,23 +116,22 @@ export function POSKasa() {
 
         if (!skladisteId) {
             console.error("Nema dostupnog skladišta za poslovnicu.");
-            return; // Ako nema skladišta, prekini
+            return;
         }
 
-        // Priprema podataka za POS
         const posData = {
-            skladisteId: skladisteId, // Postavi skladište
+            skladisteId: skladisteId,
             artikli: selectedArtikli.map((item) => {
-                const kolicina = getKolicinaForSkladiste(item); // Proveri dostupnost količine
+                const kolicina = getKolicinaForSkladiste(item);
                 if (kolicina === "Nema na stanju") {
                     console.error(`Artikal ${item.naziv} nije dostupan u skladištu.`);
-                    return null; // Ako artikal nema na stanju, preskoči ga
+                    return null;
                 }
                 return {
                     artikliId: item.id,
                     kolicina: item.quantity,
                 };
-            }).filter(item => item !== null) // Filtriraj null vrednosti
+            }).filter(item => item !== null)
         };
 
         if (posData.artikli.length === 0) {
@@ -155,33 +168,67 @@ export function POSKasa() {
                 )}
             </div>
 
-            <div className="w-1/3 p-4 bg-gray-100">
-                <h2 className="text-xl font-bold mb-4">Odabrani Artikli</h2>
-                {selectedArtikli.length > 0 ? (
-                    <ul>
-                        {selectedArtikli.map((artikal) => (
-                            <li key={artikal.id} className="border p-4 mb-2">
-                                <h3 className="font-semibold">{artikal.naziv}</h3>
-                                <p>Cijena: {artikal.ArtikliCijene[0]?.mpcijena} KM</p>
-                                <p>Količina: {artikal.quantity}</p>
-                                <button
-                                    onClick={() => handleRemoveFromCart(artikal.id)}
-                                    className="mt-2 p-1 bg-red-500 text-white rounded"
-                                >
-                                    Ukloni
-                                </button>
-                            </li>
+            <div className="w-1/3 p-4 bg-gray-100 flex flex-col justify-between">
+                <div>
+                    <h2 className="text-xl font-bold mb-4">Odabrani Artikli</h2>
+                    {selectedArtikli.length > 0 ? (
+                        <ul>
+                            {selectedArtikli.map((artikal) => (
+                                <li key={artikal.id} className="border p-4 mb-2">
+                                    <h3 className="font-semibold">{artikal.naziv}</h3>
+                                    <p>Cijena: {artikal.ArtikliCijene[0]?.mpcijena} KM</p>
+                                    <p>Količina: {artikal.quantity}</p>
+                                    <button
+                                        onClick={() => handleRemoveFromCart(artikal.id)}
+                                        className="mt-2 p-1 bg-red-500 text-white rounded"
+                                    >
+                                        Ukloni
+                                    </button>
+                                    <button
+                                        onClick={() => handleQuantityPadSubmit(artikal.id)}
+                                        className="mt-2 p-1 bg-green-500 text-white rounded"
+                                    >
+                                        Promijeni Količinu
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>Nema odabranih artikala.</p>
+                    )}
+                </div>
+
+                {/* Numerička tastatura */}
+                <div className="mt-4">
+                    <h3 className="text-lg font-bold mb-2">Unesite Količinu:</h3>
+                    <div className="grid grid-cols-3 gap-2">
+                        {["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].map(num => (
+                            <button
+                                key={num}
+                                className="p-4 bg-gray-300 rounded text-xl"
+                                onClick={() => handleNumericPadClick(num)}
+                            >
+                                {num}
+                            </button>
                         ))}
-                    </ul>
-                ) : (
-                    <p>Nema odabranih artikala.</p>
-                )}
-                <h3 className="font-bold mt-4">Ukupna cijena: {calculateTotalPrice()} KM</h3>
+                    </div>
+                    <div className="flex justify-between mt-2">
+                        <button onClick={handleClearInput} className="p-2 bg-red-500 text-white rounded">Obriši</button>
+                        <span className="text-xl font-semibold">{inputValue}</span>
+                    </div>
+                </div>
+
+                {/* Prikaz ukupne cijene */}
+                <div className="mt-4">
+                    <h3 className="text-lg font-bold">Ukupno:</h3>
+                    <p className="text-2xl font-semibold">{calculateTotalPrice()} KM</p>
+                </div>
+
                 <button
                     onClick={handleSubmitPOS}
-                    className="mt-4 p-2 bg-blue-500 text-white rounded"
+                    className="mt-4 p-4 bg-blue-500 text-white rounded font-bold"
                 >
-                    Printaj
+                    Potvrdi Kupovinu
                 </button>
             </div>
         </div>
