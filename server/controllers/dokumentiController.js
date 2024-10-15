@@ -95,22 +95,41 @@ const createKalkulacije = async (req, res) => {
             },
           });
         }
+
         // Dohvati posljednju cijenu na osnovu najvećeg id-a
         const lastCijena = await prisma.artikliCijene.findFirst({
           where: { artikliId: parseInt(artikl.artikliId, 10) },
-          orderBy: { id: 'desc' }, // Dohvati zadnju cijenu na osnovu id-a
+          orderBy: { id: "desc" },
         });
 
-        // Postavi cijene samo ako nisu nula; ako jesu, koristi postojeće vrijednosti
+        // Pretvaranje cijena u numeričke vrijednosti
         const novaCijena = parseFloat(artikl.cijena) || lastCijena?.cijena || 0;
         const novaMpcijena = parseFloat(artikl.mpcijena) || lastCijena?.mpcijena || 0;
         const novaVpcijena = parseFloat(artikl.vpcijena) || lastCijena?.vpcijena || 0;
 
-        // Provjeri da li su cijene promijenjene u odnosu na zadnje cijene
+        // Zaokruži vrijednosti cijena na 2 decimale
+        const roundDecimal = (value, decimals) => {
+          return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+        };
+
+        const lastCijenaRounded = lastCijena
+            ? {
+              cijena: roundDecimal(lastCijena.cijena, 2),
+              mpcijena: lastCijena.mpcijena ? roundDecimal(lastCijena.mpcijena, 2) : null,
+              vpcijena: lastCijena.vpcijena ? roundDecimal(lastCijena.vpcijena, 2) : null,
+            }
+            : null;
+
+        const novaCijenaRounded = roundDecimal(novaCijena, 2);
+        const novaMpcijenaRounded = novaMpcijena ? roundDecimal(novaMpcijena, 2) : null;
+        const novaVpcijenaRounded = novaVpcijena ? roundDecimal(novaVpcijena, 2) : null;
+
+        // Provjeri da li su cijene promijenjene u odnosu na zadnje cijene (zaokružene na 2 decimale)
         const arePricesDifferent =
-            (artikl.cijena && novaCijena !== lastCijena?.cijena) ||
-            (artikl.mpcijena && novaMpcijena !== lastCijena?.mpcijena) ||
-            (artikl.vpcijena && novaVpcijena !== lastCijena?.vpcijena);
+            !lastCijena || // Ako nema zadnje cijene, automatski unesi novu
+            novaCijenaRounded !== lastCijenaRounded?.cijena ||
+            novaMpcijenaRounded !== lastCijenaRounded?.mpcijena ||
+            novaVpcijenaRounded !== lastCijenaRounded?.vpcijena;
 
         if (arePricesDifferent) {
           await prisma.artikliCijene.create({
@@ -130,7 +149,7 @@ const createKalkulacije = async (req, res) => {
             kolicina: parseFloat(artikl.kolicina),
             cijena: parseFloat(artikl.cijena),
             mpcijena: parseFloat(artikl.mpcijena),
-            vpcijena: parseFloat(artikl.vpcijena)
+            vpcijena: parseFloat(artikl.vpcijena),
           },
         });
       }
@@ -139,9 +158,8 @@ const createKalkulacije = async (req, res) => {
       if (vrstaDokumentaId == 1) {
         knjigaId = 1; // KUF ID
       } else if (vrstaDokumentaId == 2) {
-        knjigaId = 1; // KIF ID
+        knjigaId = 2; // KIF ID
       }
-
 
       // Update dokumenta s knjigeId
       await prisma.dokumenti.update({
@@ -155,10 +173,7 @@ const createKalkulacije = async (req, res) => {
 
     res.status(201).json({ dokument });
   } catch (error) {
-    console.error(
-      "Error creating dokument and connecting artikli:",
-      error.message
-    );
+    console.error("Error creating dokument and connecting artikli:", error.message);
     res.status(400).json({
       error: "Error creating dokument and connecting artikli",
       details: error.message,

@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="ispravljen drawer">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="UI izmjene pos kase">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/POSKasa.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/POSKasa.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,15 +139,9 @@
       <workItem from="1728664282634" duration="6901000" />
       <workItem from="1728746584648" duration="1877000" />
       <workItem from="1728828402626" duration="14859000" />
-      <workItem from="1728983475378" duration="5418000" />
-    </task>
-    <task id="LOCAL-00010" summary="dokument controller">
-      <option name="closed" value="true" />
-      <created>1724331597962</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1724331597963</updated>
+      <workItem from="1728983475378" duration="6277000" />
+      <workItem from="1728996712652" duration="3000" />
+      <workItem from="1729012145519" duration="5182000" />
     </task>
     <task id="LOCAL-00011" summary="vrstaDokumenta controller">
       <option name="closed" value="true" />
@@ -533,7 +527,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728986718939</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="UI izmjene pos kase">
+      <option name="closed" value="true" />
+      <created>1728994580322</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1728994580322</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -552,7 +554,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="izmjene u firmi" />
     <MESSAGE value="izmjene u firmi 2" />
     <MESSAGE value="dodana godina" />
     <MESSAGE value="dodana veleprodajna kalkulacija" />
@@ -577,6 +578,7 @@
     <MESSAGE value="dodana pos kasa osnovni model" />
     <MESSAGE value="ispravljen problem sa skladistima kod pos kase" />
     <MESSAGE value="ispravljen drawer" />
-    <option name="LAST_COMMIT_MESSAGE" value="ispravljen drawer" />
+    <MESSAGE value="UI izmjene pos kase" />
+    <option name="LAST_COMMIT_MESSAGE" value="UI izmjene pos kase" />
   </component>
 </project>
