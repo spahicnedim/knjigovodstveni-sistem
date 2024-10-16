@@ -145,27 +145,28 @@ model Artikli {
 }
 
 model ArtikliCijene {
-  id        Int      @id @default(autoincrement())
-  artikliId Int?
-  artikli   Artikli? @relation(fields: [artikliId], references: [id])
-  cijena    Decimal  @db.Decimal(10, 2)
-  mpcijena  Decimal? @db.Decimal(10, 2)
-  vpcijena  Decimal? @db.Decimal(10, 2)
-  datum     DateTime @default(now())
+  id               Int                @id @default(autoincrement())
+  artikliId        Int?
+  artikli          Artikli?           @relation(fields: [artikliId], references: [id])
+  cijena           Decimal            @db.Decimal(10, 2)
+  mpcijena         Decimal?           @db.Decimal(10, 2)
+  vpcijena         Decimal?           @db.Decimal(10, 2)
+  datum            DateTime           @default(now())
+  SkladisteArtikli SkladisteArtikli[]
 
   @@index([artikliId, datum])
 }
 
 model SkladisteArtikli {
-  id          Int        @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   skladisteId Int?
-  skladiste   Skladiste? @relation(fields: [skladisteId], references: [id])
+  skladiste   Skladiste?     @relation(fields: [skladisteId], references: [id])
   artikliId   Int?
-  artikli     Artikli?   @relation(fields: [artikliId], references: [id])
-  kolicina    Decimal    @db.Decimal(10, 2)
+  artikli     Artikli?       @relation(fields: [artikliId], references: [id])
+  cijenaId    Int?
+  cijena      ArtikliCijene? @relation(fields: [cijenaId], references: [id])
+  kolicina    Decimal        @db.Decimal(10, 2)
   godineId    Int?
-
-  @@unique([skladisteId, artikliId])
 }
 
 model DokumentiArtikli {

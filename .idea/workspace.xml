@@ -4,9 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="UI izmjene pos kase">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="rijesen problem sa cijenama">
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241016110539_veza_skladiste_artikli_artikli_cijene/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241016181005_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241016182246_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241016182349_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241016200818_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241016201448_/migration.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241016203046_/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,15 +149,7 @@
       <workItem from="1728828402626" duration="14859000" />
       <workItem from="1728983475378" duration="6277000" />
       <workItem from="1728996712652" duration="3000" />
-      <workItem from="1729012145519" duration="5182000" />
-    </task>
-    <task id="LOCAL-00011" summary="vrstaDokumenta controller">
-      <option name="closed" value="true" />
-      <created>1724331891963</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1724331891963</updated>
+      <workItem from="1729012145519" duration="19847000" />
     </task>
     <task id="LOCAL-00012" summary="skladiste dokument i poslovnica">
       <option name="closed" value="true" />
@@ -535,7 +535,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728994580322</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="rijesen problem sa cijenama">
+      <option name="closed" value="true" />
+      <created>1729022946146</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1729022946146</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -554,7 +562,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="izmjene u firmi 2" />
     <MESSAGE value="dodana godina" />
     <MESSAGE value="dodana veleprodajna kalkulacija" />
     <MESSAGE value="ispravljen problem sa artiklima" />
@@ -579,6 +586,7 @@
     <MESSAGE value="ispravljen problem sa skladistima kod pos kase" />
     <MESSAGE value="ispravljen drawer" />
     <MESSAGE value="UI izmjene pos kase" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI izmjene pos kase" />
+    <MESSAGE value="rijesen problem sa cijenama" />
+    <option name="LAST_COMMIT_MESSAGE" value="rijesen problem sa cijenama" />
   </component>
 </project>

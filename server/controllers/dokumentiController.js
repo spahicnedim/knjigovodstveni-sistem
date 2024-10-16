@@ -59,22 +59,28 @@ const createKalkulacije = async (req, res) => {
 
       // Povezivanje artikala sa dokumentom
       for (const artikl of parsedArtikli) {
-        const existingArtiklInStock = await prisma.skladisteArtikli.findUnique({
+        const existingArtiklWithSamePrice = await prisma.artikliCijene.findFirst({
           where: {
-            skladisteId_artikliId: {
-              skladisteId: parseInt(skladisteId, 10),
-              artikliId: parseInt(artikl.artikliId, 10),
-            },
+            artikliId: parseInt(artikl.artikliId, 10),
+            mpcijena: parseFloat(artikl.mpcijena), // Ovdje se provjerava cijena
           },
         });
 
-        if (existingArtiklInStock) {
+        const existingArtiklInStock = await prisma.skladisteArtikli.findFirst({
+          where: {
+              skladisteId: parseInt(skladisteId, 10),
+              artikliId: parseInt(artikl.artikliId, 10),
+              cijenaId: existingArtiklWithSamePrice.id,
+            },
+        });
+        // Provjera cijene postojećeg artikla
+
+
+        if (existingArtiklInStock && existingArtiklInStock.id) {
+          console.log(existingArtiklInStock)
           await prisma.skladisteArtikli.update({
             where: {
-              skladisteId_artikliId: {
-                skladisteId: parseInt(skladisteId, 10),
-                artikliId: parseInt(artikl.artikliId, 10),
-              },
+              id: parseInt(existingArtiklInStock.id),
             },
             data: {
               kolicina: {
@@ -83,6 +89,7 @@ const createKalkulacije = async (req, res) => {
             },
           });
         } else {
+          // Ako ne postoji artikl sa istom cijenom, dodaj novi
           await prisma.skladisteArtikli.create({
             data: {
               artikli: {
@@ -92,9 +99,38 @@ const createKalkulacije = async (req, res) => {
                 connect: { id: parseInt(skladisteId, 10) },
               },
               kolicina: parseFloat(artikl.kolicina),
+              cijena: {
+                connect: {id: parseFloat(existingArtiklWithSamePrice.id),}
+              }
             },
           });
         }
+
+        // if (existingArtiklInStock) {
+        //   await prisma.skladisteArtikli.update({
+        //     where: {
+        //         skladisteId: parseInt(skladisteId, 10),
+        //         artikliId: parseInt(artikl.artikliId, 10),
+        //     },
+        //     data: {
+        //       kolicina: {
+        //         increment: parseFloat(artikl.kolicina),
+        //       },
+        //     },
+        //   });
+        // } else {
+        //   await prisma.skladisteArtikli.create({
+        //     data: {
+        //       artikli: {
+        //         connect: { id: parseInt(artikl.artikliId, 10) },
+        //       },
+        //       skladiste: {
+        //         connect: { id: parseInt(skladisteId, 10) },
+        //       },
+        //       kolicina: parseFloat(artikl.kolicina),
+        //     },
+        //   });
+        // }
 
         // Dohvati posljednju cijenu na osnovu najvećeg id-a
         const lastCijena = await prisma.artikliCijene.findFirst({
