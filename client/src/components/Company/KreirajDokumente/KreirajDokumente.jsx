@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createDokumentKalkulacije, createDokumentFakture } from "../../../features/dokumenti/dokumentThunks.js";
+import { createDokumentMPKalkulacije, createDokumentVPKalkulacije, createDokumentFakture } from "../../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";
 import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 import MaloprodajnaKalkulacijaForm from "../VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx";
@@ -54,7 +54,7 @@ export const KreirajDokumente = () => {
       formData.append("file", file);
     }
 
-    dispatch(createDokumentKalkulacije(formData));
+    dispatch(createDokumentMPKalkulacije(formData));
   };
 
   const handleSubmitVeleprodajnaKalkulacija = () => {
@@ -73,7 +73,7 @@ export const KreirajDokumente = () => {
       formData.append("file", file);
     }
 
-    dispatch(createDokumentKalkulacije(formData));
+    dispatch(createDokumentVPKalkulacije(formData));
   };
 
   const handleSubmitIzlaznaFaktura = () => {

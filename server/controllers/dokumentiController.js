@@ -1,7 +1,7 @@
 const prisma = require("../prismaClient");
 const { Decimal } = require("decimal.js"); // Dodajte ovu liniju ako koristite Decimal.js
 
-const createKalkulacije = async (req, res) => {
+const createMPKalkulacije = async (req, res) => {
   const {
     redniBroj,
     poslovniceId,
@@ -59,6 +59,7 @@ const createKalkulacije = async (req, res) => {
 
       // Povezivanje artikala sa dokumentom
       for (const artikl of parsedArtikli) {
+        // Prvo pronalazimo cijenu artikla
         const existingArtiklWithSamePrice = await prisma.artikliCijene.findFirst({
           where: {
             artikliId: parseInt(artikl.artikliId, 10),
@@ -66,18 +67,18 @@ const createKalkulacije = async (req, res) => {
           },
         });
 
-        const existingArtiklInStock = await prisma.skladisteArtikli.findFirst({
+        // Provjeravamo ako cijena postoji
+        const existingArtiklInStock = existingArtiklWithSamePrice ? await prisma.skladisteArtikli.findFirst({
           where: {
-              skladisteId: parseInt(skladisteId, 10),
-              artikliId: parseInt(artikl.artikliId, 10),
-              cijenaId: existingArtiklWithSamePrice.id,
-            },
-        });
-        // Provjera cijene postojećeg artikla
+            skladisteId: parseInt(skladisteId, 10),
+            artikliId: parseInt(artikl.artikliId, 10),
+            cijenaId: existingArtiklWithSamePrice.id,
+          },
+        }) : null;
 
-
+        // Provjera cijene postojećeg artikla u skladištu
         if (existingArtiklInStock && existingArtiklInStock.id) {
-          console.log(existingArtiklInStock)
+          // Ako postoji, povećaj količinu
           await prisma.skladisteArtikli.update({
             where: {
               id: parseInt(existingArtiklInStock.id),
@@ -89,7 +90,25 @@ const createKalkulacije = async (req, res) => {
             },
           });
         } else {
-          // Ako ne postoji artikl sa istom cijenom, dodaj novi
+          // Ako cijena ne postoji, dodaj novu cijenu
+          let cijenaId;
+
+          if (!existingArtiklWithSamePrice) {
+            // Kreiraj novu cijenu ako ne postoji
+            const novaCijena = await prisma.artikliCijene.create({
+              data: {
+                artikliId: parseInt(artikl.artikliId, 10),
+                cijena: artikl.cijena,
+                mpcijena: parseFloat(artikl.mpcijena),
+                // Dodaj druge relevantne informacije o cijeni ako je potrebno
+              },
+            });
+            cijenaId = novaCijena.id;
+          } else {
+            cijenaId = existingArtiklWithSamePrice.id;
+          }
+
+          // Dodaj artikl u skladište
           await prisma.skladisteArtikli.create({
             data: {
               artikli: {
@@ -100,37 +119,11 @@ const createKalkulacije = async (req, res) => {
               },
               kolicina: parseFloat(artikl.kolicina),
               cijena: {
-                connect: {id: parseFloat(existingArtiklWithSamePrice.id),}
-              }
+                connect: { id: cijenaId },
+              },
             },
           });
         }
-
-        // if (existingArtiklInStock) {
-        //   await prisma.skladisteArtikli.update({
-        //     where: {
-        //         skladisteId: parseInt(skladisteId, 10),
-        //         artikliId: parseInt(artikl.artikliId, 10),
-        //     },
-        //     data: {
-        //       kolicina: {
-        //         increment: parseFloat(artikl.kolicina),
-        //       },
-        //     },
-        //   });
-        // } else {
-        //   await prisma.skladisteArtikli.create({
-        //     data: {
-        //       artikli: {
-        //         connect: { id: parseInt(artikl.artikliId, 10) },
-        //       },
-        //       skladiste: {
-        //         connect: { id: parseInt(skladisteId, 10) },
-        //       },
-        //       kolicina: parseFloat(artikl.kolicina),
-        //     },
-        //   });
-        // }
 
         // Dohvati posljednju cijenu na osnovu najvećeg id-a
         const lastCijena = await prisma.artikliCijene.findFirst({
@@ -173,7 +166,7 @@ const createKalkulacije = async (req, res) => {
               artikliId: parseInt(artikl.artikliId, 10),
               cijena: novaCijena,
               mpcijena: novaMpcijena,
-              vpcijena: novaVpcijena,
+              vpcijena: novaVpcijena
             },
           });
         }
@@ -185,7 +178,217 @@ const createKalkulacije = async (req, res) => {
             kolicina: parseFloat(artikl.kolicina),
             cijena: parseFloat(artikl.cijena),
             mpcijena: parseFloat(artikl.mpcijena),
-            vpcijena: parseFloat(artikl.vpcijena),
+            vpcijena: parseFloat(artikl.vpcijena)
+          },
+        });
+      }
+
+      let knjigaId;
+      if (vrstaDokumentaId == 1) {
+        knjigaId = 1; // KUF ID
+      } else if (vrstaDokumentaId == 2) {
+        knjigaId = 2; // KIF ID
+      }
+
+      // Update dokumenta s knjigeId
+      await prisma.dokumenti.update({
+        where: { id: createdDokument.id },
+        data: {
+          knjigeId: knjigaId,
+        },
+      });
+      return createdDokument;
+    });
+
+    res.status(201).json({ dokument });
+  } catch (error) {
+    console.error("Error creating dokument and connecting artikli:", error.message);
+    res.status(400).json({
+      error: "Error creating dokument and connecting artikli",
+      details: error.message,
+    });
+  }
+};
+
+const createVPKalkulacije = async (req, res) => {
+  const {
+    redniBroj,
+    poslovniceId,
+    skladisteId,
+    vrstaDokumentaId,
+    companyId,
+    kupacDobavljacId,
+    pDVId,
+    datumIzdavanjaDokumenta,
+    datumKreiranjaKalkulacije,
+    valutaId,
+    artikli,
+  } = req.body;
+
+  // Pretvaranje JSON stringa u objekt
+  const parsedArtikli = JSON.parse(artikli);
+
+  try {
+    const activeGodina = await prisma.godine.findFirst({
+      where: { status: true },
+    });
+
+    if (!activeGodina) {
+      return res.status(404).json({ message: "Nema aktivne godine." });
+    }
+
+    // Provjeravamo je li fajl uploadovan
+    const file = req.file;
+    let filePath = null;
+    if (file) {
+      filePath = file.path; // Putanja fajla
+    }
+
+    const validDatumIzdavanja = new Date(datumIzdavanjaDokumenta);
+    const validDatumKreiranja = new Date(datumKreiranjaKalkulacije);
+
+    // Kreiranje dokumenta i povezivanje artikala
+    const dokument = await prisma.$transaction(async (prisma) => {
+      const createdDokument = await prisma.dokumenti.create({
+        data: {
+          redniBroj,
+          poslovniceId: parseInt(poslovniceId, 10),
+          skladisteId: parseInt(skladisteId, 10),
+          vrstaDokumentaId: parseInt(vrstaDokumentaId, 10),
+          companyId: parseInt(companyId, 10),
+          kupacDobavljacId: parseInt(kupacDobavljacId, 10),
+          pDVId: parseInt(pDVId, 10),
+          datumIzdavanjaDokumenta: validDatumIzdavanja,
+          datumKreiranjaKalkulacije: validDatumKreiranja,
+          valutaId: parseInt(valutaId, 10),
+          filePath: filePath,
+          godineId: activeGodina.id,
+        },
+      });
+
+      // Povezivanje artikala sa dokumentom
+      for (const artikl of parsedArtikli) {
+        // Prvo pronalazimo cijenu artikla
+        const existingArtiklWithSamePrice = await prisma.artikliCijene.findFirst({
+          where: {
+            artikliId: parseInt(artikl.artikliId, 10),
+            vpcijena: parseFloat(artikl.vpcijena), // Ovdje se provjerava cijena
+          },
+        });
+
+        // Provjeravamo ako cijena postoji
+        const existingArtiklInStock = existingArtiklWithSamePrice ? await prisma.skladisteArtikli.findFirst({
+          where: {
+            skladisteId: parseInt(skladisteId, 10),
+            artikliId: parseInt(artikl.artikliId, 10),
+            cijenaId: existingArtiklWithSamePrice.id,
+          },
+        }) : null;
+
+        // Provjera cijene postojećeg artikla u skladištu
+        if (existingArtiklInStock && existingArtiklInStock.id) {
+          // Ako postoji, povećaj količinu
+          await prisma.skladisteArtikli.update({
+            where: {
+              id: parseInt(existingArtiklInStock.id),
+            },
+            data: {
+              kolicina: {
+                increment: parseFloat(artikl.kolicina),
+              },
+            },
+          });
+        } else {
+          // Ako cijena ne postoji, dodaj novu cijenu
+          let cijenaId;
+
+          if (!existingArtiklWithSamePrice) {
+            // Kreiraj novu cijenu ako ne postoji
+            const novaCijena = await prisma.artikliCijene.create({
+              data: {
+                artikliId: parseInt(artikl.artikliId, 10),
+                cijena: artikl.cijena,
+                vpcijena: parseFloat(artikl.vpcijena),
+                // Dodaj druge relevantne informacije o cijeni ako je potrebno
+              },
+            });
+            cijenaId = novaCijena.id;
+          } else {
+            cijenaId = existingArtiklWithSamePrice.id;
+          }
+
+          // Dodaj artikl u skladište
+          await prisma.skladisteArtikli.create({
+            data: {
+              artikli: {
+                connect: { id: parseInt(artikl.artikliId, 10) },
+              },
+              skladiste: {
+                connect: { id: parseInt(skladisteId, 10) },
+              },
+              kolicina: parseFloat(artikl.kolicina),
+              cijena: {
+                connect: { id: cijenaId },
+              },
+            },
+          });
+        }
+
+
+        // Dohvati posljednju cijenu na osnovu najvećeg id-a
+        const lastCijena = await prisma.artikliCijene.findFirst({
+          where: { artikliId: parseInt(artikl.artikliId, 10) },
+          orderBy: { id: "desc" },
+        });
+
+        // Pretvaranje cijena u numeričke vrijednosti
+        const novaCijena = parseFloat(artikl.cijena) || lastCijena?.cijena || 0;
+        const novaMpcijena = parseFloat(artikl.mpcijena) || lastCijena?.mpcijena || 0;
+        const novaVpcijena = parseFloat(artikl.vpcijena) || lastCijena?.vpcijena || 0;
+
+        // Zaokruži vrijednosti cijena na 2 decimale
+        const roundDecimal = (value, decimals) => {
+          return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+        };
+
+        const lastCijenaRounded = lastCijena
+            ? {
+              cijena: roundDecimal(lastCijena.cijena, 2),
+              mpcijena: lastCijena.mpcijena ? roundDecimal(lastCijena.mpcijena, 2) : null,
+              vpcijena: lastCijena.vpcijena ? roundDecimal(lastCijena.vpcijena, 2) : null,
+            }
+            : null;
+
+        const novaCijenaRounded = roundDecimal(novaCijena, 2);
+        const novaMpcijenaRounded = novaMpcijena ? roundDecimal(novaMpcijena, 2) : null;
+        const novaVpcijenaRounded = novaVpcijena ? roundDecimal(novaVpcijena, 2) : null;
+
+        // Provjeri da li su cijene promijenjene u odnosu na zadnje cijene (zaokružene na 2 decimale)
+        const arePricesDifferent =
+            !lastCijena || // Ako nema zadnje cijene, automatski unesi novu
+            novaCijenaRounded !== lastCijenaRounded?.cijena ||
+            novaMpcijenaRounded !== lastCijenaRounded?.mpcijena ||
+            novaVpcijenaRounded !== lastCijenaRounded?.vpcijena;
+
+        if (arePricesDifferent) {
+          await prisma.artikliCijene.create({
+            data: {
+              artikliId: parseInt(artikl.artikliId, 10),
+              cijena: novaCijena,
+              mpcijena: novaMpcijena,
+              vpcijena: novaVpcijena
+            },
+          });
+        }
+
+        await prisma.dokumentiArtikli.create({
+          data: {
+            dokumentId: createdDokument.id,
+            artikliId: parseInt(artikl.artikliId, 10),
+            kolicina: parseFloat(artikl.kolicina),
+            cijena: parseFloat(artikl.cijena),
+            mpcijena: parseFloat(artikl.mpcijena),
+            vpcijena: parseFloat(artikl.vpcijena)
           },
         });
       }
@@ -458,7 +661,8 @@ const deleteDokument = async (req, res) => {
   }
 };
 module.exports = {
-  createKalkulacije,
+  createMPKalkulacije,
+  createVPKalkulacije,
   updateDokumenta,
   getAllDokumenti,
   getDokumentById,

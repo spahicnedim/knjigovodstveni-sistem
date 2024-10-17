@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const {
-  createKalkulacije,
+  createMPKalkulacije,
+  createVPKalkulacije,
   updateDokumenta,
   getAllDokumenti,
   getDokumentById,
@@ -10,7 +11,8 @@ const {
 const {createFakture, updateFakture, deleteFakturu} = require("../controllers/izlaznaFakturaController");
 const upload = require("../utils/multerConfig");
 
-router.post("/kalkulacije", upload.single("file"), createKalkulacije);
+router.post("/mp-kalkulacije", upload.single("file"), createMPKalkulacije);
+router.post("/vp-kalkulacije", upload.single("file"), createVPKalkulacije);
 router.post("/fakture", upload.none(), createFakture);
 router.put("/kalkulacije/:dokumentId", upload.single("file"), updateDokumenta);
 router.put("/fakture/:dokumentId", upload.none(), updateFakture);
