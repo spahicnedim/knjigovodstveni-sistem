@@ -126,12 +126,12 @@ const NivelacijeForm = ({
             setOdabraniArtikl({
                 ...artikl.artikli,
                 kolicina: artikl.kolicina,
-                cijena: artikl.cijena,
+                staraCijena: artikl.staraCijena,
                 mpcijena: artikl.mpcijena,
             });
 
             setKolicina(artikl.kolicina);
-            setCijena(artikl.cijena);
+            setCijena(artikl.staraCijena);
             setMpCijena(artikl.mpcijena);
             setNovaCijena(artikl.novaCijena || "");
             dispatch(setEditMode(true));
@@ -320,7 +320,7 @@ const NivelacijeForm = ({
                                     {artikl.kolicina}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
-                                    {roundTo(artikl.cijena, 2)}
+                                    {roundTo(artikl.staraCijena, 2)}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
                                     {roundTo(artikl.mpcijena, 2)}

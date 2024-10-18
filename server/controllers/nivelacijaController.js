@@ -41,45 +41,39 @@ const createNivelacija = async (req, res) => {
 
             // Obradi artikle i ažuriraj cijene
             for (const artikl of parsedArtikli) {
-                // Pronalaženje postojeće cijene artikla
-                const existingArtiklWithSamePrice = await prisma.artikliCijene.findFirst({
-                    where: {
+                // Dohvati posljednju cijenu artikla
+                const lastCijena = await prisma.artikliCijene.findFirst({
+                    where: { artikliId: parseInt(artikl.artikliId, 10) },
+                    orderBy: { id: "desc" },
+                });
+
+                // Postavi nove vrijednosti cijena (samo mijenjamo onu cijenu koja je specificirana)
+                const novaCijena = artikl.cijena ? parseFloat(artikl.cijena) : lastCijena?.cijena || null;
+                const novaMpcijena = artikl.mpcijena ? parseFloat(artikl.mpcijena) : lastCijena?.mpcijena || null;
+                const novaVpcijena = artikl.vpcijena ? parseFloat(artikl.vpcijena) : lastCijena?.vpcijena || null;
+
+                // Kreiraj novi zapis za artikl cijenu
+                const newArtiklPrice = await prisma.artikliCijene.create({
+                    data: {
                         artikliId: parseInt(artikl.artikliId, 10),
-                        mpcijena: parseFloat(artikl.mpcijena), // Uzimamo MPC cijenu
+                        cijena: novaCijena,
+                        mpcijena: novaMpcijena,
+                        vpcijena: novaVpcijena,
                     },
                 });
 
-                if (existingArtiklWithSamePrice) {
-                    // Ako postoji cijena, samo ažuriraj skladište s novom cijenom
-                    await prisma.skladisteArtikli.updateMany({
-                        where: {
-                            artikliId: parseInt(artikl.artikliId, 10),
-                            skladisteId: parseInt(skladisteId, 10),
-                        },
-                        data: {
-                            cijenaId: existingArtiklWithSamePrice.id,  // Ažuriraj skladište da koristi ovu cijenu
-                        },
-                    });
-                } else {
-                    // Ako ne postoji cijena, kreiraj novu cijenu
-                    const newArtiklPrice = await prisma.artikliCijene.create({
-                        data: {
-                            artikliId: parseInt(artikl.artikliId, 10),
-                            mpcijena: parseFloat(artikl.mpcijena),
-                        },
-                    });
-
-                    // Ažuriraj skladište s novom cijenom
-                    await prisma.skladisteArtikli.updateMany({
-                        where: {
-                            artikliId: parseInt(artikl.artikliId, 10),
-                            skladisteId: parseInt(skladisteId, 10),
-                        },
-                        data: {
-                            cijenaId: newArtiklPrice.id,
-                        },
-                    });
-                }
+                // Ažuriraj skladište s novom cijenom
+                // Dodajemo dodatni kriterij za ažuriranje - `cijenaId` mora odgovarati trenutnoj cijeni koju mijenjamo
+                await prisma.skladisteArtikli.updateMany({
+                    where: {
+                        artikliId: parseInt(artikl.artikliId, 10),
+                        skladisteId: parseInt(skladisteId, 10),
+                        cijenaId: lastCijena?.id, // Ažuriramo samo artikle sa starom cijenom
+                    },
+                    data: {
+                        cijenaId: newArtiklPrice.id,
+                    },
+                });
             }
 
             return createdDokument;

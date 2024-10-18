@@ -28,7 +28,7 @@ const HandleAddArtiklNivelacija = ({
                 dokumentId,
                 artikliId: odabraniArtikl.id,
                 kolicina: parseFloat(kolicina),
-                cijena: parseFloat(cijena),
+                staraCijena: parseFloat(cijena),
                 mpcijena: parseFloat(novaCijena),
                 artikli: {
                     id: odabraniArtikl.artikli.id,

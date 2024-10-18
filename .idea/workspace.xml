@@ -4,24 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="ispravke kod unosa i povezivanja cijena">
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliNivelacija.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladisteArtikli.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Nivelacija/NivelacijaForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/controllers/nivelacijaController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241017184114_/migration.sql" afterDir="false" />
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="nivelacija napravljena polovicno">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/artikli/artikliSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/artikli/artikliSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/artikli/artikliThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/artikli/artikliThunks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/artikliController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/artikliRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/artikliRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliNivelacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliNivelacija.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Nivelacija/NivelacijaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Nivelacija/NivelacijaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/nivelacijaController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/nivelacijaController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,15 +144,7 @@
       <workItem from="1728983475378" duration="6277000" />
       <workItem from="1728996712652" duration="3000" />
       <workItem from="1729012145519" duration="40063000" />
-      <workItem from="1729266872487" duration="731000" />
-    </task>
-    <task id="LOCAL-00014" summary="dodana vrstaSkladista">
-      <option name="closed" value="true" />
-      <created>1724493175544</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1724493175544</updated>
+      <workItem from="1729266872487" duration="2430000" />
     </task>
     <task id="LOCAL-00015" summary="dodane funkcionalnosti u unosrobe">
       <option name="closed" value="true" />
@@ -551,7 +530,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729161858466</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="nivelacija napravljena polovicno">
+      <option name="closed" value="true" />
+      <created>1729267693901</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1729267693901</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -570,7 +557,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="ispravljen problem sa artiklima" />
     <MESSAGE value="ispravljena greska sa dokumentId" />
     <MESSAGE value="dodana provjera prilikom kreiranja dokumenata" />
     <MESSAGE value="dodan pdf kod veleprodajne kalkulacije" />
@@ -595,6 +581,7 @@
     <MESSAGE value="rijesen problem sa cijenama" />
     <MESSAGE value="povezane cijene sa kolicinom u skladistu" />
     <MESSAGE value="ispravke kod unosa i povezivanja cijena" />
-    <option name="LAST_COMMIT_MESSAGE" value="ispravke kod unosa i povezivanja cijena" />
+    <MESSAGE value="nivelacija napravljena polovicno" />
+    <option name="LAST_COMMIT_MESSAGE" value="nivelacija napravljena polovicno" />
   </component>
 </project>
