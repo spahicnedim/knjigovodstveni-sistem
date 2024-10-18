@@ -5,49 +5,33 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import SelectArtikli from "../../SelectSearch/SelectArtikli.jsx";
-import SelectDobavljaci from "../../SelectSearch/SelectDobavljaci.jsx";
 import SelectSkladista from "../../SelectSearch/SelectSkladista.jsx";
 import SelectPoslovnice from "../../SelectSearch/SelectPoslovnice.jsx";
-import SelectValuta from "../../SelectSearch/SelectValuta.jsx";
 import { setEditMode } from "../../../../features/editModeSlice.js";
-import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { useParams } from "react-router-dom";
 import { fetchSkladista } from "../../../../features/skladista/skladisteThunks.js";
 import { fetchPoslovnice } from "../../../../features/poslovnice/poslovnicaThunks.js";
-import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
-import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
+import { fetchSkladisteArtikli} from "../../../../features/artikli/artikliThunks.js";
 import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
-import { fetchValuta } from "../../../../features/valute/valuteThunks.js";
 import HandleAddArtikliMaloprodaja from "../../Assets/HandleAddArtikliMaloprodaja.jsx";
-import SelectNacinPlacanja from "../../SelectSearch/SelectNacinPlacanja.jsx";
-import {fetchNacinPlacanja} from "../../../../features/nacinPlacanja/nacinPlacanjaThunks.js";
-import HandleAddArtiklIzlaznakalkulacija from "../../Assets/HandleAddArtikliIzlaznaKalkulacija.jsx";
-import SelectKupac from "../../SelectSearch/SelectKupac.jsx";
+import SelectSkladisteArtikli from "../../SelectSearch/SelectSkladisteArtikli.jsx";
+import HandleAddArtiklNivelacija from "../../Assets/HandleAddArtikliNivelacija.jsx";
 
 
-const IzlaznaFakturaForm = ({
-                                         redniBroj,
-                                         setRedniBroj,
-                                         poslovniceId,
-                                         setPoslovnicaId,
-                                         skladisteId,
-                                         setSkladisteId,
-                                         artikli,
-                                         setArtikli,
-                                         kupacId,
-                                         setKupacId,
-                                         aktivniPdv,
-                                         setAktivniPdv,
-                                         datumIzdavanjaDokumenta,
-                                         setDatumIzdavanjaDokumenta,
-                                         datumKreiranjaKalkulacije,
-                                         setDatumKreiranjaKalkulacije,
-                                         valutaId,
-                                         setValutaId,
-                                         nacinPlacanjaId,
-                                         setNacinPlacanjaId,
-                                     }) => {
+const NivelacijeForm = ({
+                            redniBroj,
+                            setRedniBroj,
+                            poslovniceId,
+                            setPoslovnicaId,
+                            skladisteId,
+                            setSkladisteId,
+                            artikli,
+                            setArtikli,
+                            setAktivniPdv,
+                            datumIzdavanjaDokumenta,
+                            setDatumIzdavanjaDokumenta,
+                        }) => {
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
     const [options, setOptions] = useState([]);
@@ -56,48 +40,26 @@ const IzlaznaFakturaForm = ({
     const [odabraniArtikl, setOdabraniArtikl] = useState(null); // Odabrani artikl iz dropdowna
     const [kolicina, setKolicina] = useState(0);
     const [cijena, setCijena] = useState(0);
-    const [popust, setPopust] = useState(null)
-
-    const [uneseniIznos, setUneseniIznos] = useState('');
-    const [uneseniIznosSaPdv, setUneseniIznosSaPdv] = useState('');
-    const [isDisabled, setIsDisabled] = useState(true);
-    const [poruka, setPoruka] = useState('');
-
-
+    const [mpcijena, setMpCijena] = useState(null);
+    const [novaCijena, setNovaCijena] = useState(""); // Nova cijena koju želimo postaviti
 
     const poslovnice = useSelector((state) => state.poslovnica.poslovnice) || [];
     const skladista = useSelector((state) => state.skladiste.skladista);
 
     const artikliList = useSelector((state) => state.artikl.artikli);
-    const kupciDobavljaci = useSelector(
-        (state) => state.kupacDobavljac.kupciDobavljaci
-    );
     const pdv = useSelector((state) => state.dokument.pdv);
-    const valute = useSelector((state) => state.valuta.valute);
     const editMode = useSelector((state) => state.editMode.editMode);
-    const firma = useSelector((state) => state.company.current)
-    const nacinPlacanja = useSelector((state) => state.nacinPlacanja.naciniPlacanja)
-
 
     const { companyId } = useParams();
-
-
-
-
-
     const openDrawer = (content) => {
         setDrawerContent(content);
         setIsDrawerOpen(true);
     };
 
-
     useEffect(() => {
         dispatch(fetchPoslovnice(companyId));
         dispatch(fetchSkladista());
-        dispatch(fetchKupciDobavljaci(companyId));
         dispatch(fetchPdv());
-        dispatch(fetchValuta());
-        dispatch(fetchNacinPlacanja())
     }, [dispatch, companyId]);
 
     useEffect(() => {
@@ -114,15 +76,14 @@ const IzlaznaFakturaForm = ({
 
     useEffect(() => {
         if (poslovniceId) {
-            dispatch(fetchArtikli(poslovniceId));
+            dispatch(fetchSkladisteArtikli(skladisteId));
         }
-    }, [dispatch, poslovniceId]);
+    }, [dispatch, skladisteId]);
 
     useEffect(() => {
         const aktivni = pdv.find((p) => p.Aktivan);
         setAktivniPdv(aktivni);
     }, [pdv]);
-
 
     useEffect(() => {
         const artikliOptions = artikliList.map((artikl) => ({
@@ -145,18 +106,13 @@ const IzlaznaFakturaForm = ({
 
         setOptions(artikliOptions);
     }, [inputValue, artikliList]);
-
-
     useEffect(() => {
         if (odabraniArtikl && !editMode) {
             // Nađi zadnju cijenu iz liste cijena
-            const zadnjaCijena =
-                odabraniArtikl.ArtikliCijene.slice(-1)[0]?.cijena || 0;
-            setCijena(zadnjaCijena);
+            setCijena(odabraniArtikl.cijena.mpcijena);
+            setKolicina(odabraniArtikl.kolicina)
         }
     }, [odabraniArtikl, editMode]);
-
-
 
     const handleRemoveArtikl = (index) => {
         const noviArtikli = artikli.filter((_, i) => i !== index);
@@ -171,16 +127,19 @@ const IzlaznaFakturaForm = ({
                 ...artikl.artikli,
                 kolicina: artikl.kolicina,
                 cijena: artikl.cijena,
-                popust: artikl.popust
+                mpcijena: artikl.mpcijena,
             });
 
             setKolicina(artikl.kolicina);
             setCijena(artikl.cijena);
-            setPopust(artikl.popust)
+            setMpCijena(artikl.mpcijena);
+            setNovaCijena(artikl.novaCijena || "");
             dispatch(setEditMode(true));
             setEditIndex(index);
         }
     };
+
+    console.log(artikli)
 
     return (
         <div className='p-6 bg-white rounded-lg shadow-md space-y-6'>
@@ -198,21 +157,6 @@ const IzlaznaFakturaForm = ({
                 />
             </div>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-32 mb-6'>
-                <div className='flex items-center space-x-5'>
-                    <label className='block text-gray-700 text-sm font-medium'>
-                        Datum kalkulacije
-                    </label>
-                    <div className='relative'>
-                        <DatePicker
-                            selected={datumKreiranjaKalkulacije}
-                            onChange={(date) => setDatumKreiranjaKalkulacije(date)}
-                            dateFormat='dd.MM.yyyy'
-                            placeholderText='Odaberi datum'
-                            className='w-72 h-9 p-2 pl-10 border border-gray-300 rounded-sm bg-white'
-                        />
-                        <FaCalendarAlt className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500'/>
-                    </div>
-                </div>
                 <div className='flex items-center space-x-5'>
                     <label className='block text-gray-700 text-sm font-medium'>
                         Datum prijema robe
@@ -255,51 +199,12 @@ const IzlaznaFakturaForm = ({
                 </div>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-32 mb-6'>
-                <div className='flex items-center space-x-5'>
-                    <label className='block text-gray-700 text-sm font-medium'>
-                        Kupac
-                    </label>
-                    <SelectKupac
-                        kupciDobavljaci={kupciDobavljaci}
-                        openDrawer={openDrawer}
-                        kupacId={kupacId}
-                        setKupacId={setKupacId}
-                        placeholder='Odaberite kupca'
-                        className='w-80 h-9 p-2 rounded-sm mb-3.5'
-                    />
-                </div>
-                <div className='flex items-center space-x-5'>
-                    <label className='block text-gray-700 text-sm font-medium'>
-                        Valuta
-                    </label>
-                    <SelectValuta
-                        valute={valute}
-                        valutaId={valutaId}
-                        setValutaId={setValutaId}
-                        openDrawer={openDrawer}
-                    />
-                </div>
-            </div>
-
-            <div className='flex items-center space-x-5'>
-                <label className='block text-gray-700 text-sm font-medium'>
-                    Nacin placanja
-                </label>
-                <SelectNacinPlacanja
-                    nacinPlacanja={nacinPlacanja}
-                    nacinPlacanjaId={nacinPlacanjaId}
-                    setNacinPlacanjaId={setNacinPlacanjaId}
-                    openDrawer={openDrawer}
-                />
-            </div>
-
             <div className='border-t border-gray-300 my-4'></div>
 
             <div className='mb-6'>
                 <h3 className='text-xl font-semibold mb-4'>Dodaj Artikl</h3>
                 <div className='flex items-center space-x-4 mb-4'>
-                    <SelectArtikli
+                    <SelectSkladisteArtikli
                         artikliList={artikliList}
                         openDrawer={openDrawer}
                         setOdabraniArtikl={setOdabraniArtikl}
@@ -335,27 +240,29 @@ const IzlaznaFakturaForm = ({
                         </div>
                         <div className='flex items-center space-x-5'>
                             <label className='block text-gray-700 text-sm font-medium'>
-                                Popust:
+                                Nova cijena:
                             </label>
                             <input
                                 type='number'
-                                value={popust}
-                                onChange={(e) => setPopust(e.target.value)}
-                                placeholder='Popust'
+                                value={novaCijena}
+                                onChange={(e) => setNovaCijena(e.target.value)}
+                                placeholder='Nova cijena'
                                 className='flex-1 h-9 p-2 border border-gray-300 rounded-sm'
                             />
                         </div>
-                        <HandleAddArtiklIzlaznakalkulacija
+                        <HandleAddArtiklNivelacija
                             odabraniArtikl={odabraniArtikl}
                             kolicina={kolicina}
                             cijena={cijena}
-                            popust={popust}
+                            mpcijena={mpcijena}
+                            novaCijena={novaCijena}
                             artikli={artikli}
                             setArtikli={setArtikli}
                             setOdabraniArtikl={setOdabraniArtikl}
                             setKolicina={setKolicina}
                             setCijena={setCijena}
-                            setPopust={setPopust}
+                            setMpCijena={setMpCijena}
+                            setNovaCijena={setNovaCijena}
                             editIndex={editIndex}
                             setEditIndex={setEditIndex}
                         />
@@ -373,28 +280,28 @@ const IzlaznaFakturaForm = ({
                                 Redni broj
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                Sifra
+                                Šifra
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
                                 Naziv
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                Jedinica mjere
+                                Stanje
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                Količina
+                                Stara cijena
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                               Cijena bez PDV-a
+                                Nova cijena
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                Popust
+                                Efekat nivelacije
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm'>
-                                Cijena sa PDV-om
+                                Porez
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 font-normal text-sm '>
-                                Iznos
+                                Marza
                             </th>
                             <th className='border border-gray-300 p-3 bg-gray-100 '></th>
                         </tr>
@@ -410,13 +317,13 @@ const IzlaznaFakturaForm = ({
                                     {artikl.artikli.naziv}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
-                                    {artikl.artikli.jedinicaMjere}
-                                </td>
-                                <td className='border border-gray-300 p-3 text-right'>
-                                    {roundTo(artikl.kolicina, 2)}
+                                    {artikl.kolicina}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
                                     {roundTo(artikl.cijena, 2)}
+                                </td>
+                                <td className='border border-gray-300 p-3 text-right'>
+                                    {roundTo(artikl.mpcijena, 2)}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
                                     {artikl.popust || roundTo(0, 2)}%
@@ -461,72 +368,19 @@ const IzlaznaFakturaForm = ({
                     <p className='text-gray-500'>Nemate unesenih artikala.</p>
                 )}
             </div>
-            <div>
-                <div className='flex justify-end'>
-                    <div className='mt-4 p-5 flex gap-4 w-1/3 h-auto bg-gray-50 drop-shadow-md flex-col'>
-                        <div className='flex justify-between'>
-                            <h4 className='text-lg font-semibold'>Ukupno bez popusta:</h4>
-                            <p className='text-xl'>{roundTo(
-                                artikli.reduce((acc, artikl) =>
-                                       acc + artikl.cijena * artikl.kolicina,
-                                    0),
-                                2
-                            )} KM</p>
-                        </div>
-                        <div className='flex justify-between'>
-                            <h4 className='text-lg font-semibold'>Popust:</h4>
-                            <p className='text-xl'>{roundTo(
-                                artikli.reduce((acc, artikl) =>
-                                       acc + (artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina),
-                                    0),
-                                2
-                            )} KM</p>
-                        </div>
-                        <div className='border-t border-gray-400'></div>
-                        <div className='flex justify-between'>
-                            <h4 className='text-lg font-semibold'>Ukupno KM bez PDV-a:</h4>
-                            <p className='text-xl'>{roundTo(
-                                artikli.reduce((acc, artikl) =>
-                                       acc + (artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina)),
-                                    0),
-                                2
-                            )} KM</p>
-                        </div>
-                        <div className='flex justify-between'>
-                            <h4 className='text-lg font-semibold'>PDV po stopi 17%:</h4>
-                            <p className='text-xl'>{roundTo(
-                                artikli.reduce((acc, artikl) =>
-                                        acc + ((((artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina))) * 1.17) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena * artikl.kolicina) - ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * artikl.kolicina)))),
-                                    0),
-                                2
-                            )} KM</p>
-                        </div>
-                        <div className='flex justify-between'>
-                            <h4 className='text-lg font-semibold'>Ukupno KM:</h4>
-                            <p className='text-xl'>{roundTo(
-                                artikli.reduce((acc, artikl) =>
-                                        artikl.popust === 0
-                                            ?  acc + (artikl.cijena * 1.17) * artikl.kolicina // Ako je popust 0, računa cijenu s PDV-om i množi s količinom
-                                            : acc + ((artikl.cijena - (artikl.cijena * artikl.popust) / 100) * 1.17) * artikl.kolicina, // Ako ima popusta, računa cijenu s popustom, dodaje PDV i množi s količinom
-                                    0),
-                                2
-                            )} KM</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div className='flex justify-end space-x-4 mt-4'>
-                    <button
-                        type='submit'
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
-                    >
-                        Sačuvaj
-                    </button>
-                </div>
+
+            <div className='flex justify-end space-x-4 mt-4'>
+                <button
+                    type='submit'
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+                >
+                    Sačuvaj
+                </button>
             </div>
         </div>
     );
 };
 
 
-export default IzlaznaFakturaForm;
+export default NivelacijeForm;

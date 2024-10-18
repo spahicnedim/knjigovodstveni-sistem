@@ -9,7 +9,8 @@ import {
   updateDokumentKalkulacije,
   deleteDokument,
   updateDokumentFakture,
-  deleteDokumentFakture
+  deleteDokumentFakture,
+  createDokumentNivelacije
 } from "./dokumentThunks.js";
 
 const dokumentSlice = createSlice({
@@ -37,6 +38,10 @@ const dokumentSlice = createSlice({
           state.status = "succeeded";
         })
         .addCase(createDokumentFakture.fulfilled, (state, action) => {
+          state.dokumenti.push(action.payload);
+          state.status = "succeeded";
+        })
+        .addCase(createDokumentNivelacije.fulfilled, (state, action) => {
           state.dokumenti.push(action.payload);
           state.status = "succeeded";
         })

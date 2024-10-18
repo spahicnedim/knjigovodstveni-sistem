@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     createArtikli,
-    fetchArtikli
+    fetchArtikli,
+    fetchSkladisteArtikli
 } from "./artikliThunks.js";
 
 
@@ -20,6 +21,10 @@ const artikliSlice = createSlice({
                 state.status = "succeeded";
             })
             .addCase(fetchArtikli.fulfilled, (state, action) => {
+                state.artikli = action.payload;
+                state.status = "succeeded";
+            })
+            .addCase(fetchSkladisteArtikli.fulfilled, (state, action) => {
                 state.artikli = action.payload;
                 state.status = "succeeded";
             })

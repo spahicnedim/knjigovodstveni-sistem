@@ -9,11 +9,13 @@ const {
   deleteDokument,
 } = require("../controllers/dokumentiController");
 const {createFakture, updateFakture, deleteFakturu} = require("../controllers/izlaznaFakturaController");
+const {createNivelacija} = require("../controllers/nivelacijaController")
 const upload = require("../utils/multerConfig");
 
 router.post("/mp-kalkulacije", upload.single("file"), createMPKalkulacije);
 router.post("/vp-kalkulacije", upload.single("file"), createVPKalkulacije);
 router.post("/fakture", upload.none(), createFakture);
+router.post("/nivelacije", upload.none(), createNivelacija);
 router.put("/kalkulacije/:dokumentId", upload.single("file"), updateDokumenta);
 router.put("/fakture/:dokumentId", upload.none(), updateFakture);
 router.get("/", getAllDokumenti);

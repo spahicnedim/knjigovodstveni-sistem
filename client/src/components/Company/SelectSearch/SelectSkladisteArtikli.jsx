@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import {Skladiste} from "../Skladiste.jsx";
+import { Skladiste } from "../Skladiste.jsx";
 import Drawer from "../../Drawer.jsx";
-import {ArtikliForm} from "../Forme/ArtikliForm.jsx";
+import { ArtikliForm } from "../Forme/ArtikliForm.jsx";
 
-const SelectArtikli = ({ artikliList, setOdabraniArtikl }) => {
+const SelectSkladisteArtikli = ({ artikliList, setOdabraniArtikl }) => {
     const [inputValue, setInputValue] = useState("");
     const [options, setOptions] = useState([]);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -19,10 +19,13 @@ const SelectArtikli = ({ artikliList, setOdabraniArtikl }) => {
         setIsDrawerOpen(false);
         setDrawerContent(null);
     };
+
     useEffect(() => {
-        const artikliOptions = artikliList.map((artikl) => ({
-            value: artikl.artikli.id,
-            label: artikl.artikli.naziv + '  ' + artikl.cijena?.mpcijena,
+        // Kreiraj opcije za dropdown sa nazivom i cijenom artikla
+        const artikliOptions = artikliList.map((artikl, index) => ({
+            value: `${artikl.artikli.id}-${index}`, // Koristimo kombinaciju ID-a i indexa kako bi omogućili duplikate
+            label: `${artikl.artikli.naziv} - MPC: ${artikl.cijena?.mpcijena}`,
+            artikl: artikl, // Sačuvaj cijeli artikl objekat u opciji za kasnije korištenje
         }));
 
         // Dodaj opciju "Create" ako unos ne postoji u opcijama
@@ -46,11 +49,7 @@ const SelectArtikli = ({ artikliList, setOdabraniArtikl }) => {
         if (selectedOption?.isCreateOption) {
             openDrawer("artikli");
         } else {
-            setOdabraniArtikl(
-                selectedOption
-                    ? artikliList.find((artikl) => artikl.id === selectedOption.value)
-                    : null
-            );
+            setOdabraniArtikl(selectedOption ? selectedOption.artikl : null);
         }
     };
 
@@ -69,8 +68,7 @@ const SelectArtikli = ({ artikliList, setOdabraniArtikl }) => {
                 )}
             </Drawer>
         </>
-
     );
 };
 
-export default SelectArtikli;
+export default SelectSkladisteArtikli;

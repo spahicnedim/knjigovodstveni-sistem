@@ -4,12 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="povezane cijene sa kolicinom u skladistu">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="ispravke kod unosa i povezivanja cijena">
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliNivelacija.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladisteArtikli.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Nivelacija/NivelacijaForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/nivelacijaController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/prisma/migrations/20241017184114_/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/artikli/artikliSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/artikli/artikliSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/features/artikli/artikliThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/artikli/artikliThunks.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentSlice.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/features/dokumenti/dokumentThunks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/dokumentiController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/dokumentiController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/artikliController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/artikliController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/server/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/artikliRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/artikliRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/dokumentRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,11 +79,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\VrsteDokumenata\Nivelacija" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\VrsteDokumenata" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\VrsteDokumenata\MaloprodajnaKalkulacija" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\SelectSearch" />
       <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\Forme" />
-      <recent name="C:\Users\spahi\OneDrive\Desktop\Knjigovodstveni-servis\client\src\components\Company\KreirajDokumente" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -145,15 +156,8 @@
       <workItem from="1728828402626" duration="14859000" />
       <workItem from="1728983475378" duration="6277000" />
       <workItem from="1728996712652" duration="3000" />
-      <workItem from="1729012145519" duration="24347000" />
-    </task>
-    <task id="LOCAL-00013" summary="doradjene poslovnice i skladista">
-      <option name="closed" value="true" />
-      <created>1724443270818</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1724443270818</updated>
+      <workItem from="1729012145519" duration="40063000" />
+      <workItem from="1729266872487" duration="731000" />
     </task>
     <task id="LOCAL-00014" summary="dodana vrstaSkladista">
       <option name="closed" value="true" />
@@ -539,7 +543,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729111753895</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="ispravke kod unosa i povezivanja cijena">
+      <option name="closed" value="true" />
+      <created>1729161858466</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1729161858466</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -558,7 +570,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="dodana veleprodajna kalkulacija" />
     <MESSAGE value="ispravljen problem sa artiklima" />
     <MESSAGE value="ispravljena greska sa dokumentId" />
     <MESSAGE value="dodana provjera prilikom kreiranja dokumenata" />
@@ -583,6 +594,7 @@
     <MESSAGE value="UI izmjene pos kase" />
     <MESSAGE value="rijesen problem sa cijenama" />
     <MESSAGE value="povezane cijene sa kolicinom u skladistu" />
-    <option name="LAST_COMMIT_MESSAGE" value="povezane cijene sa kolicinom u skladistu" />
+    <MESSAGE value="ispravke kod unosa i povezivanja cijena" />
+    <option name="LAST_COMMIT_MESSAGE" value="ispravke kod unosa i povezivanja cijena" />
   </component>
 </project>

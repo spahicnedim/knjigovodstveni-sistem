@@ -148,7 +148,7 @@ model ArtikliCijene {
   id               Int                @id @default(autoincrement())
   artikliId        Int?
   artikli          Artikli?           @relation(fields: [artikliId], references: [id])
-  cijena           Decimal            @db.Decimal(10, 2)
+  cijena           Decimal?           @db.Decimal(10, 2)
   mpcijena         Decimal?           @db.Decimal(10, 2)
   vpcijena         Decimal?           @db.Decimal(10, 2)
   datum            DateTime           @default(now())
@@ -270,7 +270,7 @@ model SjedisteFirme {
 model Dokumenti {
   id                        Int                @id @default(autoincrement())
   datumIzdavanjaDokumenta   DateTime
-  datumKreiranjaKalkulacije DateTime
+  datumKreiranjaKalkulacije DateTime?
   Godine                    Godine?            @relation(fields: [godineId], references: [id])
   godineId                  Int?
   Company                   Company?           @relation(fields: [companyId], references: [id])

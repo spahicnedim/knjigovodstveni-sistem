@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createDokumentMPKalkulacije, createDokumentVPKalkulacije, createDokumentFakture } from "../../../features/dokumenti/dokumentThunks.js";
+import { createDokumentMPKalkulacije, createDokumentVPKalkulacije, createDokumentFakture, createDokumentNivelacije } from "../../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";
 import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 import MaloprodajnaKalkulacijaForm from "../VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx";
 import VeleprodajnaKalkulacijaForm from "../VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx";
 import IzlaznaFakturaForm from "../VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx";
+import NivelacijeForm from "../VrsteDokumenata/Nivelacija/NivelacijaForm.jsx";
 
 
 
@@ -89,8 +90,19 @@ export const KreirajDokumente = () => {
     formData.append("datumKreiranjaKalkulacije", datumKreiranjaKalkulacije);
     formData.append("valutaId", parseInt(valutaId, 10));
     formData.append('nacinPlacanjaId', parseInt(nacinPlacanjaId, 10))
-    console.log(artikli)
     dispatch(createDokumentFakture(formData));
+  };
+
+  const handleSubmitNivelacija = () => {
+    const formData = new FormData();
+    formData.append("redniBroj", redniBroj);
+    formData.append("poslovniceId", parseInt(poslovniceId, 10));
+    formData.append("skladisteId", parseInt(skladisteId, 10));
+    formData.append("vrstaDokumentaId", parseInt(vrstaDokumentaId, 10));
+    formData.append("artikli", JSON.stringify(artikli));
+    formData.append("companyId", companyId);
+    formData.append("datumNivelacije", datumIzdavanjaDokumenta);
+    dispatch(createDokumentNivelacije(formData));
   };
 
   const handleSubmit = (e) => {
@@ -104,6 +116,9 @@ export const KreirajDokumente = () => {
         break;
       case "3":
         handleSubmitIzlaznaFaktura();
+        break;
+      case "5":
+        handleSubmitNivelacija();
         break;
       default:
         console.error("Nepoznata vrsta dokumenta");
@@ -206,6 +221,24 @@ export const KreirajDokumente = () => {
                 setValutaId={setValutaId}
                 nacinPlacanjaId={nacinPlacanjaId}
                 setNacinPlacanjaId={setNacinPlacanjaId}
+            />
+        )}
+
+        {vrstaDokumentaId == 5 && (
+            <NivelacijeForm
+                redniBroj={redniBroj}
+                setRedniBroj={setRedniBroj}
+                poslovniceId={poslovniceId}
+                setPoslovnicaId={setPoslovnicaId}
+                skladisteId={skladisteId}
+                setSkladisteId={setSkladisteId}
+                vrstaDokumentaId={vrstaDokumentaId}
+                artikli={artikli}
+                setArtikli={setArtikli}
+                aktivniPdv={aktivniPdv}
+                setAktivniPdv={setAktivniPdv}
+                datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
+                setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
             />
         )}
       </form>

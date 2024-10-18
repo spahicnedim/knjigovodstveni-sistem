@@ -24,3 +24,15 @@ export const fetchArtikli = createAsyncThunk(
         }
     }
 );
+
+export const fetchSkladisteArtikli = createAsyncThunk(
+    "artikli/fetchSkladisteArtikli",
+    async (skladisteId, thunkAPI) => {
+        try {
+            const response = await api.get(`/artikli/artikli-skladiste?skladisteId=${skladisteId}`);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);

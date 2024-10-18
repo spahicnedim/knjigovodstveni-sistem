@@ -26,6 +26,34 @@ const getArtikli = async (req, res) => {
     }
 };
 
+const getArtikliIzSkladista = async (req, res) => {
+    try {
+        const { skladisteId } = req.query;
+
+        // Fetch articles from 'SkladisteArtikli' including related 'Artikli' and 'ArtikliCijene'
+        const artikliIzSkladista = await prisma.skladisteArtikli.findMany({
+            where: {
+                skladisteId: parseInt(skladisteId),
+            },
+            include: {
+                artikli: true,
+                cijena: true,
+            },
+        });
+
+        // Check if articles are found
+        if (!artikliIzSkladista || artikliIzSkladista.length === 0) {
+            return res.status(404).json({ message: 'Nema artikala u skladištu.' });
+        }
+
+        // Respond with the articles including quantities and prices
+        return res.status(200).json(artikliIzSkladista);
+    } catch (error) {
+        console.error('Greška prilikom dohvata artikala iz skladišta:', error);
+        return res.status(500).json({ message: 'Došlo je do greške prilikom dohvata artikala.' });
+    }
+};
+
 // Kreiraj novi artikl
 const createArtikl = async (req, res) => {
     const { naziv, sifra, jedinicaMjere, poslovniceId } = req.body;
@@ -52,5 +80,6 @@ const createArtikl = async (req, res) => {
 
 module.exports = {
     getArtikli,
-    createArtikl
+    createArtikl,
+    getArtikliIzSkladista
 };

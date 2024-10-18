@@ -44,6 +44,21 @@ export const createDokumentFakture = createAsyncThunk(
     }
 );
 
+export const createDokumentNivelacije = createAsyncThunk(
+    "dokumenti/createDokumentNivelacije",
+    async (dokumentData, thunkAPI) => {
+        try {
+            const response = await api.post("/dokument/nivelacije", dokumentData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            console.log(dokumentData)
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
 export const fetchPdv = createAsyncThunk(
   "pdv/fetchPdv",
   async (_, thunkAPI) => {
