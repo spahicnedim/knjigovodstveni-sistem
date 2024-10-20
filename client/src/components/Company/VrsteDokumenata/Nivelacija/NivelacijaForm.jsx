@@ -132,8 +132,7 @@ const NivelacijeForm = ({
 
             setKolicina(artikl.kolicina);
             setCijena(artikl.staraCijena);
-            setMpCijena(artikl.mpcijena);
-            setNovaCijena(artikl.novaCijena || "");
+            setNovaCijena(artikl.mpcijena);
             dispatch(setEditMode(true));
             setEditIndex(index);
         }

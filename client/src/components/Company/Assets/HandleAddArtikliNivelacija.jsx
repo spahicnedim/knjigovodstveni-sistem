@@ -23,7 +23,7 @@ const HandleAddArtiklNivelacija = ({
     const editMode = useSelector((state) => state.editMode.editMode);
 
     const handleAddArtikl = () => {
-        if (odabraniArtikl && kolicina > 0) {
+        if (odabraniArtikl) {
             const artiklZaDodavanje = {
                 dokumentId,
                 artikliId: odabraniArtikl.id,
@@ -31,15 +31,15 @@ const HandleAddArtiklNivelacija = ({
                 staraCijena: parseFloat(cijena),
                 mpcijena: parseFloat(novaCijena),
                 artikli: {
-                    id: odabraniArtikl.artikli.id,
-                    naziv: odabraniArtikl.artikli.naziv,
-                    sifra: odabraniArtikl.artikli.sifra,
+                    id: odabraniArtikl.id || odabraniArtikl.artikli?.id,
+                    naziv: odabraniArtikl.naziv || odabraniArtikl.artikli?.naziv,
+                    sifra: odabraniArtikl.sifra || odabraniArtikl.artikli?.sifra,
                 },
             };
 
             if (editMode) {
                 const updatedArtikli = artikli.map((item, index) =>
-                    index === editIndex ? artiklZaDodavanje : item
+                    index === editIndex ? { ...item, ...artiklZaDodavanje } : item
                 );
                 setArtikli(updatedArtikli);
                 dispatch(setEditMode(false)); // Promijeni editMode na false nakon završetka uređivanja

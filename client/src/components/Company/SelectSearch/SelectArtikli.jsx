@@ -21,8 +21,8 @@ const SelectArtikli = ({ artikliList, setOdabraniArtikl }) => {
     };
     useEffect(() => {
         const artikliOptions = artikliList.map((artikl) => ({
-            value: artikl.artikli.id,
-            label: artikl.artikli.naziv + '  ' + artikl.cijena?.mpcijena,
+            value: artikl.id,
+            label: artikl.naziv,
         }));
 
         // Dodaj opciju "Create" ako unos ne postoji u opcijama
