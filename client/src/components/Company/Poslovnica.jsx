@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import {fetchGradovi} from "../../features/gradovi/gradThunk.js";
 import Select from "react-select";
 
-export const Poslovnica = () => {
+const Poslovnica = () => {
     const dispatch = useDispatch()
     const [naziv, setNaziv] = useState("");
     const [adresa, setAdresa] = useState("");
@@ -129,3 +129,5 @@ export const Poslovnica = () => {
         </form>
     )
 }
+
+export default Poslovnica;

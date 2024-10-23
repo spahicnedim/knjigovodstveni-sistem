@@ -1,80 +1,144 @@
-import { Route, Routes } from "react-router-dom";
-import CompanyDetail from "../components/Company/CompanyDetail";
-import CompanySidebar from "../components/Company/companySidebar";
-import CompanyHome from "../components/Company/CompanyHome";
-import Dashboard from "../components/Company/Dashboard";
-import { KreirajDokumente } from "../components/Company/KreirajDokumente/KreirajDokumente.jsx";
-import { Sifrarnik } from "../components/Company/Sifrarnik.jsx";
-import { ListaDokumenata } from "../components/Company/VrsteDokumenata/ListaDokumenata.jsx";
-import { EditMaloprodajnaKalkulacija } from "../components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx";
-import { Navbar } from "../components/Navbar.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, Suspense, lazy } from "react";
+// const CompanyDetail = lazy(() => import("../components/Company/CompanyDetail"));
+// const CompanySidebar = lazy(() => import("../components/Company/companySidebar"));
+// const CompanyHome = lazy(() => import("../components/Company/CompanyHome"));
+// const Dashboard = lazy(() => import("../components/Company/Dashboard"));
+// const KreirajDokumente = lazy(() => import("../components/Company/KreirajDokumente/KreirajDokumente.jsx"));
+// const Sifrarnik = lazy(() => import("../components/Company/Sifrarnik.jsx"));
+// const ListaDokumenata = lazy(() => import("../components/Company/VrsteDokumenata/ListaDokumenata.jsx"));
+// const EditMaloprodajnaKalkulacija = lazy(() => import("../components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx"));
+// const Navbar = lazy(() => import("../components/Navbar.jsx"));
+// const EditVeleprodajneKalkulacija = lazy(() => import("../components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx"));
+// const Knjige = lazy(() => import("../components/Company/Knjige/Knjige.jsx"));
+// const EditIzlazneFakture = lazy(() => import("../components/Company/VrsteDokumenata/IzlaznaFaktura/EditIzlazneFakture.jsx"));
+// const POSKasa = lazy(() => import("../components/Company/POSKasa.jsx"));
+// import { useEffect } from "react";
+// import {
+//   fetchActiveGodina,
+// } from "../features/godine/godineThunks.js";
+// import { useDispatch, useSelector } from "react-redux";
+import {Route, Routes, useParams} from "react-router-dom";
+ const CompanyDetail = lazy(() => import("../components/Company/CompanyDetail"));
+const CompanySidebar = lazy(() => import("../components/Company/companySidebar"));
+const CompanyHome = lazy(() => import("../components/Company/CompanyHome"));
+const Dashboard = lazy(() => import("../components/Company/Dashboard"));
+const KreirajDokumente = lazy(() => import("../components/Company/KreirajDokumente/KreirajDokumente.jsx"));
+const Sifrarnik = lazy(() => import("../components/Company/Sifrarnik.jsx"));
+const ListaDokumenata = lazy(() => import("../components/Company/VrsteDokumenata/ListaDokumenata.jsx"));
+const EditMaloprodajnaKalkulacija = lazy(() => import("../components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx"));
+const Navbar = lazy(() => import("../components/Navbar.jsx"));
 import {
-  fetchActiveGodina,
-  fetchAllGodine,
+    fetchActiveGodina,
 } from "../features/godine/godineThunks.js";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  EditVeleprodajneKalkulacija
-} from "../components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx";
-import {Knjige} from "../components/Company/Knjige/Knjige.jsx";
-import {EditIzlazneFakture} from "../components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx";
-import {POSKasa} from "../components/Company/POSKasa.jsx";
+const EditVeleprodajneKalkulacija = lazy(() => import("../components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx"));
+const Knjige = lazy(() => import("../components/Company/Knjige/Knjige.jsx"));
+const EditIzlazneFakture = lazy(() => import("../components/Company/VrsteDokumenata/IzlaznaFaktura/EditIzlazneFakture.jsx"));
+ const POSKasa = lazy(() => import("../components/Company/POSKasa.jsx"));
+
 
 const Companies = () => {
   const dispatch = useDispatch();
-  const [pageTitle, setPageTitle] = useState("Company Navbar");
 
   const aktivnaGodina = useSelector((state) => state.godina.godina);
+   const {companyId} = useParams();
 
   useEffect(() => {
-    dispatch(fetchActiveGodina());
-  }, [dispatch]);
-
+      if(companyId){
+          dispatch(fetchActiveGodina());
+      }
+  }, [dispatch, companyId]);
   return (
     <div className='flex min-h-screen bg-gray-100'>
       {/* Sidebar na lijevoj strani */}
-      <CompanySidebar setPageTitle={setPageTitle} />
+        <Suspense>
+            <CompanySidebar />
+        </Suspense>
+
+
 
       <div className='flex flex-col w-full'>
         {/* Navbar na vrhu, prilagođena za sidebar */}
-        <Navbar title={pageTitle} aktivnaGodina={aktivnaGodina} />
+            <Suspense>
+                <Navbar aktivnaGodina={aktivnaGodina} />
+            </Suspense>
+
+
 
         {/* Glavni sadržaj */}
         <div className='p-4'>
-          <CompanyDetail />
+            <Suspense>
+                <CompanyDetail />
+            </Suspense>
+
           <Routes>
-            <Route path='home' element={<CompanyHome />} />
-            <Route path='unosRobe' element={<KreirajDokumente />} />
-            <Route
-              path='dashboard/*'
-              element={<Dashboard />}
-              allowedRoles={[1, 3]}
+            <Route path='home' element={
+                <Suspense>
+                    <CompanyHome />
+                </Suspense>
+                }
             />
-            <Route path='sifrarnik/*' element={<Sifrarnik />} />
-            <Route
-              path='lista-dokumenata'
-              element={<ListaDokumenata />}
+            <Route path='unosRobe' element={
+                <Suspense fallback={<div>Kreiraj dokument...</div>}>
+                    <KreirajDokumente />
+                </Suspense>
+
+            }
             />
-            <Route
-              path='lista-dokumenata/MP/:dokumentId'
-              element={<EditMaloprodajnaKalkulacija />}
+            <Route path='dashboard/*' element={
+                <Suspense>
+                    <Dashboard />
+                </Suspense>
+
+              }
             />
-            <Route
-                path='lista-dokumenata/VP/:dokumentId'
-                element={<EditVeleprodajneKalkulacija />}
+            <Route path='sifrarnik/*' element={
+                <Suspense>
+                    <Sifrarnik />
+                </Suspense>
+
+             }
             />
-            <Route
-                path='lista-dokumenata/izlazna-faktura/:dokumentId'
-                element={<EditIzlazneFakture />}
+            <Route path='lista-dokumenata' element={
+                <Suspense>
+                    <ListaDokumenata />
+                </Suspense>
+
+              }
             />
-            <Route
-                path='knjige/*'
-                element={<Knjige />}
+            <Route path='lista-dokumenata/MP/:dokumentId' element={
+                <Suspense>
+                    <EditMaloprodajnaKalkulacija />
+                </Suspense>
+              }
             />
-            <Route
-                path='kasa/'
-                element={<POSKasa />}
+            <Route path='lista-dokumenata/VP/:dokumentId' element={
+                <Suspense>
+                    <EditVeleprodajneKalkulacija />
+                </Suspense>
+
+             }
+            />
+            <Route path='lista-dokumenata/izlazna-faktura/:dokumentId' element={
+                <Suspense>
+                    <EditIzlazneFakture />
+                </Suspense>
+
+             }
+            />
+            <Route path='knjige/*' element={
+                <Suspense>
+                    <Knjige />
+                </Suspense>
+
+             }
+            />
+            <Route path='kasa/' element={
+                <Suspense>
+                    <POSKasa />
+                </Suspense>
+
+              }
             />
           </Routes>
         </div>

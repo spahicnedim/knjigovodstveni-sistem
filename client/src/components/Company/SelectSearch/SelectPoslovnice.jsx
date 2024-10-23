@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, lazy, Suspense} from "react";
 import Select from "react-select";
 import {useSelector} from "react-redux";
-import Drawer from "../../Drawer.jsx";
-import {Poslovnica} from "../Poslovnica.jsx";
+const Drawer = lazy(() => import("../../Drawer.jsx"));
+const Poslovnica = lazy(() => import( "../Poslovnica.jsx"));
 
 const SelectPoslovnice = ({
                               poslovnice,
@@ -92,11 +92,16 @@ const SelectPoslovnice = ({
                 className='w-72 h-9 rounded-sm'
                 isDisabled={isBusinessSelected}
             />
-            <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-                {drawerContent === "poslovnice" && (
-                    <Poslovnica />
-                )}
-            </Drawer>
+            <Suspense>
+                <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+                    {drawerContent === "poslovnice" && (
+                        <Suspense>
+                            <Poslovnica />
+                        </Suspense>
+                    )}
+                </Drawer>
+            </Suspense>
+
         </>
 
     );

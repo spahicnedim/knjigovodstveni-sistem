@@ -1,16 +1,16 @@
-import { useEffect, useState, useRef } from "react";
+import {useEffect, useState, useRef, lazy, Suspense} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { MdEdit, MdEmail, MdDelete } from "react-icons/md";
 import { IoMdPrint } from "react-icons/io";
 import { useReactToPrint } from "react-to-print";
-import PDFVeleprodajneKalkulacije from "../../PDFLayout/PDFVeleprodajnaKalkulacija.jsx";
+const PDFVeleprodajneKalkulacije = lazy(() => import("../../PDFLayout/PDFVeleprodajnaKalkulacija.jsx")) ;
 import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import { fetchDokumentiById, deleteDokument } from "../../../../features/dokumenti/dokumentThunks.js";
 
-export function DetaljiVeleprodajneKalkulacije({ dokumentId, poslovniceId }) {
+const DetaljiVeleprodajneKalkulacije = ({ dokumentId, poslovniceId }) => {
     const contentRef = useRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -125,14 +125,16 @@ export function DetaljiVeleprodajneKalkulacije({ dokumentId, poslovniceId }) {
             </div>
             <div className='border-b border-gray-300 pt-2' />
             <div className='mt-4'>
-                <PDFVeleprodajneKalkulacije
-                    ref={contentRef}
-                    artikli={artikliDokumenta}
-                    roundTo={roundTo}
-                    naziv={dokument.dokument.naziv}
-                    brojDokumenta={dokument.dokument.redniBroj}
-                    dobavljac={dobavljac ? dobavljac.name : "Nepoznat"}
-                />
+                <Suspense>
+                    <PDFVeleprodajneKalkulacije
+                        ref={contentRef}
+                        artikli={artikliDokumenta}
+                        roundTo={roundTo}
+                        naziv={dokument.dokument.naziv}
+                        brojDokumenta={dokument.dokument.redniBroj}
+                        dobavljac={dobavljac ? dobavljac.name : "Nepoznat"}
+                    />
+                </Suspense>
             </div>
             <table className='w-full border-collapse border border-gray-300'>
                 <thead>
@@ -211,3 +213,4 @@ export function DetaljiVeleprodajneKalkulacije({ dokumentId, poslovniceId }) {
         </div>
     );
 }
+export default DetaljiVeleprodajneKalkulacije;

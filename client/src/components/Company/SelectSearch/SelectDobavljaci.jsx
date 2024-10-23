@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import {useState, useEffect, lazy, Suspense} from "react";
 import Select from "react-select";
-import Drawer from "../../Drawer.jsx";
-import {Skladiste} from "../Skladiste.jsx";
-import KupciDobavljaciForm from "../Forme/KupciDobavljaci.jsx";
+const Drawer = lazy(() => import("../../Drawer.jsx"));
+const KupciDobavljaciForm = lazy(() => import("../Forme/KupciDobavljaci.jsx"));
 
 const SelectDobavljaci = ({
   kupciDobavljaci,
@@ -79,12 +78,17 @@ const SelectDobavljaci = ({
               placeholder='Odaberite dobavljača'
               className='w-72 h-9 rounded-sm'
           />
+            <Suspense>
+                <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+                    {drawerContent === "dobavljaci" && (
+                        <Suspense>
+                            <KupciDobavljaciForm />
+                        </Suspense>
 
-          <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-              {drawerContent === "dobavljaci" && (
-                  <KupciDobavljaciForm />
-              )}
-          </Drawer>
+                    )}
+                </Drawer>
+            </Suspense>
+
       </>
 
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import {useState, useEffect, useMemo, lazy, Suspense} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPoslovnice } from "../../../features/poslovnice/poslovnicaThunks.js";
 import { useParams } from "react-router-dom";
@@ -19,16 +19,15 @@ import {
   FaAngleLeft,
   FaAngleRight,
 } from "react-icons/fa";
-import DrawerDokument from "../DrawerDokument.jsx";
-import { DetaljiMaloprodajneKalkulacije } from "./MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx";
+const  DrawerDokument = lazy(() => import("../DrawerDokument.jsx")) ;
+const DetaljiMaloprodajneKalkulacije = lazy(() => import( "./MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx"));
 import { parseISO, compareAsc, format } from "date-fns";
 import {
-  fetchActiveGodina,
   fetchAllGodine,
 } from "../../../features/godine/godineThunks.js";
 import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
-import {DetaljiVeleprodajneKalkulacije} from "./VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx";
-import {DetaljiIzlazneFakture} from "./Izlazna Faktura/DetaljiIzlazneFakture.jsx";
+const DetaljiVeleprodajneKalkulacije = lazy(() => import("./VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx"));
+const DetaljiIzlazneFakture =  lazy(() => import("./IzlaznaFaktura/DetaljiIzlazneFakture.jsx"));
 import SelectPoslovnice from "../SelectSearch/SelectPoslovnice.jsx";
 import SelectSkladista from "../SelectSearch/SelectSkladista.jsx";
 
@@ -66,7 +65,7 @@ function DobavljacColumnFilter({
   );
 }
 
-export function ListaDokumenata() {
+const ListaDokumenata = () => {
   const dispatch = useDispatch();
   const [poslovniceId, setPoslovnicaId] = useState(null);
   const [skladisteId, setSkladisteId] = useState(null);
@@ -416,26 +415,35 @@ export function ListaDokumenata() {
           </div>
         </div>
       </div>
-      <DrawerDokument
-          isOpen={isDrawerOpen}
-          onClose={closeDrawer}
-          brojDokumenta={
-            drawerContent && drawerContent !== "null"
-                ? dokumenti.find((doc) => doc.id === drawerContent)?.redniBroj
-                : ""
-          }
-      >
-        {vrstaDokumentaId == 1 && drawerContent && (
-            <DetaljiMaloprodajneKalkulacije dokumentId={drawerContent} poslovniceId={poslovniceId} />
-        )}
+      <Suspense>
+        <DrawerDokument
+            isOpen={isDrawerOpen}
+            onClose={closeDrawer}
+            brojDokumenta={
+              drawerContent && drawerContent !== "null"
+                  ? dokumenti.find((doc) => doc.id === drawerContent)?.redniBroj
+                  : ""
+            }
+        >
+          {vrstaDokumentaId == 1 && drawerContent && (
+              <Suspense>
+                <DetaljiMaloprodajneKalkulacije dokumentId={drawerContent} poslovniceId={poslovniceId} />
+              </Suspense>
+          )}
 
-        {vrstaDokumentaId == 2 && drawerContent && (
-            <DetaljiVeleprodajneKalkulacije dokumentId={drawerContent} poslovniceId={poslovniceId} />
-        )}
-        {vrstaDokumentaId == 3 && drawerContent && (
-            <DetaljiIzlazneFakture dokumentId={drawerContent} poslovniceId={poslovniceId} />
-        )}
-      </DrawerDokument>
+          {vrstaDokumentaId == 2 && drawerContent && (
+              <Suspense>
+                <DetaljiVeleprodajneKalkulacije dokumentId={drawerContent} poslovniceId={poslovniceId} />
+              </Suspense>
+          )}
+          {vrstaDokumentaId == 3 && drawerContent && (
+              <Suspense>
+                <DetaljiIzlazneFakture dokumentId={drawerContent} poslovniceId={poslovniceId} />
+              </Suspense>
+          )}
+        </DrawerDokument>
+      </Suspense>
     </div>
   );
 }
+export default ListaDokumenata;

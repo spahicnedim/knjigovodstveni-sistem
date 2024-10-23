@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import {fetchPoslovnice} from "../../features/poslovnice/poslovnicaThunks.js";
 import {fetchvrstaSkladista} from "../../features/vrstaSkladista/vrstaSkladistaThunks.js";
 
-export const Skladiste = () => {
+const Skladiste = () => {
     const dispatch = useDispatch()
     const [naziv, setNaziv] = useState("");
     const [sifra, setSifra] = useState("");
@@ -109,3 +109,5 @@ export const Skladiste = () => {
         </form>
     );
 }
+
+export default Skladiste;

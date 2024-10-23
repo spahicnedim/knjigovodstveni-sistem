@@ -32,7 +32,7 @@ import HandleAddArtiklIzlaznakalkulacija from "../../Assets/HandleAddArtikliIzla
 import kupacDobavljac from "../../KupacDobavljac.jsx";
 import SelectNacinPlacanja from "../../SelectSearch/SelectNacinPlacanja.jsx";
 
-export function EditIzlazneFakture() {
+const EditIzlazneFakture = () => {
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
     const [options, setOptions] = useState([]);
@@ -594,3 +594,5 @@ export function EditIzlazneFakture() {
         </form>
     );
 }
+
+export default EditIzlazneFakture;

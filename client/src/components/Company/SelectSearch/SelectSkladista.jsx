@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, lazy, Suspense} from "react";
 import Select from "react-select";
-import Drawer from "../../Drawer.jsx";
-import {Poslovnica} from "../Poslovnica.jsx";
-import {Skladiste} from "../Skladiste.jsx";
+const Drawer = lazy(() => import("../../Drawer.jsx"));
+const Skladiste = lazy(() => import("../Skladiste.jsx")) ;
 
 const SelectSkladista = ({
   filteredSkladista,
@@ -74,11 +73,16 @@ const SelectSkladista = ({
             placeholder='Odaberite skladište'
             className='w-72 h-9 rounded-sm'
         />
-        <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-          {drawerContent === "skladista" && (
-              <Skladiste />
-          )}
-        </Drawer>
+          <Suspense>
+              <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+                  {drawerContent === "skladista" && (
+                      <Suspense>
+                          <Skladiste />
+                      </Suspense>
+                  )}
+              </Drawer>
+          </Suspense>
+
       </>
 
   );

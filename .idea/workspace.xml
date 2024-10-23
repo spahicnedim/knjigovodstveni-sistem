@@ -4,11 +4,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="rijesen problem sa cijenama i artiklima u nivelaciji">
+    <list default="true" id="14a76dea-3afc-4a17-bbad-93e935aa6c66" name="Changes" comment="rijesen bug sa editom">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliNivelacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Assets/HandleAddArtikliNivelacija.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/CompanyDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/CompanyDetail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Forme/ArtikliForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Forme/ArtikliForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Knjige/KIF.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/KIF.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Knjige/KUF.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/KUF.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Knjige/Knjige.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Knjige/Knjige.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/KreirajDokumente/KreirajDokumente.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/PDFLayout/PDFIzlaznaFaktura.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/PDFLayout/PDFIzlaznaFaktura.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/POSKasa.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/POSKasa.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Poslovnica.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Poslovnica.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectArtikli.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectDobavljaci.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectDobavljaci.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectKupac.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectKupac.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectNacinPlacanja.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectNacinPlacanja.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectPoslovnice.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladista.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladista.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladisteArtikli.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/SelectSearch/SelectSkladisteArtikli.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Sifrarnik.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Sifrarnik.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/Skladiste.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/Skladiste.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/DetaljiIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/IzlaznaFaktura/DetaljiIzlazneFakture.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/EditIzlazneFakture.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/IzlaznaFaktura/EditIzlazneFakture.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/IzlaznaFaktura/IzlaznaFakturaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/ListaDokumenata.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/DetaljiMaloprodajneKalkulacije.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/EditMaloprodajnaKalkulacija.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Nivelacija/NivelacijaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/Nivelacija/NivelacijaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/DetaljiVeleprodajneKalkulacije.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/EditVeleprodajneKalkulacije.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Company/companySidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Servis/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Servis/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Companies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Companies.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,15 +181,10 @@
       <workItem from="1728996712652" duration="3000" />
       <workItem from="1729012145519" duration="40063000" />
       <workItem from="1729266872487" duration="3669000" />
-      <workItem from="1729435007993" duration="1498000" />
-    </task>
-    <task id="LOCAL-00016" summary="dodan unos artikala dinamicki">
-      <option name="closed" value="true" />
-      <created>1724513219044</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1724513219044</updated>
+      <workItem from="1729435007993" duration="2723000" />
+      <workItem from="1729538163863" duration="2702000" />
+      <workItem from="1729582892761" duration="14789000" />
+      <workItem from="1729680873576" duration="5132000" />
     </task>
     <task id="LOCAL-00017" summary="fix">
       <option name="closed" value="true" />
@@ -539,7 +570,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729269631745</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="rijesen bug sa editom">
+      <option name="closed" value="true" />
+      <created>1729438304499</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1729438304499</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -558,7 +597,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="dodana provjera prilikom kreiranja dokumenata" />
     <MESSAGE value="dodan pdf kod veleprodajne kalkulacije" />
     <MESSAGE value="dodan delete dokumenta" />
     <MESSAGE value="djelimicno napravljen kuf" />
@@ -583,6 +621,7 @@
     <MESSAGE value="ispravke kod unosa i povezivanja cijena" />
     <MESSAGE value="nivelacija napravljena polovicno" />
     <MESSAGE value="rijesen problem sa cijenama i artiklima u nivelaciji" />
-    <option name="LAST_COMMIT_MESSAGE" value="rijesen problem sa cijenama i artiklima u nivelaciji" />
+    <MESSAGE value="rijesen bug sa editom" />
+    <option name="LAST_COMMIT_MESSAGE" value="rijesen bug sa editom" />
   </component>
 </project>

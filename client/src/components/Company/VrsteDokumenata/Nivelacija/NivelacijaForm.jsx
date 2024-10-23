@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
-import SelectArtikli from "../../SelectSearch/SelectArtikli.jsx";
 import SelectSkladista from "../../SelectSearch/SelectSkladista.jsx";
 import SelectPoslovnice from "../../SelectSearch/SelectPoslovnice.jsx";
 import { setEditMode } from "../../../../features/editModeSlice.js";
@@ -14,7 +13,6 @@ import { fetchSkladista } from "../../../../features/skladista/skladisteThunks.j
 import { fetchPoslovnice } from "../../../../features/poslovnice/poslovnicaThunks.js";
 import { fetchSkladisteArtikli} from "../../../../features/artikli/artikliThunks.js";
 import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
-import HandleAddArtikliMaloprodaja from "../../Assets/HandleAddArtikliMaloprodaja.jsx";
 import SelectSkladisteArtikli from "../../SelectSearch/SelectSkladisteArtikli.jsx";
 import HandleAddArtiklNivelacija from "../../Assets/HandleAddArtikliNivelacija.jsx";
 
@@ -31,6 +29,7 @@ const NivelacijeForm = ({
                             setAktivniPdv,
                             datumIzdavanjaDokumenta,
                             setDatumIzdavanjaDokumenta,
+                            vrstaDokumentaId
                         }) => {
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
@@ -57,10 +56,11 @@ const NivelacijeForm = ({
     };
 
     useEffect(() => {
+        if(companyId && vrstaDokumentaId == 5)
         dispatch(fetchPoslovnice(companyId));
         dispatch(fetchSkladista());
         dispatch(fetchPdv());
-    }, [dispatch, companyId]);
+    }, [dispatch, companyId, vrstaDokumentaId]);
 
     useEffect(() => {
         // Filtriranje skladišta na osnovu odabrane poslovnice
@@ -325,7 +325,9 @@ const NivelacijeForm = ({
                                     {roundTo(artikl.mpcijena, 2)}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
-                                    {artikl.popust || roundTo(0, 2)}%
+                                    {roundTo( artikl.staraCijena > artikl.mpcijena
+                                        ?((artikl.staraCijena*artikl.kolicina) - (artikl.mpcijena*artikl.kolicina))
+                                        : ((artikl.mpcijena*artikl.kolicina) - (artikl.staraCijena*artikl.kolicina)), 2)}
                                 </td>
                                 <td className='border border-gray-300 p-3 text-right'>
                                     {roundTo(

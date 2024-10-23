@@ -1,25 +1,26 @@
-import {Route, Routes} from "react-router-dom";
-import {KUF} from "./KUF.jsx";
-import {KIF} from "./KIF.jsx";
+import { Route, Routes } from "react-router-dom";
+import { Suspense, lazy } from "react";
 
+// Lazy load komponente
+const KUF = lazy(() => import("./KUF.jsx"));
+const KIF = lazy(() => import("./KIF.jsx"));
 
-export const Knjige = () => {
+const Knjige = () => {
     return (
         <div>
-            <Routes>
-                <Route
-                    path='KUF/:knjigeId'
-                    element={<KUF />}
-                />
+            <Suspense fallback={<div>Loading KUF...</div>}>
+                <Routes>
+                    <Route path="KUF/:knjigeId" element={<KUF />} />
+                </Routes>
+            </Suspense>
 
-            </Routes>
-            <Routes>
-                <Route
-                    path='KIF/:knjigeId'
-                    element={<KIF />}
-                />
-
-            </Routes>
+            <Suspense fallback={<div>Loading KIF...</div>}>
+                <Routes>
+                    <Route path="KIF/:knjigeId" element={<KIF />} />
+                </Routes>
+            </Suspense>
         </div>
     );
-}
+};
+
+export default Knjige;

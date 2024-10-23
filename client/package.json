@@ -20,6 +20,7 @@
     "date-fns": "^3.6.0",
     "html2pdf.js": "^0.10.2",
     "js-cookie": "^2.2.1",
+    "lodash": "^4.17.21",
     "pdfjs-dist": "^4.6.82",
     "react": "^18.3.1",
     "react-datepicker": "^7.3.0",

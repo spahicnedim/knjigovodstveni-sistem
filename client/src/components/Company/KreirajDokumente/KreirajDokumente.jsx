@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import {lazy, Suspense, useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createDokumentMPKalkulacije, createDokumentVPKalkulacije, createDokumentFakture, createDokumentNivelacije } from "../../../features/dokumenti/dokumentThunks.js";
 import { useParams } from "react-router-dom";
 import { fetchVrstaDokumenta } from "../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
-import MaloprodajnaKalkulacijaForm from "../VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx";
-import VeleprodajnaKalkulacijaForm from "../VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx";
-import IzlaznaFakturaForm from "../VrsteDokumenata/Izlazna Faktura/IzlaznaFakturaForm.jsx";
-import NivelacijeForm from "../VrsteDokumenata/Nivelacija/NivelacijaForm.jsx";
+const MaloprodajnaKalkulacijaForm = lazy(() => import("../VrsteDokumenata/MaloprodajnaKalkulacija/MaloprodajnaKalkulacijaForm.jsx"))  ;
+const  VeleprodajnaKalkulacijaForm = lazy(() => import("../VrsteDokumenata/VeleprodajnaKalkulacija/VeleprodajnaKalkulacijaForm.jsx")) ;
+const  IzlaznaFakturaForm = lazy(() => import("../VrsteDokumenata/IzlaznaFaktura/IzlaznaFakturaForm.jsx"));
+const NivelacijeForm = lazy(() => import("../VrsteDokumenata/Nivelacija/NivelacijaForm.jsx")) ;
 
 
 
-export const KreirajDokumente = () => {
+const KreirajDokumente = () => {
   const dispatch = useDispatch();
   const [redniBroj, setRedniBroj] = useState(0);
   const [poslovniceId, setPoslovnicaId] = useState(null);
@@ -35,7 +35,9 @@ export const KreirajDokumente = () => {
 
 
   useEffect(() => {
-    dispatch(fetchVrstaDokumenta());
+    if(companyId){
+      dispatch(fetchVrstaDokumenta());
+    }
   }, [dispatch, companyId]);
 
   const handleSubmitMaloprodajnaKalkulacija = () => {
@@ -147,101 +149,114 @@ export const KreirajDokumente = () => {
           </select>
         </div>
         {vrstaDokumentaId == 1 && (
+            <Suspense>
+              <MaloprodajnaKalkulacijaForm
+                  redniBroj={redniBroj}
+                  setRedniBroj={setRedniBroj}
+                  poslovniceId={poslovniceId}
+                  setPoslovnicaId={setPoslovnicaId}
+                  skladisteId={skladisteId}
+                  setSkladisteId={setSkladisteId}
+                  vrstaDokumentaId={vrstaDokumentaId}
+                  artikli={artikli}
+                  setArtikli={setArtikli}
+                  dobavljacId={dobavljacId}
+                  setDobavljacId={setDobavljacId}
+                  aktivniPdv={aktivniPdv}
+                  setAktivniPdv={setAktivniPdv}
+                  datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
+                  setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
+                  datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
+                  setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
+                  valutaId={valutaId}
+                  setValutaId={setValutaId}
+                  file={file}
+                  setFile={setFile}
+              />
 
-            <MaloprodajnaKalkulacijaForm
-              redniBroj={redniBroj}
-              setRedniBroj={setRedniBroj}
-              poslovniceId={poslovniceId}
-              setPoslovnicaId={setPoslovnicaId}
-              skladisteId={skladisteId}
-              setSkladisteId={setSkladisteId}
-              vrstaDokumentaId={vrstaDokumentaId}
-              artikli={artikli}
-              setArtikli={setArtikli}
-              dobavljacId={dobavljacId}
-              setDobavljacId={setDobavljacId}
-              aktivniPdv={aktivniPdv}
-              setAktivniPdv={setAktivniPdv}
-              datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
-              setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
-              datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
-              setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
-              valutaId={valutaId}
-              setValutaId={setValutaId}
-              file={file}
-              setFile={setFile}
-            />
+            </Suspense>
 
         )}
 
         {vrstaDokumentaId == 2 && (
-            <VeleprodajnaKalkulacijaForm
-                redniBroj={redniBroj}
-                setRedniBroj={setRedniBroj}
-                poslovniceId={poslovniceId}
-                setPoslovnicaId={setPoslovnicaId}
-                skladisteId={skladisteId}
-                setSkladisteId={setSkladisteId}
-                vrstaDokumentaId={vrstaDokumentaId}
-                artikli={artikli}
-                setArtikli={setArtikli}
-                dobavljacId={dobavljacId}
-                setDobavljacId={setDobavljacId}
-                datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
-                setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
-                datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
-                setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
-                valutaId={valutaId}
-                setValutaId={setValutaId}
-                file={file}
-                setFile={setFile}
-            />
+            <Suspense>
+              <VeleprodajnaKalkulacijaForm
+                  redniBroj={redniBroj}
+                  setRedniBroj={setRedniBroj}
+                  poslovniceId={poslovniceId}
+                  setPoslovnicaId={setPoslovnicaId}
+                  skladisteId={skladisteId}
+                  setSkladisteId={setSkladisteId}
+                  vrstaDokumentaId={vrstaDokumentaId}
+                  artikli={artikli}
+                  setArtikli={setArtikli}
+                  dobavljacId={dobavljacId}
+                  setDobavljacId={setDobavljacId}
+                  datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
+                  setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
+                  datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
+                  setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
+                  valutaId={valutaId}
+                  setValutaId={setValutaId}
+                  file={file}
+                  setFile={setFile}
+              />
+            </Suspense>
+
         )}
 
         {vrstaDokumentaId == 3 && (
-            <IzlaznaFakturaForm
-                redniBroj={redniBroj}
-                setRedniBroj={setRedniBroj}
-                poslovniceId={poslovniceId}
-                setPoslovnicaId={setPoslovnicaId}
-                skladisteId={skladisteId}
-                setSkladisteId={setSkladisteId}
-                vrstaDokumentaId={vrstaDokumentaId}
-                artikli={artikli}
-                setArtikli={setArtikli}
-                kupacId={kupacId}
-                setKupacId={setKupacId}
-                aktivniPdv={aktivniPdv}
-                setAktivniPdv={setAktivniPdv}
-                datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
-                setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
-                datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
-                setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
-                valutaId={valutaId}
-                setValutaId={setValutaId}
-                nacinPlacanjaId={nacinPlacanjaId}
-                setNacinPlacanjaId={setNacinPlacanjaId}
-            />
+            <Suspense>
+              <IzlaznaFakturaForm
+                  redniBroj={redniBroj}
+                  setRedniBroj={setRedniBroj}
+                  poslovniceId={poslovniceId}
+                  setPoslovnicaId={setPoslovnicaId}
+                  skladisteId={skladisteId}
+                  setSkladisteId={setSkladisteId}
+                  vrstaDokumentaId={vrstaDokumentaId}
+                  artikli={artikli}
+                  setArtikli={setArtikli}
+                  kupacId={kupacId}
+                  setKupacId={setKupacId}
+                  aktivniPdv={aktivniPdv}
+                  setAktivniPdv={setAktivniPdv}
+                  datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
+                  setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
+                  datumKreiranjaKalkulacije={datumKreiranjaKalkulacije}
+                  setDatumKreiranjaKalkulacije={setDatumKreiranjaKalkulacije}
+                  valutaId={valutaId}
+                  setValutaId={setValutaId}
+                  nacinPlacanjaId={nacinPlacanjaId}
+                  setNacinPlacanjaId={setNacinPlacanjaId}
+              />
+            </Suspense>
+
         )}
 
         {vrstaDokumentaId == 5 && (
-            <NivelacijeForm
-                redniBroj={redniBroj}
-                setRedniBroj={setRedniBroj}
-                poslovniceId={poslovniceId}
-                setPoslovnicaId={setPoslovnicaId}
-                skladisteId={skladisteId}
-                setSkladisteId={setSkladisteId}
-                vrstaDokumentaId={vrstaDokumentaId}
-                artikli={artikli}
-                setArtikli={setArtikli}
-                aktivniPdv={aktivniPdv}
-                setAktivniPdv={setAktivniPdv}
-                datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
-                setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
-            />
+            <Suspense>
+              <NivelacijeForm
+                  redniBroj={redniBroj}
+                  setRedniBroj={setRedniBroj}
+                  poslovniceId={poslovniceId}
+                  setPoslovnicaId={setPoslovnicaId}
+                  skladisteId={skladisteId}
+                  setSkladisteId={setSkladisteId}
+                  vrstaDokumentaId={vrstaDokumentaId}
+                  artikli={artikli}
+                  setArtikli={setArtikli}
+                  aktivniPdv={aktivniPdv}
+                  setAktivniPdv={setAktivniPdv}
+                  datumIzdavanjaDokumenta={datumIzdavanjaDokumenta}
+                  setDatumIzdavanjaDokumenta={setDatumIzdavanjaDokumenta}
+              />
+            </Suspense>
+
         )}
       </form>
     </div>
   );
 };
+
+export default KreirajDokumente;

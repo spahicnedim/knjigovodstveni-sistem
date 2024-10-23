@@ -1,6 +1,5 @@
 import React from "react";
 import "../../../styles/pdf.css";
-import {roundTo} from "../../../utils/RoundTo.jsx";
 
 const PDFIzlaznaFaktura = React.forwardRef(
     ({ artikli, aktivniPdv, roundTo, naziv, brojDokumenta, dobavljac }, ref) => {

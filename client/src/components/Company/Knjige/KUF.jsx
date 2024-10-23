@@ -5,7 +5,7 @@ import { fetchKnjige } from '../../../features/knjige/knjigeThunks';
 import {roundTo} from "../../../utils/RoundTo.jsx";
 
 
-export function KUF() {
+const KUF = () => {
     const dispatch = useDispatch();
     const { knjigeId, companyId } = useParams(); // Dohvatanje ID-a knjige iz URL-a
 
@@ -97,3 +97,5 @@ export function KUF() {
         </div>
     );
 }
+
+export default KUF;

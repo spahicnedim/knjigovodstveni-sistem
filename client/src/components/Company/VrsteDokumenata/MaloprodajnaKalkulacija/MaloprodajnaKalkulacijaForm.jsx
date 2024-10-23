@@ -42,7 +42,8 @@ const MaloprodajnaKalkulacijaForm = ({
     valutaId,
     setValutaId,
     file,
-    setFile
+    setFile,
+                                       vrstaDokumentaId
 }) => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
@@ -111,12 +112,14 @@ const MaloprodajnaKalkulacijaForm = ({
 
 
   useEffect(() => {
-    dispatch(fetchPoslovnice(companyId));
-    dispatch(fetchSkladista());
-    dispatch(fetchKupciDobavljaci(companyId));
-    dispatch(fetchPdv());
-    dispatch(fetchValuta());
-  }, [dispatch, companyId]);
+    if(companyId && vrstaDokumentaId == 1){
+      dispatch(fetchPoslovnice(companyId));
+      dispatch(fetchSkladista());
+      dispatch(fetchKupciDobavljaci(companyId));
+      dispatch(fetchPdv());
+      dispatch(fetchValuta());
+    }
+  }, [dispatch, companyId, vrstaDokumentaId]);
 
   useEffect(() => {
     // Filtriranje skladišta na osnovu odabrane poslovnice
@@ -147,27 +150,27 @@ const MaloprodajnaKalkulacijaForm = ({
     setFile(e.target.files[0]);
   };
 
-  useEffect(() => {
-    const artikliOptions = artikliList.map((artikl) => ({
-      value: artikl.id,
-      label: artikl.naziv,
-    }));
-
-    if (
-      inputValue &&
-      !artikliOptions.some(
-        (option) => option.label.toLowerCase() === inputValue.toLowerCase()
-      )
-    ) {
-      artikliOptions.push({
-        label: `Create "${inputValue}"`,
-        value: "create",
-        isCreateOption: true,
-      });
-    }
-
-    setOptions(artikliOptions);
-  }, [inputValue, artikliList]);
+  // useEffect(() => {
+  //   const artikliOptions = artikliList.map((artikl) => ({
+  //     value: artikl.id,
+  //     label: artikl.naziv,
+  //   }));
+  //
+  //   if (
+  //     inputValue &&
+  //     !artikliOptions.some(
+  //       (option) => option.label.toLowerCase() === inputValue.toLowerCase()
+  //     )
+  //   ) {
+  //     artikliOptions.push({
+  //       label: `Create "${inputValue}"`,
+  //       value: "create",
+  //       isCreateOption: true,
+  //     });
+  //   }
+  //
+  //   setOptions(artikliOptions);
+  // }, [inputValue, artikliList]);
 
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { fetchArtikli } from "../../features/artikli/artikliThunks.js";
 import { fetchSkladista } from "../../features/skladista/skladisteThunks.js";
 import { submitPOS } from "../../features/POS/posThunks.js";
 
-export function POSKasa() {
+const POSKasa = () => {
     const dispatch = useDispatch();
     const [selectedArtikli, setSelectedArtikli] = useState([]);
     const [filteredSkladista, setFilteredSkladista] = useState([]);
@@ -234,3 +234,5 @@ export function POSKasa() {
         </div>
     );
 }
+
+export default POSKasa;

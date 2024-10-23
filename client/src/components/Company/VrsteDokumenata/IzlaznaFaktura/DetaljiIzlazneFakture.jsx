@@ -1,18 +1,17 @@
-import { useEffect, useState, useRef } from "react";
+import {useEffect, useState, useRef, lazy, Suspense} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { MdEdit, MdEmail, MdDelete } from "react-icons/md";
 import { IoMdPrint } from "react-icons/io";
 import { useReactToPrint } from "react-to-print";
-import PDFMaloprodajneKalkulacije from "../../PDFLayout/PDFMaloprodajnaKalkulacija.jsx";
 import { roundTo } from "../../../../utils/RoundTo.jsx";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import {deleteDokumentFakture, fetchPdv} from "../../../../features/dokumenti/dokumentThunks.js";
 import { fetchDokumentiById } from "../../../../features/dokumenti/dokumentThunks.js";
-import PDFIzlaznaFaktura from "../../PDFLayout/PDFIzlaznaFaktura.jsx";
+const PDFIzlaznaFaktura = lazy(() => import("../../PDFLayout/PDFIzlaznaFaktura.jsx")) ;
 
-export function DetaljiIzlazneFakture({ dokumentId, poslovniceId }) {
+const DetaljiIzlazneFakture = ({ dokumentId, poslovniceId }) => {
     const contentRef = useRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -127,15 +126,17 @@ export function DetaljiIzlazneFakture({ dokumentId, poslovniceId }) {
             </div>
             <div className='border-b border-gray-300 pt-2' />
             <div className='mt-4'>
-                <PDFIzlaznaFaktura
-                    ref={contentRef}
-                    artikli={artikliDokumenta}
-                    aktivniPdv={aktivniPdv}
-                    roundTo={roundTo}
-                    naziv={dokument.dokument.naziv}
-                    brojDokumenta={dokument.dokument.redniBroj}
-                    dobavljac={dobavljac ? dobavljac.name : "Nepoznat"}
-                />
+                <Suspense>
+                    <PDFIzlaznaFaktura
+                        ref={contentRef}
+                        artikli={artikliDokumenta}
+                        aktivniPdv={aktivniPdv}
+                        roundTo={roundTo}
+                        naziv={dokument.dokument.naziv}
+                        brojDokumenta={dokument.dokument.redniBroj}
+                        dobavljac={dobavljac ? dobavljac.name : "Nepoznat"}
+                    />
+                </Suspense>
             </div>
             <table className='w-full border-collapse border border-gray-300'>
                 <thead>
@@ -261,3 +262,5 @@ export function DetaljiIzlazneFakture({ dokumentId, poslovniceId }) {
         </div>
     );
 }
+
+export default DetaljiIzlazneFakture;

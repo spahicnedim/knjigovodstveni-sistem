@@ -28,7 +28,7 @@ const CompanyDetail = () => {
   if (status === "failed") {
     return (
       <div>
-        <p>Error: {error.message}</p>
+        <p>Error: {error?.message}</p>
         <pre>{JSON.stringify(error, null, 2)}</pre>
       </div>
     );

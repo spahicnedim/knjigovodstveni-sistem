@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import {createArtikli} from "../../../features/artikli/artikliThunks.js";
 
-export const ArtikliForm = () => {
+const ArtikliForm = () => {
 
     const dispatch = useDispatch();
     const [naziv, setNaziv] = useState("");
@@ -72,3 +72,5 @@ export const ArtikliForm = () => {
         </form>
     );
 };
+
+export default ArtikliForm;

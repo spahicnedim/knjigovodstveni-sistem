@@ -27,7 +27,7 @@ import HandleAddArtikl from "../../Assets/HandleAddArtikliVeleprodaja.jsx";
 import { setEditMode } from "../../../../features/editModeSlice.js";
 import HandleAddArtikliMaloprodaja from "../../Assets/HandleAddArtikliMaloprodaja.jsx";
 
-export function EditMaloprodajnaKalkulacija() {
+const EditMaloprodajnaKalkulacija = () => {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
@@ -659,3 +659,4 @@ export function EditMaloprodajnaKalkulacija() {
     </form>
   );
 }
+export default EditMaloprodajnaKalkulacija;

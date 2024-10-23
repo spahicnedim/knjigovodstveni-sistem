@@ -5,12 +5,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import SelectArtikli from "../../SelectSearch/SelectArtikli.jsx";
-import SelectDobavljaci from "../../SelectSearch/SelectDobavljaci.jsx";
 import SelectSkladista from "../../SelectSearch/SelectSkladista.jsx";
 import SelectPoslovnice from "../../SelectSearch/SelectPoslovnice.jsx";
 import SelectValuta from "../../SelectSearch/SelectValuta.jsx";
 import { setEditMode } from "../../../../features/editModeSlice.js";
-import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { useParams } from "react-router-dom";
 import { fetchSkladista } from "../../../../features/skladista/skladisteThunks.js";
@@ -19,7 +17,6 @@ import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
 import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
 import { fetchValuta } from "../../../../features/valute/valuteThunks.js";
-import HandleAddArtikliMaloprodaja from "../../Assets/HandleAddArtikliMaloprodaja.jsx";
 import SelectNacinPlacanja from "../../SelectSearch/SelectNacinPlacanja.jsx";
 import {fetchNacinPlacanja} from "../../../../features/nacinPlacanja/nacinPlacanjaThunks.js";
 import HandleAddArtiklIzlaznakalkulacija from "../../Assets/HandleAddArtikliIzlaznaKalkulacija.jsx";
@@ -37,7 +34,6 @@ const IzlaznaFakturaForm = ({
                                          setArtikli,
                                          kupacId,
                                          setKupacId,
-                                         aktivniPdv,
                                          setAktivniPdv,
                                          datumIzdavanjaDokumenta,
                                          setDatumIzdavanjaDokumenta,
@@ -47,6 +43,7 @@ const IzlaznaFakturaForm = ({
                                          setValutaId,
                                          nacinPlacanjaId,
                                          setNacinPlacanjaId,
+                                vrstaDokumentaId
                                      }) => {
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
@@ -92,13 +89,14 @@ const IzlaznaFakturaForm = ({
 
 
     useEffect(() => {
+        if(companyId && vrstaDokumentaId == 3)
         dispatch(fetchPoslovnice(companyId));
         dispatch(fetchSkladista());
         dispatch(fetchKupciDobavljaci(companyId));
         dispatch(fetchPdv());
         dispatch(fetchValuta());
         dispatch(fetchNacinPlacanja())
-    }, [dispatch, companyId]);
+    }, [dispatch, companyId, vrstaDokumentaId]);
 
     useEffect(() => {
         // Filtriranje skladišta na osnovu odabrane poslovnice

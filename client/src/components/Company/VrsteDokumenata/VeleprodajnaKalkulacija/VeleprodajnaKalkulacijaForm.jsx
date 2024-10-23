@@ -9,7 +9,6 @@ import SelectDobavljaci from "../../SelectSearch/SelectDobavljaci.jsx";
 import SelectSkladista from "../../SelectSearch/SelectSkladista.jsx";
 import SelectPoslovnice from "../../SelectSearch/SelectPoslovnice.jsx";
 import SelectValuta from "../../SelectSearch/SelectValuta.jsx";
-import HandleAddArtikl from "../../Assets/HandleAddArtikliVeleprodaja.jsx";
 import { setEditMode } from "../../../../features/editModeSlice.js";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
@@ -19,7 +18,6 @@ import { fetchPoslovnice } from "../../../../features/poslovnice/poslovnicaThunk
 import { fetchVrstaDokumenta } from "../../../../features/vrstaDokumenta/vrstaDokumentaThunks.js";
 import { fetchArtikli } from "../../../../features/artikli/artikliThunks.js";
 import { fetchKupciDobavljaci } from "../../../../features/kupacDobavljac/kupacDobavljacThunk.js";
-import { fetchPdv } from "../../../../features/dokumenti/dokumentThunks.js";
 import { fetchValuta } from "../../../../features/valute/valuteThunks.js";
 import HandleAddArtikliVeleprodaja from "../../Assets/HandleAddArtikliVeleprodaja.jsx";
 
@@ -35,8 +33,6 @@ const VeleprodajnaKalkulacijaForm = ({
                                          setArtikli,
                                          dobavljacId,
                                          setDobavljacId,
-                                         // aktivniPdv,
-                                         // setAktivniPdv,
                                          datumIzdavanjaDokumenta,
                                          setDatumIzdavanjaDokumenta,
                                          datumKreiranjaKalkulacije,
@@ -44,7 +40,8 @@ const VeleprodajnaKalkulacijaForm = ({
                                          valutaId,
                                          setValutaId,
                                          file,
-                                         setFile
+                                         setFile,
+                                         vrstaDokumentaId
                                      }) => {
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
@@ -105,13 +102,13 @@ const VeleprodajnaKalkulacijaForm = ({
 
 
     useEffect(() => {
+        if(companyId && vrstaDokumentaId == 2)
         dispatch(fetchPoslovnice(companyId));
         dispatch(fetchSkladista());
         dispatch(fetchVrstaDokumenta());
         dispatch(fetchKupciDobavljaci(companyId));
-        // dispatch(fetchPdv());
         dispatch(fetchValuta());
-    }, [dispatch, companyId]);
+    }, [dispatch, companyId, vrstaDokumentaId]);
 
     useEffect(() => {
         // Filtriranje skladišta na osnovu odabrane poslovnice

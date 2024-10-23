@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, lazy, Suspense} from 'react';
 import Select from 'react-select';
-import { Skladiste } from "../Skladiste.jsx";
-import Drawer from "../../Drawer.jsx";
-import { ArtikliForm } from "../Forme/ArtikliForm.jsx";
+const Drawer = lazy(() => import("../../Drawer.jsx"));
+const  ArtikliForm = lazy(() => import("../Forme/ArtikliForm.jsx"));
 
 const SelectSkladisteArtikli = ({ artikliList, setOdabraniArtikl }) => {
     const [inputValue, setInputValue] = useState("");
@@ -62,11 +61,16 @@ const SelectSkladisteArtikli = ({ artikliList, setOdabraniArtikl }) => {
                 placeholder='Odaberite artikl ili unesite novi'
                 className='w-80 h-9 p-2 rounded-sm mb-3.5'
             />
-            <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
-                {drawerContent === "artikli" && (
-                    <ArtikliForm />
-                )}
-            </Drawer>
+            <Suspense>
+                <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+                    {drawerContent === "artikli" && (
+                        <Suspense>
+                            <ArtikliForm />
+                        </Suspense>
+                        )}
+                </Drawer>
+            </Suspense>
+
         </>
     );
 };
